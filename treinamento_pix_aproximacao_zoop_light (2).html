@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treinamento PIX por Aproximação - Zoop (Tema Claro)</title>
+    <style>
+        :root {
+            --primary: #004040;
+            --primary-light: #006060;
+            --accent: #E06020;
+            --accent-hover: #d55a1e;
+            --accent-light: #ff7a3d;
+            --text-dark: #2c3e50;
+            --text-medium: #34495e;
+            --text-light: #7f8c8d;
+            --background: #f8f9fa;
+            --background-secondary: #ffffff;
+            --card-bg: #ffffff;
+            --card-border: #e9ecef;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+            --info: #17a2b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .slide-container {
+            position: relative;
+            min-height: 100vh;
+            transition: margin-right 0.3s ease;
+        }
+
+        .slide-container.sidebar-open {
+            margin-right: 400px;
+        }
+
+        .slide {
+            display: none;
+            padding: 2rem;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title-card, .module-card, .quiz-card, .certificate-card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 10px 30px var(--shadow);
+            text-align: center;
+        }
+
+        .training-image {
+            width: 100%;
+            max-width: 600px;
+            height: 250px;
+            border-radius: 15px;
+            margin: 1.5rem auto;
+            box-shadow: 0 8px 20px var(--shadow);
+            border: 3px solid var(--accent);
+        }
+
+        .module-image {
+            width: 100%;
+            max-width: 500px;
+            height: 200px;
+            border-radius: 10px;
+            margin: 1rem auto 2rem auto;
+            display: block;
+            box-shadow: 0 6px 15px var(--shadow);
+            border: 2px solid var(--accent);
+        }
+
+        .main-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: var(--text-medium);
+            line-height: 1.6;
+        }
+
+        .module-title {
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .module-content {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .topic-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--background);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .topic-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .topic-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .topic-list li {
+            margin: 0.8rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.5;
+            color: var(--text-dark);
+        }
+
+        .topic-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(45deg, var(--accent), var(--accent-light));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 15px var(--shadow-hover);
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .requirement-card {
+            background: var(--background-secondary);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .requirement-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-hover);
+        }
+
+        .requirement-card h4 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            min-width: 180px;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+
+        .btn:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: var(--background-secondary);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .progress-container {
+            background: var(--background);
+            border-radius: 10px;
+            padding: 4px;
+            margin: 1.5rem 0;
+            border: 1px solid var(--card-border);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            height: 8px;
+            border-radius: 6px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin: 1rem 0;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Quiz Styles */
+        .question-text {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        .options-container {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .option {
+            background: var(--background-secondary);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            color: var(--text-dark);
+        }
+
+        .option:hover {
+            background: var(--background);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .option.selected {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .option.correct {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .option.incorrect {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+
+        .result-message {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            color: var(--text-medium);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: var(--background-secondary);
+            border-left: 3px solid var(--accent);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+            box-shadow: -5px 0 20px var(--shadow);
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            background: var(--primary);
+            color: white;
+            position: relative;
+        }
+
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .close-sidebar {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .sidebar-content {
+            padding: 1.5rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .sidebar-content h4 {
+            color: var(--primary);
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .sidebar-content h5 {
+            color: var(--accent);
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        /* Certificate Styles */
+        .certificate-header {
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .certificate-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .certificate-content {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .certificate-name {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+            padding: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+            color: var(--primary);
+        }
+
+        .certificate-course {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .certificate-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .certificate-detail {
+            text-align: center;
+            margin: 0.5rem;
+        }
+
+        .certificate-detail-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .certificate-detail-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-bottom: 1px solid var(--accent);
+            padding-bottom: 0.3rem;
+            color: var(--primary);
+        }
+
+        /* Enhanced Visual Elements */
+        .visual-icon {
+            background: linear-gradient(45deg, var(--accent), var(--accent-light));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .status-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-warning {
+            background: var(--warning);
+            color: var(--text-dark);
+        }
+
+        .status-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+
+            .title-card, .module-card, .quiz-card, .certificate-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .main-title {
+                font-size: 2.2rem;
+            }
+
+            .module-title {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .training-image, .module-image {
+                height: 150px;
+            }
+
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .sidebar {
+                width: 100vw;
+                right: -100vw;
+            }
+
+            .slide-container.sidebar-open {
+                margin-right: 0;
+            }
+
+            .certificate-details {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .certificate-detail {
+                margin: 1rem 0;
+            }
+        }
+
+        @media print {
+            .controls {
+                display: none;
+            }
+            
+            .slide {
+                display: block !important;
+                page-break-after: always;
+                min-height: auto;
+                padding: 2rem;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container" id="slideContainer">
+        <!-- Slide 1: Título -->
+        <div class="slide active" id="slide0">
+            <div class="title-card">
+                <div class="visual-icon training-image">📱 💳</div>
+                <h1 class="main-title">📱 Treinamento PIX por Aproximação</h1>
+                <p class="subtitle">
+                    🎯 <strong>Aprenda a implementar e utilizar o PIX por aproximação no POS</strong><br>
+                    📲 Tecnologia NFC para pagamentos rápidos e seguros<br>
+                    🏆 Capacitação completa com certificação
+                </p>
+                <div class="highlight-box">
+                    💡 <strong>Novidade:</strong> Pagamento PIX por aproximação usando tecnologia NFC
+                </div>
+                <div class="controls">
+                    <button class="btn" onclick="nextSlide()">🚀 Iniciar Treinamento</button>
+                    <button class="btn btn-outline" onclick="goToQuiz()">📋 Ir para Quiz</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Módulo 1 -->
+        <div class="slide" id="slide1">
+            <div class="module-card">
+                <h2 class="module-title">📖 Módulo 1: Introdução ao PIX por Aproximação</h2>
+                
+                <div class="module-content">
+                    <div class="topic-section">
+                        <h3 class="topic-title">🎯 O que é o PIX por Aproximação?</h3>
+                        <p>O PIX por aproximação é uma funcionalidade inovadora que permite realizar pagamentos PIX através da tecnologia NFC (Near Field Communication), proporcionando uma experiência mais rápida e intuitiva para captura presencial.</p>
+                        
+                        <div class="highlight-box">
+                            💡 <strong>Tecnologia NFC:</strong> Transmite dados do PIX Copia e Cola para ativar automaticamente a wallet do comprador
+                        </div>
+                    </div>
+
+                    <div class="topic-section">
+                        <h3 class="topic-title">🚀 Principais Benefícios</h3>
+                        <ul class="topic-list">
+                            <li><strong>Rapidez:</strong> Pagamento mais ágil sem precisar digitar códigos</li>
+                            <li><strong>Segurança:</strong> Utiliza tecnologia NFC criptografada</li>
+                            <li><strong>Praticidade:</strong> Basta aproximar o celular da maquininha</li>
+                            <li><strong>Compatibilidade:</strong> Funciona com diversas carteiras digitais</li>
+                            <li><strong>Experiência:</strong> Interface moderna e intuitiva</li>
+                        </ul>
+                    </div>
+
+                    <div class="topic-section">
+                        <h3 class="topic-title">🎯 Objetivos do Treinamento</h3>
+                        <ul class="topic-list">
+                            <li>Compreender como funciona o PIX por aproximação</li>
+                            <li>Conhecer a jornada completa de pagamento</li>
+                            <li>Identificar dispositivos e terminais compatíveis</li>
+                            <li>Entender integrações bancárias disponíveis</li>
+                            <li>Dominar procedimentos operacionais</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-secondary" onclick="prevSlide()">⬅ Anterior</button>
+                    <button class="btn" onclick="nextSlide()">Próximo ➡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Módulo 2 -->
+        <div class="slide" id="slide2">
+            <div class="module-card">
+                <div class="visual-icon module-image">🔄 📱</div>
+                <h2 class="module-title">🔄 Módulo 2: Jornada de Pagamento</h2>
+                
+                <div class="module-content">
+                    <div class="topic-section">
+                        <h3 class="topic-title">📱 Fluxo Completo do Pagamento</h3>
+                        <ol style="list-style: decimal; margin-left: 1.5rem; color: var(--text-dark);">
+                            <li><strong>Iniciação:</strong> Vendedor inicia a venda via PIX na maquininha/terminal</li>
+                            <li><strong>Geração:</strong> Terminal gera QR code e emite pulso NFC simultaneamente</li>
+                            <li><strong>Ativação:</strong> Pulso NFC desperta a wallet do comprador automaticamente</li>
+                            <li><strong>Autorização:</strong> Comprador autoriza o pagamento (biometria/PIN) na wallet</li>
+                            <li><strong>Confirmação:</strong> Wallet confirma a transação; Zoop aguarda confirmação</li>
+                        </ol>
+                    </div>
+
+                    <div class="topic-section">
+                        <h3 class="topic-title">⚡ Tecnologia NFC em Ação</h3>
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <h4>📡 Transmissão de Dados</h4>
+                                <p>O pulso NFC transmite os dados do PIX Copia e Cola diretamente para o dispositivo do cliente</p>
+                            </div>
+                            <div class="requirement-card">
+                                <h4>📱 Ativação Automática</h4>
+                                <p>A wallet é ativada automaticamente sem necessidade de ação manual do cliente</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-section">
+                        <h3 class="topic-title">🔐 Segurança e Autenticação</h3>
+                        <ul class="topic-list">
+                            <li>Autenticação biométrica (digital, facial, etc.)</li>
+                            <li>PIN de segurança da wallet</li>
+                            <li>Criptografia NFC padrão da indústria</li>
+                            <li>Confirmação dupla de transação</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        🎯 <strong>Importante:</strong> A Zoop atua até o envio do pulso NFC. A experiência de autorização ocorre inteiramente na wallet do cliente.
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-secondary" onclick="prevSlide()">⬅ Anterior</button>
+                    <button class="btn" onclick="nextSlide()">Próximo ➡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Módulo 3 -->
+        <div class="slide" id="slide3">
+            <div class="module-card">
+                <div class="visual-icon module-image">📱 ⚙️</div>
+                <h2 class="module-title">📱 Módulo 3: Compatibilidade de Dispositivos</h2>
+                
+                <div class="module-content">
+                    <div class="topic-section">
+                        <h3 class="topic-title">📱 Dispositivos Móveis Compatíveis</h3>
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <h4>✅ Android com NFC</h4>
+                                <ul class="topic-list" style="margin-top: 1rem;">
+                                    <li>Android 6.0 ou superior</li>
+                                    <li>NFC habilitado no dispositivo</li>
+                                    <li>Wallet compatível instalada</li>
+                                </ul>
+                                <span class="status-badge status-success">✅ Compatível</span>
+                            </div>
+                            <div class="requirement-card">
+                                <h4>❌ iOS (iPhone)</h4>
+                                <p style="color: var(--danger); margin-bottom: 1rem;">Não suportado devido à ausência de acordo entre Apple e Banco Central</p>
+                                <span class="status-badge status-danger">❌ Não Compatível</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-section">
+                        <h3 class="topic-title">🏪 Terminais POS Compatíveis</h3>
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <h4>✅ Smart Zoop</h4>
+                                <ul class="topic-list" style="margin-top: 1rem;">
+                                    <li>Smart A910</li>
+                                    <li>Smart A910S</li>
+                                    <li>Smart GPO 720</li>
+                                </ul>
+                                <span class="status-badge status-success">✅ Já atualizados</span>
+                            </div>
+                            <div class="requirement-card">
+                                <h4>✅ Pinpad Gertec</h4>
+                                <ul class="topic-list" style="margin-top: 1rem;">
+                                    <li>PPC 930</li>
+                                </ul>
+                                <span class="status-badge status-success">✅ Compatível</span>
+                            </div>
+                        </div>
+                        
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <h4>❌ Não Compatíveis</h4>
+                                <ul class="topic-list" style="margin-top: 1rem;">
+                                    <li>MP35P</li>
+                                    <li>D195</li>
+                                    <li>MPOSs (ainda não suportados)</li>
+                                </ul>
+                                <span class="status-badge status-danger">❌ Hardware não suporta</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-section">
+                        <h3 class="topic-title">🔧 Requisitos Técnicos</h3>
+                        <ul class="topic-list">
+                            <li>PIX habilitado na conta Zoop por estabelecimento</li>
+                            <li>SDK atualizado para versão mais recente</li>
+                            <li>App Smart com atualização automática</li>
+                            <li>Conexão estável com internet</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-secondary" onclick="prevSlide()">⬅ Anterior</button>
+                    <button class="btn" onclick="nextSlide()">Próximo ➡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Módulo 4 -->
+        <div class="slide" id="slide4">
+            <div class="module-card">
+                <div class="visual-icon module-image">🏦 🤝</div>
+                <h2 class="module-title">🏦 Módulo 4: Integrações Bancárias</h2>
+                
+                <div class="module-content">
+                    <div class="topic-section">
+                        <h3 class="topic-title">📱 Carteiras Digitais Compatíveis</h3>
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <h4>🎯 Integração Direta</h4>
+                                <ul class="topic-list" style="margin-top: 1rem;">
+                                    <li><strong>Google Pay</strong> - Suporte nativo</li>
+                                    <li><strong>Mercado Pago</strong> - Integração própria</li>
+                                    <li><strong>C6 Bank</strong> - App próprio</li>
+                                    <li><strong>Nubank</strong> - Em desenvolvimento</li>
+                                </ul>
+                                <span class="status-badge status-success">🎯 Direto</span>
+                            </div>
+                            <div class="requirement-card">
+                                <h4>🤝 Via Google Wallet</h4>
+                                <ul class="topic-list" style="margin-top: 1rem;">
+                                    <li><strong>Bradesco</strong></li>
+                                    <li><strong>Itaú</strong></li>
+                                    <li><strong>Banco do Brasil</strong></li>
+                                </ul>
+                                <span class="status-badge status-warning">💡 Desde 20/02/2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-section">
+                        <h3 class="topic-title">💰 Modelo de Negócio</h3>
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <h4>💳 Google Pay</h4>
+                                <p>Pode gerar tarifa adicional para transações</p>
+                            </div>
+                            <div class="requirement-card">
+                                <h4>🏦 Integrações Próprias</h4>
+                                <p>Bancos desenvolvem soluções próprias para evitar custos do Google Pay</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box">
+                        ⚠️ <strong>Limitação:</strong> Funciona exclusivamente com PIX da Zoop. Não é compatível com PIX de outros bancos.
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-secondary" onclick="prevSlide()">⬅ Anterior</button>
+                    <button class="btn" onclick="nextSlide()">Próximo ➡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Módulo 5 -->
+        <div class="slide" id="slide5">
+            <div class="module-card">
+                <h2 class="module-title">⚙️ Módulo 5: Procedimentos Operacionais</h2>
+                
+                <div class="module-content">
+                    <div class="topic-section">
+                        <h3 class="topic-title">📋 Checklist de Configuração</h3>
+                        <ul class="topic-list">
+                            <li>Verificar se PIX está habilitado na conta Zoop</li>
+                            <li>Confirmar configuração por estabelecimento</li>
+                            <li>Atualizar app Smart (automático) ou SDK (manual)</li>
+                            <li>Testar funcionalidade com dispositivo compatível</li>
+                            <li>Treinar equipe de vendas</li>
+                        </ul>
+                    </div>
+
+                    <div class="topic-section">
+                        <h3 class="topic-title">🆘 Troubleshooting Básico</h3>
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <h4>❌ Problemas Comuns</h4>
+                                <ul class="topic-list" style="margin-top: 1rem;">
+                                    <li>NFC desabilitado no celular</li>
+                                    <li>Wallet não compatível</li>
+                                    <li>PIX não habilitado</li>
+                                    <li>Terminal não atualizado</li>
+                                </ul>
+                            </div>
+                            <div class="requirement-card">
+                                <h4>✅ Soluções</h4>
+                                <ul class="topic-list" style="margin-top: 1rem;">
+                                    <li>Verificar configurações NFC</li>
+                                    <li>Orientar instalação de wallet</li>
+                                    <li>Auxiliar habilitação PIX</li>
+                                    <li>Contatar suporte técnico</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="topic-section">
+                        <h3 class="topic-title">📞 Suporte Técnico</h3>
+                        <div class="highlight-box">
+                            🎯 <strong>Contato para Dúvidas Técnicas:</strong><br>
+                            Bernardo Lima ou Time Técnico Zoop<br>
+                            Suporte especializado para integrações e configurações
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-secondary" onclick="prevSlide()">⬅ Anterior</button>
+                    <button class="btn" onclick="nextSlide()">Próximo ➡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Resumo -->
+        <div class="slide" id="slide6">
+            <div class="module-card">
+                <h2 class="module-title">✅ Módulo 6: Resumo e Boas Práticas</h2>
+                
+                <div class="module-content">
+                    <div class="topic-section">
+                        <h3 class="topic-title">🎯 Pontos-Chave do Treinamento</h3>
+                        <ul class="topic-list">
+                            <li><strong>Tecnologia:</strong> PIX por aproximação usando NFC para captura presencial</li>
+                            <li><strong>Compatibilidade:</strong> Apenas Android com NFC + wallets específicas</li>
+                            <li><strong>Terminais:</strong> Smart A910/A910S/GPO720 e PPC930 Gertec</li>
+                            <li><strong>Fluxo:</strong> QR + NFC simultâneos → ativação wallet → autorização → confirmação</li>
+                            <li><strong>Exclusividade:</strong> Funciona apenas com PIX da Zoop</li>
+                        </ul>
+                    </div>
+
+                    <div class="highlight-box">
+                        🎉 <strong>Parabéns!</strong> Você concluiu o treinamento sobre PIX por aproximação!<br>
+                        Agora teste seus conhecimentos no quiz e obtenha seu certificado! 🏆
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn btn-secondary" onclick="prevSlide()">⬅ Anterior</button>
+                    <button class="btn" onclick="goToQuiz()">📋 Fazer Quiz</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Start -->
+        <div class="slide" id="quizStart">
+            <div class="quiz-card">
+                <div class="visual-icon training-image">📋 🧠</div>
+                <h2 class="main-title">📋 Quiz de Conhecimento</h2>
+                <p class="subtitle">Teste seus conhecimentos sobre PIX por Aproximação</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="progress-text" id="progressText">Pergunta 1 de 5</div>
+                <div class="controls">
+                    <button class="btn" onclick="startQuiz()">🚀 Iniciar Quiz</button>
+                    <button class="btn btn-outline" onclick="goToTraining()">📚 Revisar Treinamento</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Question -->
+        <div class="slide" id="quizQuestion">
+            <div class="quiz-card">
+                <div class="question-text" id="questionText"></div>
+                <div class="options-container" id="optionsContainer"></div>
+                <div class="controls">
+                    <button class="btn btn-secondary" onclick="prevQuestion()">⬅ Anterior</button>
+                    <button class="btn" id="nextQuestionBtn" onclick="nextQuestion()">Próxima ➡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Results -->
+        <div class="slide" id="quizResults">
+            <div class="quiz-card">
+                <div class="visual-icon training-image">🎉 🏆</div>
+                <h2 class="main-title">🎉 Quiz Concluído!</h2>
+                <div class="result-score" id="finalScore">0/5</div>
+                <div class="result-message" id="resultMessage">Resultado</div>
+                <div class="controls">
+                    <button class="btn" onclick="generateCertificate()">🏆 Gerar Certificado</button>
+                    <button class="btn btn-secondary" onclick="restartQuiz()">🔄 Refazer Quiz</button>
+                    <button class="btn btn-outline" onclick="goToTraining()">📚 Revisar Conteúdo</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Certificate -->
+        <div class="slide" id="certificateSlide">
+            <div class="certificate-card">
+                <div class="visual-icon training-image" style="background: linear-gradient(45deg, #FFD700, var(--accent));">🏆 📜</div>
+                <div class="certificate-header">
+                    <div class="certificate-title">Certificado de Conclusão</div>
+                </div>
+                <div class="certificate-content">
+                    <p style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-medium);">Certificamos que</p>
+                    <div class="certificate-name" id="certificateName">Nome do Participante</div>
+                    <p style="font-size: 1.1rem; margin: 1rem 0; color: var(--text-medium);">concluiu com sucesso o</p>
+                    <div class="certificate-course">Treinamento PIX por Aproximação - Zoop</div>
+                    <p style="margin-top: 2rem; font-size: 1rem; color: var(--text-light);">
+                        Demonstrando conhecimento sobre implementação, jornada de pagamento,<br>
+                        compatibilidade de dispositivos e procedimentos operacionais.
+                    </p>
+                </div>
+                <div class="certificate-details">
+                    <div class="certificate-detail">
+                        <div class="certificate-detail-label">Data de Conclusão</div>
+                        <div class="certificate-detail-value" id="certificateDate"></div>
+                    </div>
+                    <div class="certificate-detail">
+                        <div class="certificate-detail-label">Pontuação</div>
+                        <div class="certificate-detail-value" id="certificateScore"></div>
+                    </div>
+                    <div class="certificate-detail">
+                        <div class="certificate-detail-label">Duração</div>
+                        <div class="certificate-detail-value">6 Módulos Completos</div>
+                    </div>
+                </div>
+                <div class="controls" style="margin-top: 2rem;">
+                    <button class="btn" onclick="printCertificate()">🖨️ Imprimir Certificado</button>
+                    <button class="btn btn-secondary" onclick="goToStart()">🏠 Voltar ao Início</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <button class="close-sidebar" onclick="closeSidebar()">×</button>
+            <h3>💡 Explicação Detalhada</h3>
+        </div>
+        <div class="sidebar-content" id="sidebarContent">
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        let quizMode = false;
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = [];
+        let userName = "";
+
+        const totalSlides = 11;
+
+        const questions = [
+            {
+                question: "Um cliente deseja usar PIX por aproximação, mas possui um iPhone. O que você deve informar?",
+                options: [
+                    "A) O iPhone é totalmente compatível, basta ativar o NFC",
+                    "B) iPhone não é compatível devido à ausência de acordo entre Apple e Banco Central", 
+                    "C) Funciona apenas com iPhone 12 ou superior",
+                    "D) Precisa instalar um app específico da Apple"
+                ],
+                correct: 1,
+                explanation: "<h4>🍎 Compatibilidade iOS</h4><p><strong>Resposta Correta: B</strong></p><p>O PIX por aproximação <strong>não funciona em dispositivos iOS (iPhone)</strong> devido à ausência de acordo entre a Apple e o Banco Central brasileiro.</p><h5>📱 Dispositivos Compatíveis:</h5><ul style='margin: 1rem 0;'><li>✅ <strong>Android 6.0+</strong> com NFC habilitado</li><li>❌ <strong>iOS/iPhone</strong> - Não suportado</li></ul>"
+            },
+            {
+                question: "Quais terminais POS são compatíveis com PIX por aproximação?",
+                options: [
+                    "A) Todos os terminais Zoop automaticamente",
+                    "B) Apenas Smart A910, A910S, GPO720 e PPC930 Gertec",
+                    "C) Somente terminais comprados após 2024",
+                    "D) MP35P, D195 e todos os MPOSs"
+                ],
+                correct: 1,
+                explanation: "<h4>🏪 Terminais Compatíveis</h4><p><strong>Resposta Correta: B</strong></p><h5>✅ Terminais Compatíveis:</h5><ul style='margin: 1rem 0;'><li><strong>Smart A910</strong> - Já atualizado</li><li><strong>Smart A910S</strong> - Já atualizado</li><li><strong>Smart GPO720</strong> - Já atualizado</li><li><strong>PPC930 Gertec</strong> - Pinpad compatível</li></ul><h5>❌ Não Compatíveis:</h5><ul style='margin: 1rem 0;'><li><strong>MP35P, D195, MPOSs</strong> - Hardware não suporta</li></ul>"
+            },
+            {
+                question: "Qual é o fluxo correto do pagamento PIX por aproximação?",
+                options: [
+                    "A) QR Code → Aproximação → Pagamento",
+                    "B) Aproximação → QR Code → Autorização",
+                    "C) Vendedor inicia → QR+NFC simultâneos → Wallet ativada → Autorização → Confirmação",
+                    "D) Cliente abre app → Aproxima celular → Digita valor"
+                ],
+                correct: 2,
+                explanation: "<h4>🔄 Fluxo Completo de Pagamento</h4><p><strong>Resposta Correta: C</strong></p><h5>📱 Sequência Correta:</h5><ol style='margin: 1rem 0; padding-left: 1.5rem;'><li><strong>Iniciação:</strong> Vendedor inicia venda PIX no terminal</li><li><strong>Geração:</strong> Terminal gera QR code + emite pulso NFC simultaneamente</li><li><strong>Ativação:</strong> Pulso NFC desperta wallet automaticamente</li><li><strong>Autorização:</strong> Cliente autoriza via biometria/PIN</li><li><strong>Confirmação:</strong> Wallet confirma → Zoop aguarda</li></ol>"
+            },
+            {
+                question: "Quais carteiras digitais possuem integração direta com PIX por aproximação Zoop?",
+                options: [
+                    "A) Apenas Google Pay e Apple Pay",
+                    "B) Google Pay, Mercado Pago, C6 Bank e Nubank",
+                    "C) Todos os bancos brasileiros automaticamente",
+                    "D) Apenas bancos públicos (BB, CEF)"
+                ],
+                correct: 1,
+                explanation: "<h4>🏦 Integrações Bancárias</h4><p><strong>Resposta Correta: B</strong></p><h5>🎯 Integração Direta:</h5><ul style='margin: 1rem 0;'><li><strong>Google Pay</strong> - Suporte nativo completo</li><li><strong>Mercado Pago</strong> - Integração própria testada</li><li><strong>C6 Bank</strong> - App próprio integrado</li><li><strong>Nubank</strong> - Em desenvolvimento/testes</li></ul><h5>🤝 Via Google Wallet:</h5><ul style='margin: 1rem 0;'><li><strong>Bradesco, Itaú, Banco do Brasil</strong></li></ul>"
+            },
+            {
+                question: "Um cliente relata que o PIX por aproximação não está funcionando. Qual deve ser a primeira verificação?",
+                options: [
+                    "A) Se o terminal está ligado na tomada",
+                    "B) Se o dispositivo é Android com NFC e se o PIX está habilitado na Zoop",
+                    "C) Se o cliente tem saldo na conta",
+                    "D) Se a internet está funcionando"
+                ],
+                correct: 1,
+                explanation: "<h4>🔧 Troubleshooting PIX por Aproximação</h4><p><strong>Resposta Correta: B</strong></p><h5>📋 Checklist de Verificação:</h5><ol style='margin: 1rem 0; padding-left: 1.5rem;'><li><strong>Dispositivo:</strong> Android com NFC habilitado?</li><li><strong>Zoop:</strong> PIX habilitado por estabelecimento?</li><li><strong>Wallet:</strong> Carteira compatível instalada?</li><li><strong>Terminal:</strong> Modelo compatível?</li><li><strong>Atualização:</strong> SDK/App atualizado?</li></ol>"
+            }
+        ];
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            if (n >= slides.length) currentSlide = 0;
+            if (n < 0) currentSlide = slides.length - 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+            
+            closeSidebar();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        }
+
+        function goToTraining() {
+            currentSlide = 0;
+            quizMode = false;
+            showSlide(currentSlide);
+        }
+
+        function goToQuiz() {
+            document.getElementById('quizStart').style.display = 'flex';
+            document.getElementById('quizQuestion').style.display = 'none';
+            document.getElementById('quizResults').style.display = 'none';
+            currentSlide = 7;
+            showSlide(currentSlide);
+        }
+
+        function startQuiz() {
+            if (!userName) {
+                userName = prompt("Digite seu nome para o certificado:") || "Participante";
+            }
+            
+            quizMode = true;
+            currentQuestion = 0;
+            score = 0;
+            answers = [];
+            
+            document.getElementById('quizStart').style.display = 'none';
+            document.getElementById('quizQuestion').style.display = 'flex';
+            currentSlide = 8;
+            showSlide(currentSlide);
+            showQuestion();
+        }
+
+        function showQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+
+            const question = questions[currentQuestion];
+            document.getElementById('questionText').innerHTML = 
+                '<strong>Pergunta ' + (currentQuestion + 1) + ' de ' + questions.length + '</strong><br><br>' + question.question;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'option';
+                optionEl.innerHTML = option;
+                optionEl.onclick = () => selectOption(index);
+                optionsContainer.appendChild(optionEl);
+            });
+            
+            updateProgress();
+            document.getElementById('nextQuestionBtn').style.display = 'none';
+        }
+
+        function selectOption(selectedIndex) {
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.classList.remove('selected', 'correct', 'incorrect');
+                if (index === selectedIndex) {
+                    option.classList.add('selected');
+                }
+            });
+
+            const question = questions[currentQuestion];
+            answers[currentQuestion] = selectedIndex;
+
+            setTimeout(() => {
+                options[question.correct].classList.add('correct');
+                if (selectedIndex !== question.correct) {
+                    options[selectedIndex].classList.add('incorrect');
+                }
+
+                if (selectedIndex === question.correct) {
+                    score++;
+                    showSidebar(question.explanation);
+                }
+
+                document.getElementById('nextQuestionBtn').style.display = 'inline-block';
+            }, 500);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            document.getElementById('nextQuestionBtn').style.display = 'none';
+            closeSidebar();
+            showQuestion();
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = 
+                'Pergunta ' + (currentQuestion + 1) + ' de ' + questions.length;
+        }
+
+        function showResults() {
+            document.getElementById('quizQuestion').style.display = 'none';
+            document.getElementById('quizResults').style.display = 'flex';
+            currentSlide = 9;
+            showSlide(currentSlide);
+
+            const percentage = Math.round((score / questions.length) * 100);
+            document.getElementById('finalScore').textContent = score + '/' + questions.length + ' (' + percentage + '%)';
+
+            let message = "";
+            if (percentage >= 80) {
+                message = "🎉 Excelente! Você dominou o conteúdo sobre PIX por aproximação!";
+            } else if (percentage >= 60) {
+                message = "👍 Muito bom! Você tem um bom entendimento sobre o tema.";
+            } else {
+                message = "📚 Recomendamos revisar o conteúdo antes de gerar o certificado.";
+            }
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        function restartQuiz() {
+            goToQuiz();
+        }
+
+        function generateCertificate() {
+            if (score < Math.ceil(questions.length * 0.6)) {
+                alert("É necessário acertar pelo menos 60% das questões para gerar o certificado. Refaça o quiz!");
+                return;
+            }
+
+            const now = new Date();
+            document.getElementById('certificateName').textContent = userName;
+            document.getElementById('certificateDate').textContent = now.toLocaleDateString('pt-BR');
+            document.getElementById('certificateScore').textContent = 
+                score + '/' + questions.length + ' (' + Math.round((score / questions.length) * 100) + '%)';
+
+            document.getElementById('quizResults').style.display = 'none';
+            document.getElementById('certificateSlide').style.display = 'flex';
+            currentSlide = 10;
+            showSlide(currentSlide);
+        }
+
+        function printCertificate() {
+            window.print();
+        }
+
+        function goToStart() {
+            currentSlide = 0;
+            quizMode = false;
+            showSlide(currentSlide);
+        }
+
+        function showSidebar(content) {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarContent = document.getElementById('sidebarContent');
+            const slideContainer = document.getElementById('slideContainer');
+            
+            sidebarContent.innerHTML = content;
+            sidebar.classList.add('active');
+            slideContainer.classList.add('sidebar-open');
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const slideContainer = document.getElementById('slideContainer');
+            
+            sidebar.classList.remove('active');
+            slideContainer.classList.remove('sidebar-open');
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'Escape') closeSidebar();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showSlide(0);
+        });
+    </script>
+</body>
+</html>
