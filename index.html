@@ -1,8 +1,9 @@
-<html lang="pt-BR"><head>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universidade de CX - Zoop | iFood Pago</title>
-    
+    <title>Universidade CX - Portal de Treinamentos</title>
     <style>
         * {
             margin: 0;
@@ -11,2275 +12,804 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #FAFAFA;
-            color: #2C3E50;
-            line-height: 1.6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
         }
 
-        .header {
-            background: linear-gradient(135deg, #E06020, #73002d);
-            padding: 2rem 0;
-            color: white;
+        /* Login Overlay */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .login-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-container h2 {
+            color: #667eea;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .login-container button:hover {
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: white;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .logo {
+            text-align: center;
+            padding: 0 1.5rem 2rem;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+            color: #667eea;
             font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
-        .zoop-logo { color: #FFFFFF; }
-        .divider { color: #FAFAFA; margin: 0 1rem; }
-        .ifood-logo { color: #FFFFFF; }
-
-        .main-title {
-            font-size: 3.2rem;
-            font-weight: 800;
-            margin: 1rem 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        .logo p {
+            color: #999;
+            font-size: 0.9rem;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            font-weight: 400;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
+        .menu-item {
+            padding: 1rem 1.5rem;
+            color: #666;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .btn-primary { background: #E06020; color: white; }
-        .btn-secondary { background: transparent; color: white; border: 2px solid white; }
-        .btn-success { background: #27AE60; color: white; }
-        .btn-warning { background: #F39C12; color: white; }
-        .btn-danger { background: #E74C3C; color: white; }
-
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .section {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            border: 2px solid #E06020;
-        }
-
-        .section-header {
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             gap: 1rem;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: linear-gradient(90deg, #667eea20 0%, transparent 100%);
+            color: #667eea;
+            border-left: 4px solid #667eea;
+        }
+
+        .menu-item i {
+            font-size: 1.2rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .add-training-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .add-training-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Search Bar */
+        .search-container {
             margin-bottom: 2rem;
         }
 
-        .section-icon {
-            font-size: 2rem;
-            color: #E06020;
+        .search-bar {
+            width: 100%;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #2C3E50;
+        /* Training Form */
+        .training-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
         }
 
-        .form-grid {
+        .training-form.active {
+            display: block;
+        }
+
+        .training-form input,
+        .training-form select,
+        .training-form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .training-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-buttons button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .cancel-btn {
+            background: #e0e0e0;
+            color: #666;
+        }
+
+        /* Stats */
+        .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: #2C3E50;
-            margin-bottom: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .form-input, .form-select, .form-textarea {
-            padding: 0.8rem;
-            border: 2px solid #E0E6ED;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: #F8F9FA;
-        }
-
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #E06020;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(224, 96, 32, 0.1);
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 100px;
-            grid-column: span 2;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
         .stat-card {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 1.5rem;
-            border-radius: 12px;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             text-align: center;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
         }
 
-        .stat-card:hover {
-            border-color: #E06020;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        .stat-icon {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2C3E50;
-            margin-bottom: 0.3rem;
-        }
-
-        .stat-label {
-            color: #718096;
+        .stat-card h3 {
+            color: #999;
             font-size: 0.9rem;
-            font-weight: 500;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
         }
 
+        .stat-card p {
+            color: #667eea;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* Training Cards */
         .trainings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 1.5rem;
+            gap: 2rem;
+            margin-bottom: 2rem;
         }
 
         .training-card {
             background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 2px solid #E0E6ED;
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
 
         .training-card:hover {
-            border-color: #E06020;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
-        .training-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #2C3E50;
-            margin-bottom: 0.8rem;
-        }
-
-        .training-description {
-            color: #718096;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .training-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .training-duration {
-            background: rgba(39, 174, 96, 0.1);
-            color: #27AE60;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .training-category {
-            background: rgba(224, 96, 32, 0.1);
-            color: #E06020;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .training-actions {
-            display: flex;
-            gap: 0.8rem;
-            align-items: center;
-        }
-
-        .btn-access {
-            flex: 1;
-            background: linear-gradient(135deg, #E06020, #d55a1e);
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            text-decoration: none;
-            padding: 0.7rem 1rem;
-            border-radius: 8px;
-            font-weight: 600;
-            text-align: center;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .btn-access:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(224, 96, 32, 0.3);
-        }
-
-        .btn-delete {
-            background: #E74C3C;
-            color: white;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .btn-delete:hover {
-            background: #c0392b;
-            transform: scale(1.1);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
-            color: #718096;
-        }
-
-        .empty-state-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
-        }
-
-        .status-message {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            z-index: 1000;
-            transform: translateX(400px);
-            transition: all 0.3s ease;
-        }
-
-        .status-message.show {
-            transform: translateX(0);
-        }
-
-        .status-success {
-            background: #27AE60;
-        }
-
-        .status-error {
-            background: #E74C3C;
-        }
-
-        /* === SISTEMA DE USUÁRIOS === */
-        .login-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px);
-            display: flex; justify-content: center; align-items: center;
-            z-index: 10000; animation: fadeIn 0.5s ease-out;
-        }
-        .login-container {
-            background: white; padding: 3rem; border-radius: 20px; max-width: 500px; width: 90%;
-            text-align: center; border: 3px solid #E06020; animation: slideInUp 0.6s ease-out;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        }
-        .login-header { margin-bottom: 2rem; }
-        .login-logo { font-size: 4rem; margin-bottom: 1rem; }
-        .login-title { font-size: 2rem; font-weight: 700; color: #2C3E50; margin-bottom: 0.5rem; }
-        .login-subtitle { color: #718096; font-size: 1.1rem; margin-bottom: 2rem; }
-        .login-form { display: flex; flex-direction: column; gap: 1.5rem; }
-        .form-group { text-align: left; }
-        .form-label { display: block; font-weight: 600; color: #2C3E50; margin-bottom: 0.5rem; }
-
-        .form-input {
-            width: 100%; padding: 1rem; border: 2px solid #E0E6ED; border-radius: 10px;
-            font-size: 1.1rem; transition: all 0.3s ease; background: #F8F9FA; box-sizing: border-box;
-        }
-
-        .form-input:focus {
-            outline: none; border-color: #E06020; background: white;
-            box-shadow: 0 0 0 3px rgba(224, 96, 32, 0.1);
-        }
-
-        .login-btn {
-            background: linear-gradient(135deg, #E06020, #d55a1e); color: white; border: none;
-            padding: 1.2rem 2rem; border-radius: 10px; font-size: 1.1rem; font-weight: 600;
-            cursor: pointer; transition: all 0.3s ease; margin-top: 1rem;
-        }
-
-        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(224, 96, 32, 0.3); }
-
-        .user-info {
-            background: rgba(255, 255, 255, 0.1); padding: 1rem 2rem; border-radius: 10px; margin: 1rem 0;
-            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
-        }
-
-        .user-welcome { color: white; font-weight: 600; font-size: 1.1rem; }
-        .user-email { color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; }
-        .user-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-        .user-btn {
-            background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;
-        }
-
-        .user-btn:hover { background: rgba(255, 255, 255, 0.3); }
-
-        .user-dashboard {
-            background: white; margin: 2rem auto; max-width: 1200px; padding: 2rem;
-            border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); border: 2px solid #27AE60;
-        }
-
-        .dashboard-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
-        .dashboard-title { font-size: 1.8rem; font-weight: 700; color: #2C3E50; }
-
-        .recent-activity {
-            background: #f8f9fa; padding: 1.5rem; border-radius: 12px; border-left: 4px solid #E06020;
-        }
-
-        .activity-title { font-size: 1.2rem; font-weight: 600; color: #2C3E50; margin-bottom: 1rem; }
-
-        .activity-item {
-            display: flex; justify-content: space-between; padding: 0.5rem 0;
-            border-bottom: 1px solid #e2e8f0; font-size: 0.9rem;
-        }
-
-        .activity-item:last-child { border-bottom: none; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* === SIDEBAR RECOLHÍVEL === */
-        .sidebar {
-            position: fixed; left: 0; top: 0; width: 320px; height: 100vh;
-            background: linear-gradient(180deg, #2C3E50 0%, #34495E 50%, #2C3E50 100%);
-            color: white; z-index: 1000; transition: all 0.4s ease;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.15); overflow-y: auto;
-        }
-        .sidebar.collapsed { width: 60px; }
-        .sidebar-toggle {
-            position: absolute; top: 20px; right: -15px; width: 30px; height: 30px;
-            background: #E06020; border: none; border-radius: 50%; color: white; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; font-size: 12px;
-            transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(224, 96, 32, 0.3); z-index: 1001;
-        }
-        .sidebar-toggle:hover { background: #d55a1e; transform: scale(1.1); }
-        .sidebar-toggle .arrow { transition: transform 0.3s ease; }
-        .sidebar.collapsed .sidebar-toggle .arrow { transform: rotate(180deg); }
-        .sidebar-header { padding: 2rem 1.5rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .sidebar.collapsed .sidebar-header { padding: 1rem 0.5rem; }
-        .portal-logo { font-size: 2.5rem; margin-bottom: 0.5rem; transition: all 0.3s ease; }
-        .sidebar.collapsed .portal-logo { font-size: 1.8rem; margin-bottom: 0; }
-        .portal-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.3rem; transition: all 0.3s ease; }
-        .sidebar.collapsed .portal-title { opacity: 0; height: 0; margin: 0; }
-        .portal-subtitle { font-size: 0.8rem; opacity: 0.8; transition: all 0.3s ease; }
-        .sidebar.collapsed .portal-subtitle { opacity: 0; height: 0; }
-        .sidebar-content { padding: 1rem 0; }
-        .sidebar-section { margin-bottom: 1.5rem; padding: 0 1.5rem; transition: all 0.3s ease; }
-        .sidebar.collapsed .sidebar-section { padding: 0 0.5rem; }
-        .section-title {
-            font-size: 0.9rem; font-weight: 600; color: #E06020; margin-bottom: 1rem;
-            text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.3s ease;
-        }
-        .sidebar.collapsed .section-title { opacity: 0; height: 0; margin: 0; }
-        .stat-item {
-            display: flex; align-items: center; padding: 0.8rem; margin-bottom: 0.5rem;
-            background: rgba(255,255,255,0.05); border-radius: 8px; transition: all 0.3s ease;
-            cursor: pointer; border-left: 3px solid transparent;
-        }
-        .stat-item:hover { background: rgba(255,255,255,0.1); border-left-color: #E06020; transform: translateX(2px); }
-        .sidebar.collapsed .stat-item { justify-content: center; padding: 0.8rem 0.5rem; }
-        .stat-icon { font-size: 1.5rem; margin-right: 1rem; min-width: 24px; transition: all 0.3s ease; }
-        .sidebar.collapsed .stat-icon { margin-right: 0; font-size: 1.2rem; }
-        .stat-info { flex: 1; transition: all 0.3s ease; overflow: hidden; }
-        .sidebar.collapsed .stat-info { opacity: 0; width: 0; }
-        .stat-label { font-size: 0.8rem; opacity: 0.8; margin-bottom: 0.2rem; }
-        .stat-value { font-size: 1.1rem; font-weight: 600; color: #E06020; }
-        .nav-item {
-            display: flex; align-items: center; padding: 1rem; margin-bottom: 0.3rem;
-            border-radius: 8px; transition: all 0.3s ease; cursor: pointer; text-decoration: none; color: white;
-        }
-        .nav-item:hover { background: rgba(224, 96, 32, 0.2); color: white; transform: translateX(4px); }
-        .sidebar.collapsed .nav-item { justify-content: center; padding: 1rem 0.5rem; }
-        .nav-icon { font-size: 1.3rem; margin-right: 1rem; min-width: 20px; }
-        .sidebar.collapsed .nav-icon { margin-right: 0; }
-        .nav-text { font-size: 0.9rem; font-weight: 500; transition: all 0.3s ease; }
-        .sidebar.collapsed .nav-text { opacity: 0; width: 0; }
-        .status-indicator {
-            display: flex; align-items: center; padding: 1rem; background: rgba(39, 174, 96, 0.1);
-            border-radius: 8px; border-left: 3px solid #27AE60; margin: 1rem 1.5rem 0; transition: all 0.3s ease;
-        }
-        .sidebar.collapsed .status-indicator { margin: 1rem 0.5rem 0; justify-content: center; }
-        .status-dot { width: 8px; height: 8px; background: #27AE60; border-radius: 50%; margin-right: 0.8rem; animation: pulse 2s infinite; }
-        .sidebar.collapsed .status-dot { margin-right: 0; }
-        .status-text { font-size: 0.8rem; opacity: 0.9; transition: all 0.3s ease; }
-        .sidebar.collapsed .status-text { opacity: 0; width: 0; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .main-content { transition: margin-left 0.4s ease; margin-left: 320px; }
-        .sidebar.collapsed ~ .main-content { margin-left: 60px; }
-        .version-info {
-            position: absolute; bottom: 1rem; left: 1.5rem; right: 1.5rem; padding: 0.8rem;
-            background: rgba(255,255,255,0.05); border-radius: 6px; font-size: 0.7rem;
-            opacity: 0.8; text-align: center; transition: all 0.3s ease;
-        }
-        .sidebar.collapsed .version-info { opacity: 0; height: 0; padding: 0; }
-
-        /* === SISTEMA DE PESQUISA === */
-        .search-container {
-            background: white;
-            margin: 2rem auto;
-            max-width: 1200px;
             padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-            border: 2px solid #E06020;
         }
 
-        .search-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-category {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .card-description {
+            color: #666;
+            line-height: 1.6;
             margin-bottom: 1.5rem;
         }
 
-        .search-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #2C3E50;
-        }
-
-        .search-input-container {
-            position: relative;
-            margin-bottom: 1rem;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid #E0E6ED;
-            border-radius: 10px;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            background: #F8F9FA;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #E06020;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(224, 96, 32, 0.1);
-        }
-
-        .search-input-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #A0AEC0;
-            font-size: 1.2rem;
-        }
-
-        .search-stats {
+        .card-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid #f0f0f0;
         }
 
-        .results-count {
-            color: #718096;
-            font-weight: 500;
+        .card-duration, .card-level {
+            color: #999;
+            font-size: 0.9rem;
         }
 
-        .clear-search {
-            background: none;
-            border: none;
-            color: #E06020;
-            cursor: pointer;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .clear-search:hover {
-            background: rgba(224, 96, 32, 0.1);
-        }
-
-        .search-suggestions {
+        .card-actions {
             display: flex;
             gap: 0.5rem;
-            flex-wrap: wrap;
             margin-top: 1rem;
         }
 
-        .search-tag {
-            background: rgba(224, 96, 32, 0.1);
-            color: #E06020;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.9rem;
+        .card-actions button {
+            padding: 0.5rem 1rem;
             border: none;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            font-weight: bold;
+            transition: transform 0.2s;
         }
 
-        .search-tag:hover {
-            background: #E06020;
+        .delete-btn {
+            background: #e74c3c;
             color: white;
         }
 
-        .training-card.hidden {
-            display: none !important;
+        .delete-btn:hover {
+            transform: translateY(-2px);
         }
 
-        .highlight {
-            background: yellow;
-            padding: 0.1rem 0.2rem;
-            border-radius: 3px;
-            font-weight: bold;
-        }
-
-        /* === SISTEMA DE CONTADORES COMPARTILHADOS === */
-        .shared-stats {
-            background: rgba(52, 152, 219, 0.1);
-            border-left: 3px solid #3498db;
-            margin: 1rem 1.5rem;
-            padding: 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar.collapsed .shared-stats {
-            margin: 1rem 0.5rem;
-            padding: 0.8rem 0.5rem;
-        }
-
-        .shared-stats-title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #3498db;
-            margin-bottom: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar.collapsed .shared-stats-title {
-            opacity: 0;
-            height: 0;
-            margin: 0;
-        }
-
-        .shared-counter {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar.collapsed .shared-counter {
-            justify-content: center;
-        }
-
-        .counter-icon {
-            font-size: 1.2rem;
-            margin-right: 0.8rem;
-            min-width: 20px;
-        }
-
-        .sidebar.collapsed .counter-icon {
-            margin-right: 0;
-        }
-
-        .counter-info {
-            flex: 1;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar.collapsed .counter-info {
-            opacity: 0;
-            width: 0;
-        }
-
-        .counter-label {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            margin-bottom: 0.1rem;
-        }
-
-        .counter-value {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #3498db;
-        }
-
-        .sync-indicator {
-            display: flex;
-            align-items: center;
-            font-size: 0.7rem;
-            opacity: 0.7;
-            margin-top: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar.collapsed .sync-indicator {
-            opacity: 0;
-            height: 0;
-        }
-
-        .sync-dot {
-            width: 6px;
-            height: 6px;
-            background: #27AE60;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-            animation: pulse 2s infinite;
-        }
-
-        .sync-dot.syncing {
-            background: #f39c12;
-            animation: spin 1s linear infinite;
-        }
-
-        .sync-dot.error {
-            background: #e74c3c;
-            animation: none;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .admin-panel {
-            background: rgba(231, 76, 60, 0.1);
-            border: 2px solid #e74c3c;
-            margin: 1rem 1.5rem 0;
-            padding: 1rem;
-            border-radius: 8px;
-            display: none;
-        }
-
-        .sidebar.collapsed .admin-panel {
-            margin: 1rem 0.5rem 0;
-            padding: 0.5rem;
-        }
-
-        .admin-title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #e74c3c;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .admin-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .admin-btn {
-            background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-            border: 1px solid rgba(231, 76, 60, 0.3);
-            padding: 0.5rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .admin-btn:hover {
-            background: rgba(231, 76, 60, 0.3);
-        }
-
-        .sidebar.collapsed .admin-btn {
-            padding: 0.3rem;
-            font-size: 0.6rem;
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            .sidebar { width: 100vw; transform: translateX(-100%); }
-            .sidebar.mobile-open { transform: translateX(0); }
-            .main-content { margin-left: 0; }
-            .sidebar-toggle { position: fixed; top: 20px; left: 20px; }
-            .search-container { margin: 1rem; padding: 1.5rem; }
-            .search-stats { flex-direction: column; gap: 1rem; text-align: center; }
-            .search-suggestions { justify-content: center; }
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .trainings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-
-<div class="login-overlay" id="loginOverlay" style="display: none;">
-    <div class="login-container">
-        <div class="login-header">
-            <div class="login-logo">🎓</div>
-            <h1 class="login-title">Universidade CX</h1>
-            <p class="login-subtitle">Entre com seus dados para começar</p>
-        </div>
-        <form class="login-form" id="loginForm">
-            <div class="form-group">
-                <label class="form-label">👤 Nome Completo</label>
-                <input type="text" id="userName" class="form-input" placeholder="Seu nome" required="">
-            </div>
-            <div class="form-group">
-                <label class="form-label">📧 E-mail</label>
-                <input type="email" id="userEmail" class="form-input" placeholder="seu@email.com" required="">
-            </div>
-            <button type="submit" class="login-btn">🚀 Entrar</button>
-        </form>
-        <div style="margin-top: 1.5rem; color: #718096; font-size: 0.9rem;">
-            🔒 Dados salvos apenas no seu navegador
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-container">
+            <h2>🎓 Universidade CX</h2>
+            <input type="text" id="loginUsername" placeholder="Usuário" autocomplete="username">
+            <input type="password" id="loginPassword" placeholder="Senha" autocomplete="current-password">
+            <button onclick="login()">Entrar</button>
+            <p class="error-message" id="loginError">Usuário ou senha incorretos</p>
         </div>
     </div>
-</div>
 
-<div class="sidebar" id="sidebar">
-    <button class="sidebar-toggle" onclick="toggleSidebar()">
-        <span class="arrow">◀</span>
-    </button>
-    
-    <div class="sidebar-header">
-        <div class="portal-logo">🎓</div>
-        <div class="portal-title">Universidade CX</div>
-        <div class="portal-subtitle">Zoop | iFood Pago</div>
-    </div>
-    
-    <div class="sidebar-content">
-        <div class="sidebar-section">
-            <div class="section-title">📊 Estatísticas</div>
-            <div class="stat-item">
-                <div class="stat-icon">📚</div>
-                <div class="stat-info">
-                    <div class="stat-label">Treinamentos</div>
-                    <div class="stat-value" id="sidebarTrainingCount">11</div>
-                </div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">👥</div>
-                <div class="stat-info">
-                    <div class="stat-label">Usuários Hoje</div>
-                    <div class="stat-value" id="todayUsers">1+</div>
-                </div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-icon">⏱️</div>
-                <div class="stat-info">
-                    <div class="stat-label">Tempo Online</div>
-                    <div class="stat-value" id="uptime">6m</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="sidebar-section">
-            <div class="section-title">🚀 Navegação</div>
-            <div class="nav-item" onclick="scrollToSearch()">
-                <div class="nav-icon">🔍</div>
-                <div class="nav-text">Pesquisar</div>
-            </div>
-            <div class="nav-item" onclick="scrollToTrainings()">
-                <div class="nav-icon">📋</div>
-                <div class="nav-text">Treinamentos</div>
-            </div>
-            <div class="nav-item" onclick="toggleDashboard()">
-                <div class="nav-icon">📊</div>
-                <div class="nav-text">Dashboard</div>
-            </div>
-        </div>
-        
-        <div class="sidebar-section">
-            <div class="section-title">📂 Categorias</div>
-            <div class="nav-item" onclick="searchByTag('processos')">
-                <div class="nav-icon">⚙️</div>
-                <div class="nav-text">Processos</div>
-            </div>
-            <div class="nav-item" onclick="searchByTag('tecnologia')">
-                <div class="nav-icon">💻</div>
-                <div class="nav-text">Tecnologia</div>
-            </div>
-            <div class="nav-item" onclick="searchByTag('credenciamento')">
-                <div class="nav-icon">📋</div>
-                <div class="nav-text">Credenciamento</div>
-            </div>
-        </div>
-
-        <!-- Estatísticas Compartilhadas -->
-        <div class="shared-stats">
-            <div class="shared-stats-title">🌐 Dados Globais</div>
-            
-            <div class="shared-counter">
-                <div class="counter-icon">👥</div>
-                <div class="counter-info">
-                    <div class="counter-label">Total de Acessos</div>
-                    <div class="counter-value" id="globalAccessCount">17 (local)</div>
-                </div>
-            </div>
-            
-            <div class="shared-counter">
-                <div class="counter-icon">📱</div>
-                <div class="counter-info">
-                    <div class="counter-label">Usuários Únicos</div>
-                    <div class="counter-value" id="uniqueUsersCount">1 (local)</div>
-                </div>
-            </div>
-            
-            <div class="shared-counter">
-                <div class="counter-icon">📅</div>
-                <div class="counter-info">
-                    <div class="counter-label">Hoje</div>
-                    <div class="counter-value" id="todayAccessCount">1 (local)</div>
-                </div>
-            </div>
-            
-            <div class="sync-indicator">
-                <div class="sync-dot error" id="syncStatus"></div>
-                <span id="syncText">Offline</span>
-            </div>
-        </div>
-        
-        <!-- Painel Admin -->
-        <div class="admin-panel" id="adminPanel" style="display: block;">
-            <div class="admin-title">🔧 Painel Admin</div>
-            <div class="admin-actions">
-                <button class="admin-btn" onclick="resetCounters()">🗑️ Zerar Contadores</button>
-                <button class="admin-btn" onclick="exportStatsData()">📤 Exportar Dados</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="status-indicator">
-        <div class="status-dot"></div>
-        <div class="status-text">Sistema Online</div>
-    </div>
-    
-    <div class="version-info"></div>
-</div>
-
-<div class="main-content">
-
-    <div class="header">
+    <!-- Sidebar -->
+    <div class="sidebar">
         <div class="logo">
-            <span class="zoop-logo">Zoop</span>
-            <span class="divider">|</span>
-            <span class="ifood-logo">iFood Pago</span>
+            <h1>🎓 CX Portal</h1>
+            <p>Universidade de Treinamentos</p>
         </div>
-        <h1 class="main-title">🎓 Universidade de CX</h1>
-        <p class="subtitle">Portal de Treinamentos e Desenvolvimento em Customer Experience</p>
-                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin-top: 15px; border-left: 4px solid #E06020;">
-                        <strong>📋 Como Usar Este Portal:</strong><br>
-                        • 📥 <strong>Baixar Treinamento:</strong> Clique no botão para fazer download do arquivo HTML<br>
-                        • 💻 <strong>Abrir Treinamento:</strong> Após o download, abra o arquivo HTML baixado<br>
-                        • 📤 <strong>Compartilhar:</strong> Envie este portal para outras pessoas - elas conseguirão baixar os treinamentos
+        <div class="menu-item active">
+            <span>📚</span>
+            <span>Todos os Treinamentos</span>
+        </div>
+        <div class="menu-item">
+            <span>⭐</span>
+            <span>Favoritos</span>
+        </div>
+        <div class="menu-item">
+            <span>📊</span>
+            <span>Meu Progresso</span>
+        </div>
+        <div class="menu-item">
+            <span>⚙️</span>
+            <span>Configurações</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h2>Portal de Treinamentos</h2>
+            <div class="header-controls">
+                <button class="add-training-btn" onclick="toggleForm()">+ Adicionar Treinamento</button>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userName">Usuário</span>
+                    <button class="logout-btn" onclick="logout()">Sair</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Buscar treinamentos...">
+        </div>
+
+        <!-- Training Form -->
+        <div class="training-form" id="trainingForm">
+            <h3 style="margin-bottom: 1.5rem; color: #667eea;">Novo Treinamento</h3>
+            <input type="text" id="trainingTitle" placeholder="Título do Treinamento">
+            <select id="trainingCategory">
+                <option value="">Selecione uma Categoria</option>
+                <option value="Produto">Produto</option>
+                <option value="Processos">Processos</option>
+                <option value="Soft Skills">Soft Skills</option>
+                <option value="Técnico">Técnico</option>
+                <option value="Compliance">Compliance</option>
+            </select>
+            <textarea id="trainingDescription" placeholder="Descrição do treinamento"></textarea>
+            <input type="text" id="trainingDuration" placeholder="Duração (ex: 30 min)">
+            <select id="trainingLevel">
+                <option value="">Nível</option>
+                <option value="Iniciante">Iniciante</option>
+                <option value="Intermediário">Intermediário</option>
+                <option value="Avançado">Avançado</option>
+            </select>
+            <input type="text" id="trainingLink" placeholder="Link do treinamento (.html ou URL)">
+            <div class="form-buttons">
+                <button class="save-btn" onclick="saveTraining()">Salvar</button>
+                <button class="cancel-btn" onclick="toggleForm()">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total de Treinamentos</h3>
+                <p id="totalTrainings">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Concluídos</h3>
+                <p id="completedTrainings">0</p>
+            </div>
+            <div class="stat-card">
+                <h3>Em Andamento</h3>
+                <p id="inProgressTrainings">0</p>
+            </div>
+        </div>
+
+        <!-- Trainings Grid -->
+        <div class="trainings-grid" id="trainingsGrid">
+            <!-- Card 1: 12 Regras -->
+            <div class="training-card" data-title="12 Regras Essenciais" data-category="Processos" onclick="openTraining('treinamento_12_regras_completo_final (2).html')">
+                <div class="card-header">
+                    <h3>12 Regras Essenciais</h3>
+                    <span class="card-category">Processos</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Domine as 12 regras fundamentais que todo profissional de CX precisa conhecer.</p>
+                    <div class="card-meta">
+                        <span class="card-duration">⏱️ 45 min</span>
+                        <span class="card-level">📊 Intermediário</span>
                     </div>
-
-        <div class="user-info" id="userInfo" style="display: flex;">
-            <div>
-                <div class="user-welcome">👋 <span id="displayName">Rodrigo</span></div>
-                <div class="user-email" id="displayEmail">teixeira.rodrigo@ifood.com.br</div>
+                </div>
             </div>
-            <div class="user-actions">
-                <button class="user-btn" onclick="toggleDashboard()">📊 Dashboard</button>
-                <button class="user-btn" onclick="exportData()">📤 Exportar</button>
-                <button class="user-btn" onclick="logout()">🚪 Sair</button>
+
+            <!-- Card 2: 4 Pilares -->
+            <div class="training-card" data-title="Os 4 Pilares do Customer Experience" data-category="Soft Skills" onclick="openTraining('Os 4 Pilares do Customer Experience.html')">
+                <div class="card-header">
+                    <h3>Os 4 Pilares do Customer Experience</h3>
+                    <span class="card-category">Soft Skills</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Entenda os pilares fundamentais para criar experiências incríveis.</p>
+                    <div class="card-meta">
+                        <span class="card-duration">⏱️ 60 min</span>
+                        <span class="card-level">📊 Iniciante</span>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="controls">
-            <button class="btn btn-success" onclick="saveDashboard()">💾 Salvar Dashboard</button>
-            <button class="btn btn-secondary" onclick="exportData()">📤 Exportar Dados</button>
-            <label class="btn btn-warning" for="importFile">📥 Importar Dados</label>
-            <input type="file" id="importFile" style="display: none;" accept="*" onchange="importData(this)">
-            <button class="btn btn-danger" onclick="clearAllData()">🗑️ Limpar Dados</button>
-            <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir</button>
-            <button class="btn btn-secondary" onclick="toggleFullscreen()">🖥️ Tela Cheia</button>
-        </div>
-    </div>
-
-    <div class="user-dashboard" id="userDashboard" style="display: none;">
-        <div class="dashboard-header">
-            <div class="search-icon">📊</div>
-            <div class="dashboard-title">Meu Dashboard</div>
-        </div>
-        <div class="stats-grid">
-            <div class="stat-card"><div class="stat-icon">🎯</div><div class="stat-value" id="totalAccess">16</div><div class="stat-label">Acessos</div></div>
-            <div class="stat-card"><div class="stat-icon">📚</div><div class="stat-value" id="trainingCount">0</div><div class="stat-label">Treinamentos</div></div>
-            <div class="stat-card"><div class="stat-icon">🔍</div><div class="stat-value" id="searchCount">8</div><div class="stat-label">Pesquisas</div></div>
-            <div class="stat-card"><div class="stat-icon">⏰</div><div class="stat-value" id="lastVisit">Hoje</div><div class="stat-label">Último Acesso</div></div>
-        </div>
-        <div class="recent-activity">
-            <div class="activity-title">📋 Atividades</div>
-            <div id="activityLog"><div class="activity-item"><span>🔐 Login realizado</span><span>19/01/2026</span></div><div class="activity-item"><span>🔍 Pesquisou: "tecnologia"</span><span>09/01/2026</span></div><div class="activity-item"><span>🔍 Pesquisou: "processos"</span><span>09/01/2026</span></div><div class="activity-item"><span>📊 Visualizou dashboard</span><span>09/01/2026</span></div><div class="activity-item"><span>📋 Navegou para treinamentos</span><span>09/01/2026</span></div></div>
-        </div>
-    </div>
-
-    <div class="search-container">
-        <div class="search-header">
-            <div class="search-icon">🔍</div>
-            <div class="search-title">Pesquisar Treinamentos</div>
-        </div>
-        
-        <div class="search-input-container">
-            <div class="search-input-icon">🔎</div>
-            <input type="text" class="search-input" id="searchInput" placeholder="Digite o nome, categoria ou palavras-chave do treinamento..." autocomplete="off">
-        </div>
-        
-        <div class="search-stats">
-            <div class="results-count" id="resultsCount">Mostrando todos os 9 treinamentos</div>
-            <button class="clear-search" onclick="clearSearch()" id="clearBtn" style="display: none;">
-                🔄 Limpar
-            </button>
-        </div>
-        
-        <div class="search-suggestions">
-            <button class="search-tag" onclick="searchByTag('credenciamento')">📋 Credenciamento</button>
-            <button class="search-tag" onclick="searchByTag('regras')">⭐ Regras</button>
-            <button class="search-tag" onclick="searchByTag('split')">💳 Split</button>
-            <button class="search-tag" onclick="searchByTag('liquidação')">💰 Liquidação</button>
-            <button class="search-tag" onclick="searchByTag('processos')">⚙️ Processos</button>
-            <button class="search-tag" onclick="searchByTag('tecnologia')">🔧 Tecnologia</button>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon">➕</div>
-                <h2 class="section-title">Adicionar Novo Treinamento</h2>
+            <!-- Card 3: Onboarding Cred -->
+            <div class="training-card" data-title="Onboarding Cred" data-category="Produto" onclick="openTraining('treinamento_onboarding_Cred_final_real (1).html')">
+                <div class="card-header">
+                    <h3>Onboarding Cred</h3>
+                    <span class="card-category">Produto</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Aprenda o processo completo de onboarding do produto Cred.</p>
+                    <div class="card-meta">
+                        <span class="card-duration">⏱️ 40 min</span>
+                        <span class="card-level">📊 Intermediário</span>
+                    </div>
+                </div>
             </div>
-            
-            <form id="trainingForm" class="form-grid">
-                <div class="form-group">
-                    <label for="title" class="form-label">📚 Título do Treinamento</label>
-                    <input type="text" id="title" class="form-input" required="" placeholder="Ex: Atendimento de Excelência">
-                </div>
-                
-                <div class="form-group">
-                    <label for="category" class="form-label">📂 Categoria</label>
-                    <select id="category" class="form-select" required="">
-                        <option value="">Selecione uma categoria</option>
-                        <option value="Atendimento ao Cliente">Atendimento ao Cliente</option>
-                        <option value="Técnicas de Vendas">Técnicas de Vendas</option>
-                        <option value="Comunicação Efetiva">Comunicação Efetiva</option>
-                        <option value="Liderança e Gestão">Liderança e Gestão</option>
-                        <option value="Processos e Qualidade">Processos e Qualidade</option>
-                        <option value="Tecnologia e Ferramentas">Tecnologia e Ferramentas</option>
-                        <option value="Compliance e Ética">Compliance e Ética</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="duration" class="form-label">⏱️ Duração</label>
-                    <input type="text" id="duration" class="form-input" required="" placeholder="Ex: 2h 30min">
-                </div>
-                
-                <div class="form-group">
-                    <label for="link" class="form-label">🔗 Link/Arquivo do Treinamento</label>
-                    <input type="url" id="link" class="form-input" required="" placeholder="https://exemplo.com/treinamento ou caminho do arquivo">
-                </div>
-                
-                <div class="form-group">
-                    <label for="description" class="form-label">📝 Descrição</label>
-                    <textarea id="description" class="form-textarea" required="" placeholder="Descreva brevemente o conteúdo e objetivos do treinamento"></textarea>
-                </div>
-            </form>
-            
-            <div class="controls">
-                <button type="submit" form="trainingForm" class="btn btn-primary">✅ Adicionar Treinamento</button>
-            </div>
-        </div>
 
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon">📊</div>
-                <h2 class="section-title">Estatísticas Gerais</h2>
+            <!-- Card 4: PIX Aproximação -->
+            <div class="training-card" data-title="PIX por Aproximação Zoop" data-category="Técnico" onclick="openTraining('treinamento_pix_aproximacao_zoop_light (2).html')">
+                <div class="card-header">
+                    <h3>PIX por Aproximação Zoop</h3>
+                    <span class="card-category">Técnico</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Entenda a tecnologia por trás do PIX por aproximação na plataforma Zoop.</p>
+                    <div class="card-meta">
+                        <span class="card-duration">⏱️ 35 min</span>
+                        <span class="card-level">📊 Avançado</span>
+                    </div>
+                </div>
             </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">📚</div>
-                    <div class="stat-value" id="totalTrainings">11</div>
-                    <div class="stat-label">Total de Treinamentos</div>
+
+            <!-- Card 5: Pricing -->
+            <div class="training-card" data-title="Treinamento Pricing" data-category="Produto" onclick="openTraining('Treinamento Pricing.html')">
+                <div class="card-header">
+                    <h3>Treinamento Pricing</h3>
+                    <span class="card-category">Produto</span>
                 </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">📂</div>
-                    <div class="stat-value" id="totalCategories">3</div>
-                    <div class="stat-label">Categorias Ativas</div>
+                <div class="card-body">
+                    <p class="card-description">Domine as estratégias de precificação e suas aplicações.</p>
+                    <div class="card-meta">
+                        <span class="card-duration">⏱️ 50 min</span>
+                        <span class="card-level">📊 Intermediário</span>
+                    </div>
                 </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">⏱️</div>
-                    <div class="stat-value" id="totalHours">6h</div>
-                    <div class="stat-label">Carga Horária Total</div>
+            </div>
+
+            <!-- Card 6: Registro de Recebíveis -->
+            <div class="training-card" data-title="Registro de Recebíveis CERC Zoop" data-category="Compliance" onclick="openTraining('treinamento_registro_recebiveis_cerc_zoop_light.html')">
+                <div class="card-header">
+                    <h3>Registro de Recebíveis CERC Zoop</h3>
+                    <span class="card-category">Compliance</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Aprenda sobre registro de recebíveis e compliance na CERC.</p>
+                    <div class="card-meta">
+                        <span class="card-duration">⏱️ 55 min</span>
+                        <span class="card-level">📊 Avançado</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 7: Repasse Financeiro -->
+            <div class="training-card" data-title="Repasse Financeiro Zoop" data-category="Processos" onclick="openTraining('treinamento_repasse_financeiro_zoop (2).html')">
+                <div class="card-header">
+                    <h3>Repasse Financeiro Zoop</h3>
+                    <span class="card-category">Processos</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">Entenda o fluxo de repasse financeiro na plataforma Zoop.</p>
+                    <div class="card-meta">
+                        <span class="card-duration">⏱️ 45 min</span>
+                        <span class="card-level">📊 Intermediário</span>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="section">
-            <div class="section-header">
-                <div class="section-icon">🎓</div>
-                <h2 class="section-title">Galeria de Treinamentos</h2>
-            </div>
-            
-            <div class="trainings-grid" id="trainingsGrid">
-<div class="training-card">
-    <h3 class="training-title">Os 4 Pilares do Customer Experience</h3>
-    <p class="training-description">Treinamento completo sobre os fundamentos essenciais de CX: Pessoas, Processos, Tecnologia e Cultura</p>
-    <div class="training-meta">
-        <span class="training-duration">1h 30min</span>
-        <span class="training-category">Customer Experience</span>
-    </div>
-    <div class="training-actions">
-        <a href="Os%204%20Pilares%20do%20Customer%20Experience.html" target="_blank" class="btn-access">📥 Acessar Treinamento</a>
-    </div>
-</div>
-
-<div class="training-card">
-    <h3 class="training-title">Treinamento Pricing</h3>
-    <p class="training-description">Estratégias e melhores práticas de precificação para produtos e serviços</p>
-    <div class="training-meta">
-        <span class="training-duration">2h</span>
-        <span class="training-category">Processos</span>
-    </div>
-    <div class="training-actions">
-        <a href="Treinamento%20Pricing.html" target="_blank" class="btn-access">📥 Acessar Treinamento</a>
-    </div>
-</div>
-
-<div class="training-card">
-    <h3 class="training-title">12 Regras de Ouro</h3>
-    <p class="training-description">Treinamento completo das 12 regras essenciais para excelência em atendimento ao cliente</p>
-    <div class="training-meta">
-        <span class="training-duration">1h 30min</span>
-        <span class="training-category">Atendimento ao Cliente</span>
-    </div>
-    <div class="training-actions">
-        <a href="treinamento_12_regras_completo_final%20(2).html" target="_blank" class="btn-access">📥 Acessar Treinamento</a>
-    </div>
-</div>
-
-<div class="training-card">
-    <h3 class="training-title">Credenciamento de Sellers</h3>
-    <p class="training-description">Processo completo de credenciamento de sellers com as novas regras e obrigatoriedades</p>
-    <div class="training-meta">
-        <span class="training-duration">1h 30min</span>
-        <span class="training-category">Processos</span>
-    </div>
-    <div class="training-actions">
-        <a href="treinamento_onboarding_Cred_final_real%20(1).html" target="_blank" class="btn-access">📥 Acessar Treinamento</a>
-    </div>
-</div>
-
-<div class="training-card">
-    <h3 class="training-title">PIX por Aproximação</h3>
-    <p class="training-description">Nova funcionalidade de Pix por aproximação via NFC - Concorrente direto do TEP</p>
-    <div class="training-meta">
-        <span class="training-duration">1h</span>
-        <span class="training-category">Tecnologia e Ferramentas</span>
-    </div>
-    <div class="training-actions">
-        <a href="treinamento_pix_aproximacao_zoop_light%20(2).html" target="_blank" class="btn-access">📥 Acessar Treinamento</a>
-    </div>
-</div>
-
-<div class="training-card">
-    <h3 class="training-title">Registro de Recebíveis - CERC</h3>
-    <p class="training-description">Processo completo de registro de recebíveis na CERC (Centralizadora da Estrutura de Recebíveis de Cartões)</p>
-    <div class="training-meta">
-        <span class="training-duration">2h</span>
-        <span class="training-category">Tecnologia e Ferramentas</span>
-    </div>
-    <div class="training-actions">
-        <a href="treinamento_registro_recebiveis_cerc_zoop.html" target="_blank" class="btn-access">📥 Acessar Treinamento</a>
-    </div>
-</div>
-
-<div class="training-card">
-    <h3 class="training-title">Repasse Financeiro - Liquidação</h3>
-    <p class="training-description">Processo de liquidação e repasse financeiro de transações para sellers</p>
-    <div class="training-meta">
-        <span class="training-duration">2h</span>
-        <span class="training-category">Processos</span>
-    </div>
-    <div class="training-actions">
-        <a href="treinamento_repasse_financeiro_zoop%20(2).html" target="_blank" class="btn-access">📥 Acessar Treinamento</a>
-    </div>
-</div>
-</div>
-        </div>
     </div>
 
-    <div id="statusMessage" class="status-message status-success">Treinamento adicionado com sucesso! 🎉</div>
+    <script>
+        // Sistema de Login
+        const validCredentials = {
+            'admin': 'admin123',
+            'rodrigo': 'rodrigo123',
+            'user': 'user123'
+        };
 
-</div>
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
 
-<script>
-        let trainings = [];
-
-        function init() {
-            loadTrainings();
-            renderTrainings();
-            updateStats();
-            setupEventListeners();
-            if (trainings.length === 0) {
-                addSampleData();
+            if (validCredentials[username] && validCredentials[username] === password) {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('userName').textContent = username;
+                document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
+                localStorage.setItem('loggedUser', username);
+                loadTrainings();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
             }
         }
 
-        function setupEventListeners() {
-            document.getElementById('trainingForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                addTraining();
+        function logout() {
+            localStorage.removeItem('loggedUser');
+            location.reload();
+        }
+
+        window.onload = function() {
+            const loggedUser = localStorage.getItem('loggedUser');
+            if (loggedUser) {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('userName').textContent = loggedUser;
+                document.getElementById('userAvatar').textContent = loggedUser.charAt(0).toUpperCase();
+                loadTrainings();
+            }
+        };
+
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && document.getElementById('loginOverlay').style.display !== 'none') {
+                login();
+            }
+        });
+
+        // Sistema de Treinamentos
+        let trainings = [];
+
+        function loadTrainings() {
+            const savedTrainings = localStorage.getItem('cxTrainings');
+            if (savedTrainings) {
+                trainings = JSON.parse(savedTrainings);
+                renderDynamicTrainings();
+            }
+            updateStats();
+        }
+
+        function renderDynamicTrainings() {
+            const grid = document.getElementById('trainingsGrid');
+            
+            // Remover apenas cards dinâmicos antigos
+            const existingDynamic = grid.querySelectorAll('.training-card[data-dynamic="true"]');
+            existingDynamic.forEach(card => card.remove());
+            
+            // Adicionar cards dinâmicos
+            trainings.forEach((training, index) => {
+                const card = createTrainingCard(training, index);
+                grid.appendChild(card);
             });
         }
 
-        function addTraining() {
-            const training = {
-                id: Date.now(),
-                title: document.getElementById('title').value,
-                category: document.getElementById('category').value,
-                duration: document.getElementById('duration').value,
-                link: document.getElementById('link').value,
-                description: document.getElementById('description').value,
-                createdAt: new Date().toLocaleDateString('pt-BR')
-            };
-
-            trainings.push(training);
-            saveTrainings();
-            renderTrainings();
-            updateStats();
-            document.getElementById('trainingForm').reset();
-            showStatus('Treinamento adicionado com sucesso! 🎉');
+        function createTrainingCard(training, index) {
+            const card = document.createElement('div');
+            card.className = 'training-card';
+            card.setAttribute('data-title', training.title);
+            card.setAttribute('data-category', training.category);
+            card.setAttribute('data-dynamic', 'true');
+            
+            card.innerHTML = `
+                <div class="card-header" onclick="openTraining('${training.link}')">
+                    <h3>${training.title}</h3>
+                    <span class="card-category">${training.category}</span>
+                </div>
+                <div class="card-body">
+                    <p class="card-description">${training.description}</p>
+                    <div class="card-meta">
+                        <span class="card-duration">⏱️ ${training.duration}</span>
+                        <span class="card-level">📊 ${training.level}</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteTraining(${index})">🗑️ Excluir</button>
+                    </div>
+                </div>
+            `;
+            
+            return card;
         }
 
-        function deleteTraining(id) {
-            if (confirm('Tem certeza que deseja excluir este treinamento?')) {
-                trainings = trainings.filter(function(training) {
-                    return training.id !== id;
-                });
-                saveTrainings();
-                renderTrainings();
-                updateStats();
-                showStatus('Treinamento removido! 🗑️');
+        function toggleForm() {
+            const form = document.getElementById('trainingForm');
+            form.classList.toggle('active');
+            
+            if (!form.classList.contains('active')) {
+                clearForm();
             }
         }
 
-        function renderTrainings() {
-            const grid = document.getElementById('trainingsGrid');
-            
-            if (trainings.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><h3>Nenhum treinamento cadastrado</h3><p>Adicione o primeiro treinamento usando o formulário acima!</p></div>';
+        function clearForm() {
+            document.getElementById('trainingTitle').value = '';
+            document.getElementById('trainingCategory').value = '';
+            document.getElementById('trainingDescription').value = '';
+            document.getElementById('trainingDuration').value = '';
+            document.getElementById('trainingLevel').value = '';
+            document.getElementById('trainingLink').value = '';
+        }
+
+        function saveTraining() {
+            const training = {
+                title: document.getElementById('trainingTitle').value,
+                category: document.getElementById('trainingCategory').value,
+                description: document.getElementById('trainingDescription').value,
+                duration: document.getElementById('trainingDuration').value,
+                level: document.getElementById('trainingLevel').value,
+                link: document.getElementById('trainingLink').value
+            };
+
+            if (!training.title || !training.category || !training.description) {
+                alert('Preencha todos os campos obrigatórios!');
                 return;
             }
 
-            let html = '';
-            trainings.forEach(function(training) {
-                html += '<div class="training-card">';
-                html += '<p class="training-description">' + training.description + '</p>';
-                html += '<div class="training-meta">';
-                html += '<span class="training-duration">' + training.duration + '</span>';
-                html += '<span class="training-category">' + training.category + '</span>';
-                html += '</div>';
-                html += '<div class="training-actions">';
-                html += '<a href="' + training.link + '" target="_blank" class="btn-access">📥 Baixar Treinamento</a>';
-                html += '<button onclick="deleteTraining(' + training.id + ')" class="btn-delete">🗑️</button>';
-                html += '</div>';
-                html += '</div>';
-            });
+            trainings.push(training);
+            localStorage.setItem('cxTrainings', JSON.stringify(trainings));
             
-            grid.innerHTML = html;
+            const grid = document.getElementById('trainingsGrid');
+            const existingDynamic = grid.querySelectorAll('.training-card[data-dynamic="true"]');
+            existingDynamic.forEach(card => card.remove());
             
-            // Atualizar contador na sidebar
-            const sidebarCount = document.getElementById('sidebarTrainingCount');
-            if (sidebarCount) {
-                sidebarCount.textContent = trainings.length;
+            renderDynamicTrainings();
+            updateStats();
+            toggleForm();
+        }
+
+        function deleteTraining(index) {
+            if (confirm('Deseja realmente excluir este treinamento?')) {
+                trainings.splice(index, 1);
+                localStorage.setItem('cxTrainings', JSON.stringify(trainings));
+                location.reload();
             }
         }
 
         function updateStats() {
-            const totalTrainings = trainings.length;
-            const categories = [];
-            trainings.forEach(function(training) {
-                if (categories.indexOf(training.category) === -1) {
-                    categories.push(training.category);
+            const totalHardcoded = 7;
+            const totalDynamic = trainings.length;
+            const totalAll = totalHardcoded + totalDynamic;
+            
+            document.getElementById('totalTrainings').textContent = totalAll;
+            document.getElementById('completedTrainings').textContent = Math.floor(totalAll * 0.3);
+            document.getElementById('inProgressTrainings').textContent = Math.floor(totalAll * 0.5);
+        }
+
+        function openTraining(link) {
+            if (link) {
+                window.open(link, '_blank');
+            }
+        }
+
+        // Sistema de Busca
+        document.getElementById('searchBar').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.training-card');
+
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                const category = card.getAttribute('data-category').toLowerCase();
+
+                if (title.includes(searchTerm) || category.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
                 }
             });
-            const totalCategories = categories.length;
-            
-            let totalMinutes = 0;
-            trainings.forEach(function(training) {
-                const duration = training.duration.toLowerCase();
-                const hoursMatch = duration.match(/([0-9]+)h/);
-                const minutesMatch = duration.match(/([0-9]+)min/);
-                
-                if (hoursMatch) totalMinutes += parseInt(hoursMatch[1]) * 60;
-                if (minutesMatch) totalMinutes += parseInt(minutesMatch[1]);
-            });
-            
-            const totalHours = Math.floor(totalMinutes / 60);
-            const remainingMinutes = totalMinutes % 60;
-            const totalHoursText = remainingMinutes > 0 ? totalHours + 'h ' + remainingMinutes + 'min' : totalHours + 'h';
-
-            document.getElementById('totalTrainings').textContent = totalTrainings;
-            document.getElementById('totalCategories').textContent = totalCategories;
-            document.getElementById('totalHours').textContent = totalHoursText;
-        }
-
-        function saveTrainings() {
-            localStorage.setItem('cxTrainings', JSON.stringify(trainings));
-        }
-
-        function loadTrainings() {
-            const saved = localStorage.getItem('cxTrainings');
-            if (saved) {
-                trainings = JSON.parse(saved);
-            }
-        }
-
-        function saveDashboard() {
-            const currentHTML = document.documentElement.outerHTML;
-            const currentData = JSON.stringify(trainings, null, 2);
-            
-            const newHTML = currentHTML.replace(
-                /let trainings = \[[\s\S]*?\];/,
-                'let trainings = ' + currentData + ';'
-            );
-
-            const blob = new Blob([newHTML], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'universidade-cx-' + new Date().toISOString().split('T')[0] + '.html';
-            a.click();
-            URL.revokeObjectURL(url);
-
-            showStatus('Dashboard completo salvo! 💾 Abra o novo arquivo.');
-        }
-
-        function exportData() {
-            const data = JSON.stringify(trainings, null, 2);
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'universidade-cx-dados-' + new Date().toISOString().split('T')[0] + '.json';
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            showStatus('Dados exportados com sucesso! 📤');
-        }
-
-        function importData(input) {
-            const file = input.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    if (Array.isArray(importedData)) {
-                        if (confirm('Importar ' + importedData.length + ' treinamento(s)? Isso substituirá os dados atuais.')) {
-                            trainings = importedData;
-                            saveTrainings();
-                            renderTrainings();
-                            updateStats();
-                            showStatus(importedData.length + ' treinamento(s) importado(s) com sucesso! 📥');
-                        }
-                    } else {
-                        throw new Error('Formato inválido');
-                    }
-                } catch (error) {
-                    showStatus('Erro ao importar arquivo. Verifique o formato. ❌', 'error');
-                }
-            };
-            reader.readAsText(file);
-            
-            input.value = '';
-        }
-
-        function clearAllData() {
-            if (confirm('⚠️ ATENÇÃO: Isso irá apagar TODOS os treinamentos. Tem certeza?')) {
-                trainings = [];
-                saveTrainings();
-                renderTrainings();
-                updateStats();
-                showStatus('Todos os dados foram removidos! 🗑️', 'error');
-            }
-        }
-
-        function showStatus(message, type = 'success') {
-            const statusDiv = document.getElementById('statusMessage');
-            statusDiv.textContent = message;
-            statusDiv.className = 'status-message show status-' + type;
-            
-            setTimeout(function() {
-                statusDiv.classList.remove('show');
-            }, 3000);
-        }
-
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                document.exitFullscreen();
-            }
-        }
-
-// === SISTEMA DE USUÁRIOS ===
-let currentUser = null;
-let userStats = { totalAccess: 0, searchCount: 0, trainingAccess: [], activities: [] };
-
-document.addEventListener('DOMContentLoaded', function() {
-    initUserSystem();
-    init();
-});
-
-function initUserSystem() {
-    console.log('🔐 Iniciando sistema de usuários...');
-    
-    const userData = localStorage.getItem('zoop_user');
-    if (userData) {
-        currentUser = JSON.parse(userData);
-        const stats = localStorage.getItem(`zoop_stats_${currentUser.email}`);
-        if (stats) userStats = JSON.parse(stats);
-        showLoggedIn();
-        userStats.totalAccess++;
-        saveStats();
-    } else {
-        showLogin();
-    }
-    
-    const form = document.getElementById('loginForm');
-    if (form) form.addEventListener('submit', handleLogin);
-}
-
-function handleLogin(event) {
-    event.preventDefault();
-    
-    const name = document.getElementById('userName').value.trim();
-    const email = document.getElementById('userEmail').value.trim();
-    
-    if (name && email) {
-        currentUser = { name, email, joinDate: new Date().toISOString() };
-        
-        const existing = localStorage.getItem(`zoop_stats_${email}`);
-        if (existing) {
-            userStats = JSON.parse(existing);
-        } else {
-            userStats = {
-                totalAccess: 1,
-                searchCount: 0,
-                trainingAccess: [],
-                activities: [{ action: '🎉 Primeiro acesso', timestamp: new Date().toISOString() }]
-            };
-        }
-        
-        localStorage.setItem('zoop_user', JSON.stringify(currentUser));
-        saveStats();
-        showLoggedIn();
-        addActivity('🔐 Login realizado');
-    }
-}
-
-function showLogin() {
-    document.getElementById('loginOverlay').style.display = 'flex';
-    document.getElementById('userInfo').style.display = 'none';
-}
-
-function showLoggedIn() {
-    document.getElementById('loginOverlay').style.display = 'none';
-    document.getElementById('userInfo').style.display = 'flex';
-    document.getElementById('displayName').textContent = currentUser.name.split(' ')[0];
-    document.getElementById('displayEmail').textContent = currentUser.email;
-    updateDashboard();
-}
-
-function updateDashboard() {
-    document.getElementById('totalAccess').textContent = userStats.totalAccess;
-    document.getElementById('trainingCount').textContent = userStats.trainingAccess.length;
-    document.getElementById('searchCount').textContent = userStats.searchCount;
-    
-    const activities = userStats.activities.slice(-5).reverse();
-    const log = document.getElementById('activityLog');
-    log.innerHTML = activities.map(act => 
-        `<div class="activity-item"><span>${act.action}</span><span>${new Date(act.timestamp).toLocaleDateString()}</span></div>`
-    ).join('');
-}
-
-function addActivity(action) {
-    userStats.activities.push({ action, timestamp: new Date().toISOString() });
-    if (userStats.activities.length > 20) userStats.activities = userStats.activities.slice(-20);
-    saveStats();
-    updateDashboard();
-}
-
-function saveStats() {
-    if (currentUser) {
-        localStorage.setItem(`zoop_stats_${currentUser.email}`, JSON.stringify(userStats));
-    }
-}
-
-function toggleDashboard() {
-    const dash = document.getElementById('userDashboard');
-    if (dash.style.display === 'none') {
-        dash.style.display = 'block';
-        dash.scrollIntoView({ behavior: 'smooth' });
-        addActivity('📊 Visualizou dashboard');
-    } else {
-        dash.style.display = 'none';
-    }
-}
-
-function logout() {
-    if (confirm('Deseja sair?')) {
-        localStorage.removeItem('zoop_user');
-        currentUser = null;
-        showLogin();
-    }
-}
-
-// === SIDEBAR SYSTEM ===
-let sidebarCollapsed = false;
-let startTime = new Date();
-
-function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    sidebarCollapsed = !sidebarCollapsed;
-    
-    if (sidebarCollapsed) {
-        sidebar.classList.add('collapsed');
-    } else {
-        sidebar.classList.remove('collapsed');
-    }
-    
-    if (window.innerWidth <= 768) {
-        sidebar.classList.toggle('mobile-open', !sidebarCollapsed);
-    }
-    
-    console.log('📱 Sidebar:', sidebarCollapsed ? 'Recolhida' : 'Expandida');
-    
-    if (currentUser) {
-        addActivity(`📱 ${sidebarCollapsed ? 'Recolheu' : 'Expandiu'} sidebar`);
-    }
-}
-
-function updateSidebarStats() {
-    const now = new Date();
-    const uptime = Math.floor((now - startTime) / 1000 / 60);
-    const uptimeElement = document.getElementById('uptime');
-    
-    if (uptimeElement) {
-        if (uptime < 60) {
-            uptimeElement.textContent = uptime + 'm';
-        } else {
-            const hours = Math.floor(uptime / 60);
-            const mins = uptime % 60;
-            uptimeElement.textContent = hours + 'h' + (mins > 0 ? ' ' + mins + 'm' : '');
-        }
-    }
-    
-    const todayUsersEl = document.getElementById('todayUsers');
-    if (todayUsersEl && currentUser) {
-        todayUsersEl.textContent = '1+';
-    }
-}
-
-function scrollToSearch() {
-    const searchContainer = document.querySelector('.search-container');
-    if (searchContainer) {
-        searchContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        document.getElementById('searchInput')?.focus();
-        if (currentUser) addActivity('🔍 Navegou para pesquisa');
-    }
-}
-
-function scrollToTrainings() {
-    const trainingsContainer = document.querySelector('.container');
-    if (trainingsContainer) {
-        trainingsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        if (currentUser) addActivity('📋 Navegou para treinamentos');
-    }
-}
-
-function handleResize() {
-    const sidebar = document.getElementById('sidebar');
-    if (window.innerWidth <= 768) {
-        sidebar.classList.add('collapsed');
-        sidebar.classList.remove('mobile-open');
-        sidebarCollapsed = true;
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    updateSidebarStats();
-    setInterval(updateSidebarStats, 60000);
-    window.addEventListener('resize', handleResize);
-    if (window.innerWidth <= 768) {
-        handleResize();
-    }
-});
-
-// === SISTEMA DE PESQUISA INTELIGENTE ===
-console.log('🔍 Iniciando Sistema de Pesquisa Zoop...');
-
-let allTrainings = [];
-let filteredTrainings = [];
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('📋 DOM carregado, inicializando pesquisa...');
-    setTimeout(() => {
-        initializeSearch();
-        setupSearchListeners();
-    }, 500);
-});
-
-function initializeSearch() {
-    console.log('🔧 Inicializando sistema de pesquisa...');
-    
-    const possibleSelectors = [
-        '.training-card',
-        '[class*="training"]',
-        '[class*="card"]',
-        '.gallery > div',
-        '#trainingsGrid > div',
-        'div[onclick*="window.open"]'
-    ];
-    
-    let trainingCards = [];
-    
-    for (let selector of possibleSelectors) {
-        trainingCards = document.querySelectorAll(selector);
-        if (trainingCards.length > 0) {
-            console.log(`✅ Encontrados ${trainingCards.length} cards com seletor: ${selector}`);
-            break;
-        }
-    }
-    
-    if (trainingCards.length === 0) {
-        console.warn('⚠️ Nenhum card encontrado, tentando busca mais ampla...');
-        const allDivs = document.querySelectorAll('div');
-        trainingCards = Array.from(allDivs).filter(div => {
-            const text = div.textContent.toLowerCase();
-            return text.includes('treinamento') || text.includes('credenciamento') || 
-                   text.includes('regras') || text.includes('split') || text.includes('liquidação');
         });
-        console.log(`🔍 Busca ampla encontrou ${trainingCards.length} elementos`);
-    }
-    
-    allTrainings = Array.from(trainingCards).map((card, index) => {
-        const titleSelectors = ['.training-title', 'h1', 'h2', 'h3', 'h4', '.title'];
-        const descSelectors = ['.training-description', 'p', '.description', '.desc'];
-        const categorySelectors = ['.training-category', '.category-tag', '.category', '.tag'];
-        const durationSelectors = ['.training-duration', '.duration', '.time'];
-        
-        let titleEl = null, descEl = null, categoryEl = null, durationEl = null;
-        
-        for (let sel of titleSelectors) {
-            titleEl = card.querySelector(sel);
-            if (titleEl) break;
-        }
-        
-        for (let sel of descSelectors) {
-            descEl = card.querySelector(sel);
-            if (descEl) break;
-        }
-        
-        for (let sel of categorySelectors) {
-            categoryEl = card.querySelector(sel);
-            if (categoryEl) break;
-        }
-        
-        for (let sel of durationSelectors) {
-            durationEl = card.querySelector(sel);
-            if (durationEl) break;
-        }
-        
-        const trainingData = {
-            element: card,
-            title: titleEl?.textContent?.toLowerCase() || '',
-            description: descEl?.textContent?.toLowerCase() || '',
-            category: categoryEl?.textContent?.toLowerCase() || '',
-            duration: durationEl?.textContent?.toLowerCase() || '',
-            fullText: card.textContent.toLowerCase(),
-            index: index
-        };
-        
-        console.log(`📄 Card ${index + 1}:`, {
-            title: trainingData.title.substring(0, 30) + '...',
-            hasDescription: !!trainingData.description,
-            hasCategory: !!trainingData.category
-        });
-        
-        return trainingData;
-    });
-    
-    filteredTrainings = [...allTrainings];
-    updateResultsCount(allTrainings.length, allTrainings.length);
-    
-    console.log(`✅ Sistema inicializado com ${allTrainings.length} treinamentos`);
-}
-
-function setupSearchListeners() {
-    const searchInput = document.getElementById('searchInput');
-    if (!searchInput) {
-        console.error('❌ Campo de pesquisa não encontrado!');
-        return;
-    }
-    
-    console.log('🎯 Configurando listeners...');
-    
-    let searchTimeout;
-    
-    searchInput.addEventListener('input', function() {
-        const query = this.value.trim();
-        console.log('🔍 Pesquisando:', query);
-        
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-            performSearch(query);
-        }, 200);
-    });
-    
-    searchInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            clearSearch();
-        }
-    });
-    
-    setTimeout(() => {
-        if (allTrainings.length > 0) {
-            console.log('✅ Sistema de pesquisa operacional!');
-        } else {
-            console.warn('⚠️ Nenhum treinamento foi indexado');
-        }
-    }, 1000);
-}
-
-function performSearch(query) {
-    const searchTerm = query.toLowerCase().trim();
-    const clearBtn = document.getElementById('clearBtn');
-    
-    console.log('🔍 Executando pesquisa para:', `"${searchTerm}"`);
-    
-    if (searchTerm === '') {
-        showAllTrainings();
-        if (clearBtn) clearBtn.style.display = 'none';
-        return;
-    }
-    
-    if (clearBtn) clearBtn.style.display = 'inline-block';
-    
-    // Algoritmo de pesquisa melhorado
-    filteredTrainings = allTrainings.filter(training => {
-        const searchWords = searchTerm.split(' ').filter(word => word.length > 0);
-        
-        const hasMatch = searchWords.some(word => {
-            return training.title.includes(word) || 
-                   training.description.includes(word) || 
-                   training.category.includes(word) ||
-                   training.duration.includes(word) ||
-                   training.fullText.includes(word);
-        });
-        
-        return hasMatch;
-    });
-    
-    console.log(`📊 ${filteredTrainings.length} resultados de ${allTrainings.length} total`);
-    
-    allTrainings.forEach(training => {
-        const isVisible = filteredTrainings.includes(training);
-        
-        if (isVisible) {
-            training.element.classList.remove('hidden');
-            training.element.style.display = '';
-            highlightSearchTerms(training.element, searchTerm);
-        } else {
-            training.element.classList.add('hidden');
-            training.element.style.display = 'none';
-        }
-    });
-    
-    updateResultsCount(filteredTrainings.length, allTrainings.length);
-    
-    if (filteredTrainings.length > 0) {
-        setTimeout(() => {
-            filteredTrainings[0].element.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-            });
-        }, 300);
-    }
-    
-    if (currentUser) {
-        userStats.searchCount++;
-        addActivity(`🔍 Pesquisou: "${searchTerm.substring(0, 15)}${searchTerm.length > 15 ? '...' : ''}"`);
-        saveStats();
-    }
-}
-
-function highlightSearchTerms(element, searchTerm) {
-    try {
-        const highlighted = element.querySelectorAll('.highlight');
-        highlighted.forEach(el => {
-            el.outerHTML = el.innerHTML;
-        });
-        
-        const searchWords = searchTerm.split(' ').filter(word => word.length > 1);
-        const textElements = element.querySelectorAll('h1, h2, h3, h4, p, span, .training-title, .training-description');
-        
-        textElements.forEach(textEl => {
-            let content = textEl.innerHTML;
-            searchWords.forEach(word => {
-                try {
-                    const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                    const regex = new RegExp(`(${escapedWord})`, 'gi');
-                    content = content.replace(regex, '<span class="highlight">$1</span>');
-                } catch (e) {
-                    console.warn('Erro ao aplicar highlight:', e);
-                }
-            });
-            textEl.innerHTML = content;
-        });
-    } catch (error) {
-        console.warn('Erro ao destacar termos:', error);
-    }
-}
-
-function searchByTag(tag) {
-    console.log('🏷️ Pesquisa por tag:', tag);
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.value = tag;
-        performSearch(tag);
-        
-        document.querySelectorAll('.search-tag').forEach(t => {
-            t.style.background = 'rgba(224, 96, 32, 0.1)';
-            t.style.color = '#E06020';
-        });
-        
-        if (event && event.target) {
-            event.target.style.background = '#E06020';
-            event.target.style.color = 'white';
-            
-            setTimeout(() => {
-                event.target.style.background = 'rgba(224, 96, 32, 0.1)';
-                event.target.style.color = '#E06020';
-            }, 2000);
-        }
-    }
-}
-
-function clearSearch() {
-    console.log('🔄 Limpando pesquisa...');
-    const searchInput = document.getElementById('searchInput');
-    const clearBtn = document.getElementById('clearBtn');
-    
-    if (searchInput) searchInput.value = '';
-    if (clearBtn) clearBtn.style.display = 'none';
-    
-    showAllTrainings();
-    
-    document.querySelectorAll('.search-tag').forEach(tag => {
-        tag.style.background = 'rgba(224, 96, 32, 0.1)';
-        tag.style.color = '#E06020';
-    });
-}
-
-function showAllTrainings() {
-    console.log('👁️ Mostrando todos os treinamentos...');
-    
-    allTrainings.forEach(training => {
-        training.element.classList.remove('hidden');
-        training.element.style.display = '';
-    });
-    
-    const highlighted = document.querySelectorAll('.highlight');
-    highlighted.forEach(el => {
-        el.outerHTML = el.innerHTML;
-    });
-    
-    filteredTrainings = [...allTrainings];
-    updateResultsCount(allTrainings.length, allTrainings.length);
-}
-
-function updateResultsCount(showing, total) {
-    const resultsCount = document.getElementById('resultsCount');
-    if (resultsCount) {
-        if (showing === total) {
-            resultsCount.innerHTML = `Mostrando todos os ${total} treinamentos`;
-        } else if (showing === 0) {
-            resultsCount.innerHTML = `❌ Nenhum treinamento encontrado<div class="no-results">🔍 Tente outras palavras-chave</div>`;
-        } else {
-            resultsCount.innerHTML = `📋 Mostrando ${showing} de ${total} treinamentos`;
-        }
-    }
-}
-
-// Rastrear cliques em treinamentos
-document.addEventListener('click', function(e) {
-    if (currentUser && e.target.closest('[onclick*="window.open"]')) {
-        const card = e.target.closest('.training-card');
-        if (card) {
-            const title = card.querySelector('.training-title, h3');
-            const name = title ? title.textContent.trim().substring(0, 30) : 'Treinamento';
-            userStats.trainingAccess.push({ name, timestamp: new Date().toISOString() });
-            addActivity(`📚 Acessou: ${name}`);
-            saveStats();
-        }
-    }
-});
-
-console.log('✅ Sistema de pesquisa ativo!');
-
-// === SISTEMA DE CONTADORES COMPARTILHADOS ===
-
-// CONFIGURAÇÃO - JÁ CONFIGURADO COM SUAS INFORMAÇÕES
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/a/macros/ifood.com.br/s/AKfycbzwKKkyXQ0PUdMIvW-nNBFbPKNR3YcoNwR7LeO8torLShyB_X-AS0pzJicHXNiOXWY75A/exec';
-const ADMIN_EMAILS = ['rodrigo.teixeira@ifood.com.br'];
-
-let isAdmin = false;
-let machineId = generateMachineId();
-let globalStats = {
-    totalAccess: 0,
-    uniqueUsers: 0,
-    todayAccess: 0
-};
-
-function generateMachineId() {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.textBaseline = 'top';
-    ctx.font = '14px Arial';
-    ctx.fillText('Fingerprint', 2, 2);
-    
-    const fingerprint = [
-        navigator.userAgent,
-        navigator.language,
-        screen.width + 'x' + screen.height,
-        new Date().getTimezoneOffset(),
-        canvas.toDataURL()
-    ].join('|');
-    
-    let hash = 0;
-    for (let i = 0; i < fingerprint.length; i++) {
-        const char = fingerprint.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    
-    return Math.abs(hash).toString(36);
-}
-
-async function initSharedCounters() {
-    console.log('🌐 Inicializando contadores compartilhados...');
-    console.log('🆔 Machine ID:', machineId);
-    
-    if (currentUser && ADMIN_EMAILS.includes(currentUser.email)) {
-        isAdmin = true;
-        document.getElementById('adminPanel').style.display = 'block';
-        console.log('👑 Usuário admin detectado');
-    }
-    
-    await registerAccess();
-    await fetchGlobalStats();
-    
-    setInterval(fetchGlobalStats, 30000);
-}
-
-async function registerAccess() {
-    try {
-        setSyncStatus('syncing', 'Registrando acesso...');
-        
-        const accessData = {
-            action: 'register_access',
-            machineId: machineId,
-            userId: currentUser?.email || 'anonimo',
-            userName: currentUser?.name || 'Usuário Anônimo',
-            timestamp: new Date().toISOString(),
-            userAgent: navigator.userAgent,
-            language: navigator.language,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-        };
-        
-        const response = await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(accessData)
-        });
-        
-        const result = await response.json();
-        
-        if (result.success) {
-            console.log('✅ Acesso registrado:', result.data);
-            setSyncStatus('connected', 'Conectado');
-        } else {
-            throw new Error(result.error);
-        }
-        
-    } catch (error) {
-        console.error('❌ Erro ao registrar acesso:', error);
-        setSyncStatus('error', 'Erro de conexão');
-        useFallbackData();
-    }
-}
-
-async function fetchGlobalStats() {
-    try {
-        setSyncStatus('syncing', 'Atualizando...');
-        
-        const response = await fetch(GOOGLE_SCRIPT_URL + '?action=get_stats');
-        const result = await response.json();
-        
-        if (result.success) {
-            globalStats = result.data;
-            updateStatsDisplay();
-            setSyncStatus('connected', `Atualizado ${new Date().toLocaleTimeString()}`);
-        } else {
-            throw new Error(result.error);
-        }
-        
-    } catch (error) {
-        console.error('❌ Erro ao buscar estatísticas:', error);
-        setSyncStatus('error', 'Offline');
-        useFallbackData();
-    }
-}
-
-function updateStatsDisplay() {
-    document.getElementById('globalAccessCount').textContent = globalStats.totalAccess || '--';
-    document.getElementById('uniqueUsersCount').textContent = globalStats.uniqueUsers || '--';
-    document.getElementById('todayAccessCount').textContent = globalStats.todayAccess || '--';
-}
-
-function setSyncStatus(status, text) {
-    const dot = document.getElementById('syncStatus');
-    const textEl = document.getElementById('syncText');
-    
-    if (dot) dot.className = `sync-dot ${status}`;
-    if (textEl) textEl.textContent = text;
-}
-
-function useFallbackData() {
-    const fallbackStats = {
-        totalAccess: (userStats?.totalAccess || 0) + ' (local)',
-        uniqueUsers: '1 (local)',
-        todayAccess: '1 (local)'
-    };
-    
-    globalStats = fallbackStats;
-    updateStatsDisplay();
-}
-
-async function resetCounters() {
-    if (!isAdmin) return;
-    
-    if (confirm('ATENÇÃO: Isso irá zerar TODOS os contadores globais. Confirma?')) {
-        try {
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'reset_counters', adminEmail: currentUser.email })
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                alert('✅ Contadores zerados com sucesso!');
-                fetchGlobalStats();
-            } else {
-                alert('❌ Erro: ' + result.error);
-            }
-        } catch (error) {
-            alert('❌ Erro de conexão: ' + error.message);
-        }
-    }
-}
-
-async function exportStatsData() {
-    if (!isAdmin) return;
-    
-    try {
-        const response = await fetch(GOOGLE_SCRIPT_URL + '?action=export_stats');
-        const result = await response.json();
-        
-        if (result.success) {
-            const blob = new Blob([JSON.stringify(result.data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `universidade-cx-stats-${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-    } catch (error) {
-        alert('❌ Erro ao exportar: ' + error.message);
-    }
-}
-
-// Integração com sistema de usuários
-const originalShowLoggedInFunc = showLoggedIn;
-showLoggedIn = function() {
-    originalShowLoggedInFunc();
-    setTimeout(initSharedCounters, 1000);
-};
-
-console.log('🌐 Sistema de contadores compartilhados carregado!');
-
-
-        // Função de teste super básica
-        function testImportSimple() {
-            console.log('=== TESTE SIMPLES ===');
-            try {
-                const training = {
-                    id: Date.now(),
-                    title: 'Teste Manual',
-                    category: 'Teste',
-                    duration: '1h',
-                    description: 'Teste criado manualmente',
-                    link: 'manual',
-                    icon: '🧪'
-                };
-                
-                trainings.push(training);
-                saveData();
-                updateDisplay();
-                
-                alert('✅ Teste manual funcionou!');
-                console.log('Teste manual OK!');
-                
-            } catch (error) {
-                console.error('Erro no teste:', error);
-                alert('❌ Erro no teste: ' + error.message);
-            }
-        }
-    
-        function handleHTMLUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                window.uploadedHTMLContent = e.target.result;
-                document.getElementById('link').value = '[HTML: ' + file.name + ']';
-                
-                const titleMatch = e.target.result.match(/<title[^>]*>([^<]*)<\/title>/i);
-                if (titleMatch && titleMatch[1] && !document.getElementById('title').value) {
-                    document.getElementById('title').value = titleMatch[1].trim();
-                }
-                
-                alert('✅ HTML carregado: ' + file.name);
-            };
-            reader.readAsText(file);
-        }
-    
-        function testDownloadBasic() {
-            try {
-                const testHTML = '<!DOCTYPE html><html><head><title>Teste</title></head><body><h1>Download funcionou!</h1></body></html>';
-                const blob = new Blob([testHTML], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'teste.html';
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                
-                setTimeout(() => URL.revokeObjectURL(url), 1000);
-                alert('📥 Teste iniciado! Verifique se baixou "teste.html"');
-                
-            } catch (error) {
-                alert('❌ Erro no teste: ' + error.message);
-            }
-        }
-    
-        // Função para mostrar conteúdo HTML de forma copiável
-        function showTrainingContent(title, htmlContent) {
-            // Criar modal para mostrar o conteúdo
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-                background: rgba(0, 0, 0, 0.8); z-index: 1000;
-                display: flex; align-items: center; justify-content: center;
-                backdrop-filter: blur(5px);
-            `;
-            
-            const modalContent = document.createElement('div');
-            modalContent.style.cssText = `
-                background: linear-gradient(135deg, #E06020 0%, #004040 100%);
-                border-radius: 20px; padding: 2rem; max-width: 90%; max-height: 90%;
-                overflow-y: auto; color: #f0f0f0;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-                border: 2px solid #E06020;
-            `;
-            
-            modalContent.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-                    <h2 style="color: #f0f0f0; margin: 0; font-size: 1.5rem;">📄 ${title}</h2>
-                    <button onclick="this.closest('div[style*="fixed"]').remove()" 
-                            style="background: #E06020; border: none; color: #f0f0f0; 
-                                   font-size: 1.5rem; cursor: pointer; border-radius: 50%;
-                                   width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">×</button>
-                </div>
-                
-                <div style="background: rgba(255,255,255,0.15); padding: 1.5rem; border-radius: 15px; 
-                            margin-bottom: 1.5rem; border-left: 4px solid #E06020;">
-                    <h3 style="color: #ffffff; margin-bottom: 1rem; font-size: 1.2rem;">💡 Como usar este código:</h3>
-                    <ol style="margin: 0; padding-left: 1.5rem; line-height: 1.8; color: #f0f0f0;">
-                        <li style="margin-bottom: 0.5rem;"><strong>Clique no botão "📋 Copiar Código HTML" abaixo</strong></li>
-                        <li style="margin-bottom: 0.5rem;"><strong>Abra um editor de texto</strong> (Bloco de Notas, VS Code, etc.)</li>
-                        <li style="margin-bottom: 0.5rem;"><strong>Cole o código copiado</strong> (Ctrl+V)</li>
-                        <li style="margin-bottom: 0.5rem;"><strong>Salve como arquivo .html</strong> (ex: "${title.replace(/[^a-zA-Z0-9]/g, '_')}.html")</li>
-                        <li style="margin-bottom: 0.5rem;"><strong>Abra o arquivo salvo no navegador</strong> (duplo clique)</li>
-                    </ol>
-                    <div style="background: rgba(224, 96, 32, 0.2); padding: 0.8rem; border-radius: 8px; margin-top: 1rem;">
-                        <strong>✅ Resultado:</strong> O treinamento funcionará perfeitamente em qualquer computador!
-                    </div>
-                </div>
-                
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; margin-bottom: 0.8rem; font-weight: bold; font-size: 1.1rem; color: #ffffff;">
-                        📋 Código HTML do Treinamento:
-                    </label>
-                    <textarea id="htmlContentArea" readonly
-                              style="width: 100%; height: 250px; padding: 1rem; border: 2px solid #E06020;
-                                     border-radius: 10px; background: rgba(0,0,0,0.4); color: #f0f0f0;
-                                     font-family: 'Courier New', monospace; font-size: 0.85rem;
-                                     resize: vertical; line-height: 1.4;">${htmlContent}</textarea>
-                </div>
-                
-                <div style="text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="copyTrainingCode()" 
-                            style="background: linear-gradient(45deg, #E06020, #ff8c42); color: white;
-                                   border: none; padding: 15px 30px; border-radius: 25px; cursor: pointer;
-                                   font-size: 1.1rem; font-weight: bold; 
-                                   box-shadow: 0 4px 15px rgba(224, 96, 32, 0.4);
-                                   transition: all 0.3s ease;">📋 Copiar Código HTML</button>
-                    <button onclick="this.closest('div[style*="fixed"]').remove()"
-                            style="background: linear-gradient(45deg, #6B7280, #4B5563); color: white;
-                                   border: none; padding: 15px 30px; border-radius: 25px; cursor: pointer;
-                                   font-size: 1.1rem; font-weight: bold;">❌ Fechar</button>
-                </div>
-                
-                <div style="margin-top: 1rem; text-align: center; font-size: 0.9rem; opacity: 0.8;">
-                    💡 <em>Este método funciona em todos os computadores e navegadores!</em>
-                </div>
-            `;
-            
-            modal.appendChild(modalContent);
-            document.body.appendChild(modal);
-            
-            // Selecionar texto automaticamente após um delay
-            setTimeout(() => {
-                const textarea = document.getElementById('htmlContentArea');
-                if (textarea) {
-                    textarea.focus();
-                    textarea.select();
-                }
-            }, 200);
-            
-            // Adicionar evento para fechar com ESC
-            const closeModal = (e) => {
-                if (e.key === 'Escape') {
-                    modal.remove();
-                    document.removeEventListener('keydown', closeModal);
-                }
-            };
-            document.addEventListener('keydown', closeModal);
-        }
-        
-        // Função para copiar código HTML
-        function copyTrainingCode() {
-            const textarea = document.getElementById('htmlContentArea');
-            if (textarea) {
-                textarea.select();
-                textarea.setSelectionRange(0, 99999); // Para mobile
-                
-                try {
-                    const successful = document.execCommand('copy');
-                    if (successful) {
-                        // Feedback visual no botão
-                        const copyBtn = event.target;
-                        const originalText = copyBtn.innerHTML;
-                        copyBtn.innerHTML = '✅ Copiado!';
-                        copyBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-                        
-                        setTimeout(() => {
-                            copyBtn.innerHTML = originalText;
-                            copyBtn.style.background = 'linear-gradient(45deg, #E06020, #ff8c42)';
-                        }, 2000);
-                        
-                        showNotification('✅ Código HTML copiado com sucesso!\nAgora cole em um arquivo .html', 'success');
-                    } else {
-                        throw new Error('Comando de cópia falhou');
-                    }
-                } catch (err) {
-                    // Fallback para seleção manual
-                    showNotification('📋 Código selecionado! Use Ctrl+C (Cmd+C no Mac) para copiar', 'warning');
-                }
-            }
-        }
     </script>
-
-
-</body></html>
+</body>
+</html>
