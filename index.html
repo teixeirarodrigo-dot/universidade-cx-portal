@@ -844,7 +844,7 @@
                 <div class="stat-icon">📚</div>
                 <div class="stat-info">
                     <div class="stat-label">Treinamentos</div>
-                    <div class="stat-value" id="sidebarTrainingCount">11</div>
+                    <div class="stat-value" id="sidebarTrainingCount">7</div>
                 </div>
             </div>
             <div class="stat-item">
@@ -1115,7 +1115,7 @@
             
             <div class="trainings-grid" id="trainingsGrid">
             <!-- Card 1: 12 Regras -->
-            <div class="training-card" data-title="12 Regras Essenciais" data-category="Processos" onclick="openTraining('treinamento_12_regras_completo_final (2).html')">
+            <div class="training-card" data-title="12 Regras Essenciais" data-category="Processos">
                 <div class="card-header">
                     <h3>12 Regras Essenciais</h3>
                     <span class="card-category">Processos</span>
@@ -1135,7 +1135,7 @@
             </div>
 
             <!-- Card 2: 4 Pilares -->
-            <div class="training-card" data-title="Os 4 Pilares do Customer Experience" data-category="Soft Skills" onclick="openTraining('Os 4 Pilares do Customer Experience.html')">
+            <div class="training-card" data-title="Os 4 Pilares do Customer Experience" data-category="Soft Skills">
                 <div class="card-header">
                     <h3>Os 4 Pilares do Customer Experience</h3>
                     <span class="card-category">Soft Skills</span>
@@ -1155,7 +1155,7 @@
             </div>
 
             <!-- Card 3: Onboarding Cred -->
-            <div class="training-card" data-title="Onboarding Cred" data-category="Produto" onclick="openTraining('treinamento_onboarding_Cred_final_real (1).html')">
+            <div class="training-card" data-title="Onboarding Cred" data-category="Produto">
                 <div class="card-header">
                     <h3>Onboarding Cred</h3>
                     <span class="card-category">Produto</span>
@@ -1175,7 +1175,7 @@
             </div>
 
             <!-- Card 4: PIX Aproximação -->
-            <div class="training-card" data-title="PIX por Aproximação Zoop" data-category="Técnico" onclick="openTraining('treinamento_pix_aproximacao_zoop_light (2).html')">
+            <div class="training-card" data-title="PIX por Aproximação Zoop" data-category="Técnico">
                 <div class="card-header">
                     <h3>PIX por Aproximação Zoop</h3>
                     <span class="card-category">Técnico</span>
@@ -1195,7 +1195,7 @@
             </div>
 
             <!-- Card 5: Pricing -->
-            <div class="training-card" data-title="Treinamento Pricing" data-category="Produto" onclick="openTraining('Treinamento Pricing.html')">
+            <div class="training-card" data-title="Treinamento Pricing" data-category="Produto">
                 <div class="card-header">
                     <h3>Treinamento Pricing</h3>
                     <span class="card-category">Produto</span>
@@ -1215,7 +1215,7 @@
             </div>
 
             <!-- Card 6: Registro de Recebíveis -->
-            <div class="training-card" data-title="Registro de Recebíveis CERC Zoop" data-category="Compliance" onclick="openTraining('treinamento_registro_recebiveis_cerc_zoop_light.html')">
+            <div class="training-card" data-title="Registro de Recebíveis CERC Zoop" data-category="Compliance">
                 <div class="card-header">
                     <h3>Registro de Recebíveis CERC Zoop</h3>
                     <span class="card-category">Compliance</span>
@@ -1235,7 +1235,7 @@
             </div>
 
             <!-- Card 7: Repasse Financeiro -->
-            <div class="training-card" data-title="Repasse Financeiro Zoop" data-category="Processos" onclick="openTraining('treinamento_repasse_financeiro_zoop (2).html')">
+            <div class="training-card" data-title="Repasse Financeiro Zoop" data-category="Processos">
                 <div class="card-header">
                     <h3>Repasse Financeiro Zoop</h3>
                     <span class="card-category">Processos</span>
@@ -1245,6 +1245,11 @@
                     <div class="card-meta">
                         <span class="card-duration">⏱️ 45 min</span>
                         <span class="card-level">📊 Intermediário</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-primary" onclick="openTraining('treinamento_repasse_financeiro_zoop (2).html')">
+                            📖 Acessar Treinamento
+                        </button>
                     </div>
                 </div>
             </div>
@@ -2384,6 +2389,16 @@ console.log('🌐 Sistema de contadores compartilhados carregado!');
                 }
             }
         }
+    
+        function openTraining(link) {
+            if (link) {
+                // Abre em nova aba
+                window.open(link, '_blank');
+            } else {
+                alert('Link do treinamento não disponível');
+            }
+        }
+
     </script>
 
 
