@@ -1244,32 +1244,48 @@
         function renderTrainings() {
             const grid = document.getElementById('trainingsGrid');
             
+            // ⚠️ CRÍTICO: Remove APENAS cards dinâmicos (não toca nos hardcoded)
+            const existingDynamic = grid.querySelectorAll('.training-card[data-dynamic="true"]');
+            existingDynamic.forEach(card => card.remove());
+            
+            // Se não tem treinamentos dinâmicos, não precisa fazer nada
+            // Os 7 hardcoded já estão visíveis no HTML
             if (trainings.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><h3>Nenhum treinamento cadastrado</h3><p>Adicione o primeiro treinamento usando o formulário acima!</p></div>';
-                return;
+                return; // Mantém apenas os 7 hardcoded
             }
-
-            let html = '';
-            trainings.forEach(function(training) {
-                html += '<div class="training-card">';
-                html += '<p class="training-description">' + training.description + '</p>';
-                html += '<div class="training-meta">';
-                html += '<span class="training-duration">' + training.duration + '</span>';
-                html += '<span class="training-category">' + training.category + '</span>';
-                html += '</div>';
-                html += '<div class="training-actions">';
-                html += '<a href="' + training.link + '" target="_blank" class="btn-access">📥 Baixar Treinamento</a>';
-                html += '<button onclick="deleteTraining(' + training.id + ')" class="btn-delete">🗑️</button>';
-                html += '</div>';
-                html += '</div>';
+            
+            // Adiciona cards dinâmicos (do localStorage)
+            trainings.forEach((training, index) => {
+                const card = document.createElement('div');
+                card.className = 'training-card';
+                card.setAttribute('data-dynamic', 'true'); // Marca como dinâmico
+                card.setAttribute('data-title', training.title);
+                card.setAttribute('data-category', training.category);
+                
+                card.innerHTML = `
+                    <div class="card-header" onclick="openTraining('${training.link || '#'}')">
+                        <h3>${training.title}</h3>
+                        <span class="card-category">${training.category}</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-description">${training.description}</p>
+                        <div class="card-meta">
+                            <span class="card-duration">⏱️ ${training.duration}</span>
+                            <span class="card-level">📊 ${training.level}</span>
+                        </div>
+                        <div class="card-actions">
+                            <button class="delete-btn" onclick="event.stopPropagation(); deleteTraining(${index})">🗑️ Excluir</button>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
             });
             
-            grid.innerHTML = html;
-            
             // Atualizar contador na sidebar
-            const sidebarCount = document.getElementById('sidebarTrainingCount');
+            const sidebarCount = document.querySelector('.sidebar-nav span');
             if (sidebarCount) {
-                sidebarCount.textContent = trainings.length;
+                sidebarCount.textContent = (7 + trainings.length); // 7 hardcoded + dinâmicos
             }
         }
 
