@@ -1644,11 +1644,14 @@ function toggleDashboard() {
 }
 
 function logout() {
-    if (confirm('Deseja sair?')) {
-        localStorage.removeItem('zoop_user');
-        currentUser = null;
-        showLogin();
-    }
+            // Limpar dados de login
+            localStorage.removeItem('cx_user');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            
+            // Redirecionar para página de login
+            window.location.href = 'login_portal.html';
+        }
 }
 
 // === SIDEBAR SYSTEM ===
