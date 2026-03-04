@@ -1539,7 +1539,7 @@
         }
 
 // === SISTEMA DE USUÁRIOS ===
-// let currentUser = null; // Removido
+// // let currentUser = null; // Removido // REMOVIDO: referência a currentUser antigo
 let userStats = { totalAccess: 0, searchCount: 0, trainingAccess: [], activities: [] };
 
 
@@ -1553,7 +1553,7 @@ function handleLogin(event) {
     const email = document.getElementById('userEmail').value.trim();
     
     if (name && email) {
-        currentUser = { name, email, joinDate: new Date().toISOString() };
+// currentUser = { name, email, joinDate: new Date().toISOString() }; // REMOVIDO: referência a currentUser antigo
         
         const existing = localStorage.getItem(`zoop_stats_${email}`);
         if (existing) {
@@ -1567,7 +1567,7 @@ function handleLogin(event) {
             };
         }
         
-        localStorage.setItem('zoop_user', JSON.stringify(currentUser));
+// localStorage.setItem('zoop_user', JSON.stringify(currentUser)); // REMOVIDO: referência a currentUser antigo
         saveStats();
         showLoggedIn();
         addActivity('🔐 Login realizado');
@@ -1579,8 +1579,8 @@ function handleLogin(event) {
 function showLoggedIn() {
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('userInfo').style.display = 'flex';
-    document.getElementById('displayName').textContent = currentUser.name.split(' ')[0];
-    document.getElementById('displayEmail').textContent = currentUser.email;
+// document.getElementById('displayName').textContent = currentUser.name.split(' ')[0]; // REMOVIDO: referência a currentUser antigo
+// document.getElementById('displayEmail').textContent = currentUser.email; // REMOVIDO: referência a currentUser antigo
     updateDashboard();
 }
 
@@ -1604,8 +1604,8 @@ function addActivity(action) {
 }
 
 function saveStats() {
-    if (currentUser) {
-        localStorage.setItem(`zoop_stats_${currentUser.email}`, JSON.stringify(userStats));
+// if (currentUser) { // REMOVIDO: referência a currentUser antigo
+// localStorage.setItem(`zoop_stats_${currentUser.email}`, JSON.stringify(userStats)); // REMOVIDO: referência a currentUser antigo
     }
 }
 
@@ -1651,20 +1651,24 @@ function toggleSidebar() {
     
     console.log('📱 Sidebar:', sidebarCollapsed ? 'Recolhida' : 'Expandida');
     
-    if (currentUser) {
+// if (currentUser) { // REMOVIDO: referência a currentUser antigo
         addActivity(`📱 ${sidebarCollapsed ? 'Recolheu' : 'Expandiu'} sidebar`);
     }
 }
 
 function updateSidebarStats() {
-    const now = new Date();
-    const uptime = Math.floor((now - startTime) / 1000 / 60);
-    const uptimeElement = document.getElementById('uptime');
-    
-    if (uptimeElement) {
-        if (uptime < 60) {
-            uptimeElement.textContent = uptime + 'm';
-        } else {
+        const cards = document.querySelectorAll('.training-card');
+        const totalTrainings = cards.length;
+        
+        // Atualizar contador de treinamentos
+        const trainingCountEl = document.getElementById('sidebarTrainingCount');
+        if (trainingCountEl) {
+            trainingCountEl.textContent = totalTrainings;
+        }
+        
+        // Atualizar tempo online
+        updateOnlineTime();
+    } else {
             const hours = Math.floor(uptime / 60);
             const mins = uptime % 60;
             uptimeElement.textContent = hours + 'h' + (mins > 0 ? ' ' + mins + 'm' : '');
@@ -1672,7 +1676,7 @@ function updateSidebarStats() {
     }
     
     const todayUsersEl = document.getElementById('todayUsers');
-    if (todayUsersEl && currentUser) {
+// if (todayUsersEl && currentUser) { // REMOVIDO: referência a currentUser antigo
         todayUsersEl.textContent = '1+';
     }
 }
@@ -1682,7 +1686,7 @@ function scrollToSearch() {
     if (searchContainer) {
         searchContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         document.getElementById('searchInput')?.focus();
-        if (currentUser) addActivity('🔍 Navegou para pesquisa');
+// if (currentUser) addActivity('🔍 Navegou para pesquisa'); // REMOVIDO: referência a currentUser antigo
     }
 }
 
@@ -1690,7 +1694,7 @@ function scrollToTrainings() {
     const trainingsContainer = document.querySelector('.container');
     if (trainingsContainer) {
         trainingsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        if (currentUser) addActivity('📋 Navegou para treinamentos');
+// if (currentUser) addActivity('📋 Navegou para treinamentos'); // REMOVIDO: referência a currentUser antigo
     }
 }
 
@@ -1903,7 +1907,7 @@ function performSearch(query) {
         }, 300);
     }
     
-    if (currentUser) {
+// if (currentUser) { // REMOVIDO: referência a currentUser antigo
         userStats.searchCount++;
         addActivity(`🔍 Pesquisou: "${searchTerm.substring(0, 15)}${searchTerm.length > 15 ? '...' : ''}"`);
         saveStats();
@@ -2010,7 +2014,7 @@ function updateResultsCount(showing, total) {
 
 // Rastrear cliques em treinamentos
 document.addEventListener('click', function(e) {
-    if (currentUser && e.target.closest('[onclick*="window.open"]')) {
+// if (currentUser && e.target.closest('[onclick*="window.open"]')) { // REMOVIDO: referência a currentUser antigo
         const card = e.target.closest('.training-card');
         if (card) {
             const title = card.querySelector('.training-title, h3');
@@ -2067,7 +2071,7 @@ async function initSharedCounters() {
     console.log('🌐 Inicializando contadores compartilhados...');
     console.log('🆔 Machine ID:', machineId);
     
-    if (currentUser && ADMIN_EMAILS.includes(currentUser.email)) {
+// if (currentUser && ADMIN_EMAILS.includes(currentUser.email)) { // REMOVIDO: referência a currentUser antigo
         isAdmin = true;
         document.getElementById('adminPanel').style.display = 'block';
         console.log('👑 Usuário admin detectado');
@@ -2086,8 +2090,8 @@ async function registerAccess() {
         const accessData = {
             action: 'register_access',
             machineId: machineId,
-            userId: currentUser?.email || 'anonimo',
-            userName: currentUser?.name || 'Usuário Anônimo',
+// userId: currentUser?.email || 'anonimo', // REMOVIDO: referência a currentUser antigo
+// userName: currentUser?.name || 'Usuário Anônimo', // REMOVIDO: referência a currentUser antigo
             timestamp: new Date().toISOString(),
             userAgent: navigator.userAgent,
             language: navigator.language,
@@ -2171,7 +2175,7 @@ async function resetCounters() {
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'reset_counters', adminEmail: currentUser.email })
+// body: JSON.stringify({ action: 'reset_counters', adminEmail: currentUser.email }) // REMOVIDO: referência a currentUser antigo
             });
             
             const result = await response.json();
