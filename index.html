@@ -811,6 +811,44 @@
     </script>
 </head>
 <body>
+    <!-- Proteção: Redireciona para página de entrada se não estiver logado -->
+    <script>
+        // Verificar se o usuário passou pela página de entrada
+        (function() {
+            const userData = localStorage.getItem('cx_user');
+            
+            // Se não tem dados de login, redireciona para página de entrada
+            if (!userData) {
+                window.location.href = 'login_portal.html';
+                return;
+            }
+            
+            // Verificar se os dados são válidos e não são muito antigos (opcional - 7 dias)
+            try {
+                const user = JSON.parse(userData);
+                const accessTime = new Date(user.accessTime);
+                const now = new Date();
+                const daysSinceAccess = (now - accessTime) / (1000 * 60 * 60 * 24);
+                
+                // Se passou mais de 7 dias, pede para fazer login novamente
+                if (daysSinceAccess > 7) {
+                    localStorage.removeItem('cx_user');
+                    window.location.href = 'login_portal.html';
+                    return;
+                }
+                
+                // Opcional: Exibir boas-vindas com nome do usuário
+                console.log('Bem-vindo(a), ' + user.nome + '!');
+                
+            } catch (e) {
+                // Se houver erro ao ler os dados, pede login novamente
+                localStorage.removeItem('cx_user');
+                window.location.href = 'login_portal.html';
+            }
+        })();
+    </script>
+
+
 
 <div class="login-overlay" id="loginOverlay" style="display: none;">
     <div class="login-container">
