@@ -1644,15 +1644,15 @@ function toggleDashboard() {
 }
 
 function logout() {
-            // Limpar dados de login
-            localStorage.removeItem('cx_user');
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userEmail');
-            
-            // Redirecionar para página de login
-            window.location.href = 'login_portal.html';
-        }
-}
+        // Limpar todos os dados de login
+        localStorage.removeItem('cx_user');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        localStorage.clear();
+        
+        // Redirecionar para página de login
+        window.location.href = 'login_portal.html';
+    }
 
 // === SIDEBAR SYSTEM ===
 let sidebarCollapsed = false;
