@@ -1539,32 +1539,12 @@
         }
 
 // === SISTEMA DE USUÁRIOS ===
-let currentUser = null;
+// let currentUser = null; // Removido
 let userStats = { totalAccess: 0, searchCount: 0, trainingAccess: [], activities: [] };
 
-document.addEventListener('DOMContentLoaded', function() {
-    initUserSystem();
-    init();
-});
 
-function initUserSystem() {
-    console.log('🔐 Iniciando sistema de usuários...');
-    
-    const userData = localStorage.getItem('zoop_user');
-    if (userData) {
-        currentUser = JSON.parse(userData);
-        const stats = localStorage.getItem(`zoop_stats_${currentUser.email}`);
-        if (stats) userStats = JSON.parse(stats);
-        showLoggedIn();
-        userStats.totalAccess++;
-        saveStats();
-    } else {
-        showLogin();
-    }
-    
-    const form = document.getElementById('loginForm');
-    if (form) form.addEventListener('submit', handleLogin);
-}
+
+
 
 function handleLogin(event) {
     event.preventDefault();
@@ -1594,10 +1574,7 @@ function handleLogin(event) {
     }
 }
 
-function showLogin() {
-    document.getElementById('loginOverlay').style.display = 'flex';
-    document.getElementById('userInfo').style.display = 'none';
-}
+
 
 function showLoggedIn() {
     document.getElementById('loginOverlay').style.display = 'none';
