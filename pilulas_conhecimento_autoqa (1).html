@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Pílulas de Conhecimento – Qualidade no Atendimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --red:#EA1D2C; --orange:#FF6B35;
+  --blue:#3b82f6; --indigo:#6366f1;
+  --green:#10b981; --yellow:#f59e0b;
+  --purple:#8b5cf6; --pink:#ec4899;
+  --slate:#1e293b; --muted:#64748b; --light:#f8fafc;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:#f1f5f9;color:var(--slate);}
+
+/* ── HERO ───────────────────────────────────────────── */
+.hero{
+  background:linear-gradient(135deg,#FF6B35 0%,#EA1D2C 60%,#be123c 100%);
+  padding:48px 32px 56px;text-align:center;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='28'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-tag{
+  display:inline-block;background:rgba(255,255,255,0.2);color:#fff;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:6px 16px;border-radius:30px;margin-bottom:16px;
+}
+.hero h1{color:#fff;font-size:36px;font-weight:900;line-height:1.15;margin-bottom:12px;}
+.hero h1 span{opacity:.85;}
+.hero p{color:rgba(255,255,255,.85);font-size:15px;max-width:560px;margin:0 auto 24px;}
+.hero-meta{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+.hero-meta-item{
+  background:rgba(255,255,255,.15);color:#fff;border-radius:30px;
+  padding:6px 16px;font-size:12px;font-weight:600;
+}
+.pills-nav{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  padding:28px 24px 0;position:relative;z-index:1;
+}
+.nav-pill{
+  background:rgba(255,255,255,0.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);
+  border-radius:30px;padding:8px 20px;font-size:12px;font-weight:700;
+  cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+}
+.nav-pill:hover{background:rgba(255,255,255,.3);transform:translateY(-2px);}
+
+/* ── LAYOUT ───────────────────────────────────────────── */
+.main{max-width:1100px;margin:0 auto;padding:40px 24px 60px;}
+.section-label{
+  text-align:center;font-size:11px;font-weight:800;letter-spacing:3px;
+  text-transform:uppercase;color:var(--muted);margin:48px 0 8px;
+}
+.section-divider{
+  text-align:center;margin-bottom:32px;
+}
+.section-divider h2{font-size:22px;font-weight:800;color:var(--slate);}
+.section-divider p{font-size:13px;color:var(--muted);margin-top:4px;}
+
+/* ── PÍLULA CARD ───────────────────────────────────────── */
+.pill-card{
+  background:#fff;border-radius:20px;overflow:hidden;
+  box-shadow:0 4px 24px rgba(0,0,0,.08);margin-bottom:28px;
+}
+.pill-header{
+  padding:28px 32px 24px;display:flex;align-items:flex-start;gap:20px;
+}
+.pill-icon-wrap{
+  width:64px;height:64px;border-radius:18px;display:flex;align-items:center;
+  justify-content:center;font-size:30px;flex-shrink:0;
+}
+.pill-header-text{}
+.pill-tag{
+  display:inline-block;font-size:10px;font-weight:800;letter-spacing:1.5px;
+  text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:6px;
+}
+.pill-header-text h3{font-size:22px;font-weight:800;line-height:1.2;margin-bottom:4px;}
+.pill-header-text p{font-size:13px;color:var(--muted);line-height:1.5;}
+
+.pill-body{padding:0 32px 32px;}
+
+/* PROBLEMA */
+.problem-banner{
+  border-radius:12px;padding:16px 18px;margin-bottom:20px;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.problem-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
+.problem-text strong{font-size:13px;font-weight:700;display:block;margin-bottom:3px;}
+.problem-text p{font-size:12px;line-height:1.6;}
+
+/* COMPARATIVO BOM x RUIM */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;}
+@media(max-width:680px){.compare-grid{grid-template-columns:1fr;}}
+.compare-box{border-radius:12px;padding:16px 18px;}
+.compare-box-title{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.compare-item{font-size:12px;line-height:1.6;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);}
+.compare-item:last-child{border-bottom:none;}
+.compare-item::before{margin-right:6px;}
+.bad-box{background:#fff1f2;}.bad-box .compare-item::before{content:"❌";}
+.good-box{background:#f0fdf4;}.good-box .compare-item::before{content:"✅";}
+
+/* TIPS */
+.tips-title{font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px;}
+.tip-item{
+  border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:10px;
+  background:#f8fafc;border:1px solid #e2e8f0;
+}
+.tip-num{
+  width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;flex-shrink:0;
+}
+.tip-text{font-size:12px;line-height:1.5;color:var(--slate);}
+.tip-text strong{display:block;font-size:11px;margin-bottom:2px;}
+
+/* CHECKLIST */
+.checklist{list-style:none;margin-bottom:20px;}
+.checklist li{
+  display:flex;align-items:flex-start;gap:10px;padding:9px 12px;
+  border-radius:8px;font-size:13px;line-height:1.5;margin-bottom:4px;
+  background:#f8fafc;
+}
+.check-box{
+  width:20px;height:20px;border-radius:5px;display:flex;align-items:center;
+  justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px;
+}
+
+/* TAKEAWAY */
+.takeaway{
+  border-radius:14px;padding:18px 20px;
+  display:flex;align-items:center;gap:14px;margin-top:6px;
+}
+.takeaway-icon{font-size:28px;flex-shrink:0;}
+.takeaway-text strong{font-size:13px;font-weight:700;display:block;margin-bottom:3px;}
+.takeaway-text p{font-size:12px;line-height:1.5;}
+
+/* FRASES MODELO */
+.frases-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:20px;}
+.frase-card{
+  background:#f8fafc;border-left:4px solid;border-radius:0 10px 10px 0;
+  padding:12px 16px;font-size:13px;line-height:1.6;color:var(--slate);
+}
+.frase-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+
+/* STATS ROW */
+.stats-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+.stat-chip{
+  background:#f1f5f9;border-radius:10px;padding:10px 16px;
+  display:flex;flex-direction:column;align-items:center;min-width:100px;
+}
+.stat-chip .val{font-size:20px;font-weight:800;}
+.stat-chip .lbl{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:20px;}
+.progress-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.progress-label{font-size:12px;width:160px;flex-shrink:0;}
+.progress-track{flex:1;background:#f1f5f9;border-radius:30px;height:10px;}
+.progress-fill{height:10px;border-radius:30px;}
+.progress-val{font-size:12px;font-weight:700;width:40px;text-align:right;}
+
+/* FOOTER */
+.footer{
+  text-align:center;padding:32px;background:#fff;
+  border-top:1px solid #e2e8f0;margin-top:40px;
+}
+.footer-logo{font-size:22px;font-weight:900;margin-bottom:8px;
+  background:linear-gradient(135deg,#FF6B35,#EA1D2C);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.footer p{font-size:12px;color:var(--muted);}
+
+/* SHARE BANNER */
+.share-banner{
+  background:linear-gradient(135deg,#1e293b 0%,#334155 100%);
+  border-radius:16px;padding:24px 28px;margin-bottom:32px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;
+}
+.share-text strong{color:#fff;font-size:15px;display:block;margin-bottom:4px;}
+.share-text p{color:#94a3b8;font-size:12px;}
+.share-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.share-btn{
+  padding:8px 18px;border-radius:30px;font-size:12px;font-weight:700;border:none;
+  cursor:pointer;transition:all .2s;
+}
+.btn-copy{background:#fff;color:#1e293b;}
+.btn-copy:hover{background:#f1f5f9;}
+.btn-print{background:var(--orange);color:#fff;}
+.btn-print:hover{opacity:.9;}
+
+/* NÚMERO DA PÍLULA */
+.pill-number{
+  position:absolute;right:24px;top:24px;font-size:48px;font-weight:900;
+  opacity:.06;line-height:1;pointer-events:none;
+}
+.pill-header{position:relative;}
+
+/* COLOR THEMES */
+.theme-blue .pill-icon-wrap{background:#dbeafe;}
+.theme-blue .pill-tag{background:#dbeafe;color:#1d4ed8;}
+.theme-blue .pill-number{color:#3b82f6;}
+.theme-blue .tip-num{background:#3b82f6;}
+.theme-blue .check-box{background:#dbeafe;color:#1d4ed8;}
+.theme-blue .takeaway{background:#eff6ff;}
+.theme-blue .frase-card{border-color:#3b82f6;}
+.theme-blue .problem-banner{background:#eff6ff;border:1px solid #bfdbfe;}
+
+.theme-red .pill-icon-wrap{background:#fce7f3;}
+.theme-red .pill-tag{background:#fce7f3;color:#be185d;}
+.theme-red .pill-number{color:#ef4444;}
+.theme-red .tip-num{background:#ef4444;}
+.theme-red .check-box{background:#fee2e2;color:#b91c1c;}
+.theme-red .takeaway{background:#fff1f2;}
+.theme-red .frase-card{border-color:#ef4444;}
+.theme-red .problem-banner{background:#fff1f2;border:1px solid #fecaca;}
+
+.theme-yellow .pill-icon-wrap{background:#fef3c7;}
+.theme-yellow .pill-tag{background:#fef3c7;color:#d97706;}
+.theme-yellow .pill-number{color:#f59e0b;}
+.theme-yellow .tip-num{background:#f59e0b;}
+.theme-yellow .check-box{background:#fef3c7;color:#d97706;}
+.theme-yellow .takeaway{background:#fffbeb;}
+.theme-yellow .frase-card{border-color:#f59e0b;}
+.theme-yellow .problem-banner{background:#fffbeb;border:1px solid #fde68a;}
+
+.theme-purple .pill-icon-wrap{background:#ede9fe;}
+.theme-purple .pill-tag{background:#ede9fe;color:#7c3aed;}
+.theme-purple .pill-number{color:#8b5cf6;}
+.theme-purple .tip-num{background:#8b5cf6;}
+.theme-purple .check-box{background:#ede9fe;color:#7c3aed;}
+.theme-purple .takeaway{background:#faf5ff;}
+.theme-purple .frase-card{border-color:#8b5cf6;}
+.theme-purple .problem-banner{background:#faf5ff;border:1px solid #ddd6fe;}
+
+.theme-green .pill-icon-wrap{background:#dcfce7;}
+.theme-green .pill-tag{background:#dcfce7;color:#15803d;}
+.theme-green .pill-number{color:#10b981;}
+.theme-green .tip-num{background:#10b981;}
+.theme-green .check-box{background:#dcfce7;color:#15803d;}
+.theme-green .takeaway{background:#f0fdf4;}
+.theme-green .frase-card{border-color:#10b981;}
+.theme-green .problem-banner{background:#f0fdf4;border:1px solid #bbf7d0;}
+
+.theme-orange .pill-icon-wrap{background:#ffedd5;}
+.theme-orange .pill-tag{background:#ffedd5;color:#c2410c;}
+.theme-orange .pill-number{color:#FF6B35;}
+.theme-orange .tip-num{background:#FF6B35;}
+.theme-orange .check-box{background:#ffedd5;color:#c2410c;}
+.theme-orange .takeaway{background:#fff7ed;}
+.theme-orange .frase-card{border-color:#FF6B35;}
+.theme-orange .problem-banner{background:#fff7ed;border:1px solid #fed7aa;}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-tag">📚 Pílulas de Conhecimento · AutoQA</div>
+  <h1>Qualidade no Atendimento<br><span>O que melhorar esta semana?</span></h1>
+  <p>Micro-aprendizados baseados nos dados reais de qualidade da semana de 20–24 de Abril de 2026. Compartilhe com seu time!</p>
+  <div class="hero-meta">
+    <span class="hero-meta-item">📅 Semana 20–24 Abr 2026</span>
+    <span class="hero-meta-item">💬 200 conversas analisadas</span>
+    <span class="hero-meta-item">👥 20 agentes avaliados</span>
+    <span class="hero-meta-item">⚡ IQA Geral: 95,44%</span>
+  </div>
+  <div class="pills-nav">
+    <a href="#pill-empatia" class="nav-pill">💙 Empatia</a>
+    <a href="#pill-gramatica" class="nav-pill">✍️ Gramática</a>
+    <a href="#pill-tom" class="nav-pill">🎵 Tom</a>
+    <a href="#pill-solucao" class="nav-pill">💡 Solução</a>
+    <a href="#pill-fechamento" class="nav-pill">🔚 Fechamento</a>
+    <a href="#pill-quinta" class="nav-pill">📉 Consistência</a>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- SHARE BANNER -->
+<div class="share-banner" style="margin-top:32px;">
+  <div class="share-text">
+    <strong>🔗 Compartilhe com seu time!</strong>
+    <p>Este material foi gerado automaticamente com base nos dados reais de qualidade da semana. Use em reuniões de feedback ou envie diretamente para os agentes.</p>
+  </div>
+  <div class="share-btns">
+    <button class="share-btn btn-copy" onclick="copyLink()">📋 Copiar link</button>
+    <button class="share-btn btn-print" onclick="window.print()">🖨️ Imprimir / PDF</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PÍLULA 1 – EMPATIA
+════════════════════════════════════════════ -->
+<div class="section-label">Pílula nº 01</div>
+<div class="section-divider"><h2>💙 Empatia no Atendimento</h2><p>A habilidade de se colocar no lugar do cliente — a categoria com menor score da semana (87,25%)</p></div>
+
+<div id="pill-empatia" class="pill-card theme-blue">
+  <div class="pill-header">
+    <div class="pill-icon-wrap">💙</div>
+    <div class="pill-header-text">
+      <span class="pill-tag">Categoria · Empatia</span>
+      <h3>Como demonstrar empatia de verdade?</h3>
+      <p>Score da semana: <strong>87,25%</strong> · Meta: ≥85% · Pior score individual: <strong>65,0%</strong> (Marcela Franca)</p>
+    </div>
+    <div class="pill-number">01</div>
+  </div>
+  <div class="pill-body">
+
+    <div class="stats-row">
+      <div class="stat-chip"><span class="val" style="color:#ef4444;">65%</span><span class="lbl">Pior score</span></div>
+      <div class="stat-chip"><span class="val" style="color:#ef4444;">3</span><span class="lbl">Agentes abaixo de 80%</span></div>
+      <div class="stat-chip"><span class="val" style="color:#f59e0b;">~19</span><span class="lbl">Falhas estimadas</span></div>
+      <div class="stat-chip"><span class="val" style="color:#f59e0b;">81%</span><span class="lbl">Score em 23/04</span></div>
+    </div>
+
+    <div class="problem-banner">
+      <div class="problem-icon">🔍</div>
+      <div class="problem-text">
+        <strong>O que o AutoQA avalia em Empatia?</strong>
+        <p>O sistema verifica se o agente reconhece o sentimento do cliente, demonstra compreensão antes de apresentar a solução, usa linguagem acolhedora e evita respostas frias ou mecânicas. Empatia não é dizer "entendo" — é agir como se realmente entendesse.</p>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-box bad-box">
+        <div class="compare-box-title" style="color:#be123c;">❌ Sem empatia</div>
+        <div class="compare-item">"Não há nada que eu possa fazer sobre isso."</div>
+        <div class="compare-item">"Isso está fora do nosso prazo. Aguarde."</div>
+        <div class="compare-item">"O sistema retornou esse erro. Verifique sua parte."</div>
+        <div class="compare-item">"Já respondi isso antes. Por favor leia o histórico."</div>
+      </div>
+      <div class="compare-box good-box">
+        <div class="compare-box-title" style="color:#15803d;">✅ Com empatia</div>
+        <div class="compare-item">"Imagino como isso é frustrante. Vou resolver agora."</div>
+        <div class="compare-item">"Entendo a urgência — deixa eu verificar isso com prioridade."</div>
+        <div class="compare-item">"Que chateação esse erro! Me dá um instante que eu investigo."</div>
+        <div class="compare-item">"Peço desculpas pela repetição. Vou garantir uma solução agora."</div>
+      </div>
+    </div>
+
+    <div class="tips-title">💡 5 práticas para aumentar seu score de empatia</div>
+    <div class="tips-grid">
+      <div class="tip-item">
+        <div class="tip-num">1</div>
+        <div class="tip-text"><strong>Reconheça primeiro</strong>Antes de resolver, reconheça o sentimento. "Entendo que isso gerou uma preocupação..."</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">2</div>
+        <div class="tip-text"><strong>Use o nome do cliente</strong>Chamar pelo nome cria conexão imediata e humaniza o atendimento.</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">3</div>
+        <div class="tip-text"><strong>Evite frases robotizadas</strong>"Prezado cliente" e "conforme mencionado" afastam. Seja humano.</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">4</div>
+        <div class="tip-text"><strong>Contextualize o impacto</strong>"Isso deve ter atrasado seus processos — me desculpe pelo transtorno."</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">5</div>
+        <div class="tip-text"><strong>Feche com cuidado</strong>No final, confirme se o cliente está satisfeito antes de encerrar.</div>
+      </div>
+    </div>
+
+    <div class="tips-title">📝 Frases modelo para usar no atendimento</div>
+    <div class="frases-grid">
+      <div class="frase-card" style="border-color:#3b82f6;">
+        <div class="frase-label" style="color:#3b82f6;">Reconhecimento</div>
+        "Oi [nome], entendo que essa situação está gerando dificuldades para você — vou dar atenção máxima a isso agora."
+      </div>
+      <div class="frase-card" style="border-color:#6366f1;">
+        <div class="frase-label" style="color:#6366f1;">Pedido de desculpas genuíno</div>
+        "Lamento muito pelo inconveniente. Isso certamente não deveria ter acontecido dessa forma."
+      </div>
+      <div class="frase-card" style="border-color:#8b5cf6;">
+        <div class="frase-label" style="color:#8b5cf6;">Urgência percebida</div>
+        "Percebo que esse ponto é urgente para você. Já estou verificando com prioridade."
+      </div>
+    </div>
+
+    <div class="takeaway">
+      <div class="takeaway-icon">💡</div>
+      <div class="takeaway-text">
+        <strong>Lembre-se: empatia não demora mais do que 1 linha extra.</strong>
+        <p>Um simples "Entendo como isso é frustrante" no início do atendimento já é suficiente para o AutoQA reconhecer empatia — e para o cliente se sentir ouvido.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PÍLULA 2 – GRAMÁTICA E ORTOGRAFIA
+════════════════════════════════════════════ -->
+<div class="section-label">Pílula nº 02</div>
+<div class="section-divider"><h2>✍️ Gramática e Ortografia</h2><p>158 erros identificados na semana — Estilo e Misspelling são os tipos mais frequentes</p></div>
+
+<div id="pill-gramatica" class="pill-card theme-yellow">
+  <div class="pill-header">
+    <div class="pill-icon-wrap">✍️</div>
+    <div class="pill-header-text">
+      <span class="pill-tag">Categoria · Gramática</span>
+      <h3>Escrever bem é parte do atendimento</h3>
+      <p>Score da semana: <strong>90,68%</strong> · 158 erros registrados · Top ofensor: <strong>Marcela Franca (44 erros)</strong></p>
+    </div>
+    <div class="pill-number">02</div>
+  </div>
+  <div class="pill-body">
+
+    <div class="stats-row">
+      <div class="stat-chip"><span class="val" style="color:#ef4444;">158</span><span class="lbl">Erros totais</span></div>
+      <div class="stat-chip"><span class="val" style="color:#f59e0b;">44</span><span class="lbl">Marcela Franca</span></div>
+      <div class="stat-chip"><span class="val" style="color:#f59e0b;">38</span><span class="lbl">Fernanda Cristiny</span></div>
+      <div class="stat-chip"><span class="val" style="color:#f59e0b;">27</span><span class="lbl">Luciene Goiz</span></div>
+    </div>
+
+    <div class="tips-title" style="margin-bottom:10px;">📊 Tipos de erro mais frequentes na semana</div>
+    <div class="progress-wrap">
+      <div class="progress-row">
+        <span class="progress-label">✏️ Estilo (tom informal)</span>
+        <div class="progress-track"><div class="progress-fill" style="width:62%;background:#8b5cf6;"></div></div>
+        <span class="progress-val" style="color:#8b5cf6;">62%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">🔤 Misspelling (grafia)</span>
+        <div class="progress-track"><div class="progress-fill" style="width:26%;background:#f59e0b;"></div></div>
+        <span class="progress-val" style="color:#f59e0b;">26%</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">📝 Gramática (estrutura)</span>
+        <div class="progress-track"><div class="progress-fill" style="width:12%;background:#ef4444;"></div></div>
+        <span class="progress-val" style="color:#ef4444;">12%</span>
+      </div>
+    </div>
+
+    <div class="problem-banner">
+      <div class="problem-icon">🔍</div>
+      <div class="problem-text">
+        <strong>Por que "estilo" é o maior tipo de erro?</strong>
+        <p>Erros de <em>Estilo</em> ocorrem quando o texto não segue as boas práticas de comunicação escrita: frases muito longas, uso excessivo de reticências, gírias, abreviações inadequadas, falta de pontuação ou excesso de maiúsculas. Não é um erro de ortografia — é de adequação à linguagem de atendimento profissional.</p>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-box bad-box">
+        <div class="compare-box-title" style="color:#be123c;">❌ Erros comuns</div>
+        <div class="compare-item">"vc pode me informar oq aconteceu?"</div>
+        <div class="compare-item">"Ok!!! Já vejo isso pra vc!!!"</div>
+        <div class="compare-item">"Estou verificando... aguarda um momento..."</div>
+        <div class="compare-item">"Bom Dia!! Tudo bem?? Como posso Ajudar?"</div>
+        <div class="compare-item">"Verifiquei e aparentemente a transação foi negada por que o saldo estava insuficiente"</div>
+      </div>
+      <div class="compare-box good-box">
+        <div class="compare-box-title" style="color:#15803d;">✅ Como deve ser</div>
+        <div class="compare-item">"Você pode me informar o que aconteceu?"</div>
+        <div class="compare-item">"Ok! Já verifico isso para você."</div>
+        <div class="compare-item">"Estou verificando — aguarde um momento, por favor."</div>
+        <div class="compare-item">"Bom dia! Tudo bem? Como posso ajudá-lo?"</div>
+        <div class="compare-item">"Verifiquei e a transação foi negada porque o saldo estava insuficiente."</div>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li><div class="check-box">📌</div><span><strong>Maiúsculas:</strong> Use apenas no início de frases e em nomes próprios. "Bom dia" e não "Bom Dia".</span></li>
+      <li><div class="check-box">📌</div><span><strong>Reticências:</strong> Use com moderação. Mais de 3 pontos seguidos e múltiplas reticências passam insegurança.</span></li>
+      <li><div class="check-box">📌</div><span><strong>Abreviações:</strong> Evite "vc", "oq", "tb", "pq". Escreva por extenso.</span></li>
+      <li><div class="check-box">📌</div><span><strong>Exclamações:</strong> Um ponto de exclamação é suficiente. Nunca "!!!" ou "???". </span></li>
+      <li><div class="check-box">📌</div><span><strong>Pontuação:</strong> Toda frase termina com ponto final. Vírgulas antes de "porque", "mas", "porém".</span></li>
+      <li><div class="check-box">📌</div><span><strong>Porque vs Por que:</strong> "porque" = causa/explicação. "por que" = pergunta. "por quê" = final de frase interrogativa.</span></li>
+    </ul>
+
+    <div class="takeaway">
+      <div class="takeaway-icon">💡</div>
+      <div class="takeaway-text">
+        <strong>Dica de ouro: releia antes de enviar.</strong>
+        <p>Antes de clicar em "Enviar", leia a mensagem uma vez como se fosse o cliente. Isso elimina a maioria dos erros de estilo e grafia.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PÍLULA 3 – TOM PROFISSIONAL
+════════════════════════════════════════════ -->
+<div class="section-label">Pílula nº 03</div>
+<div class="section-divider"><h2>🎵 Tom de Comunicação</h2><p>278 registros de desvio de tom · "Professional" é o tipo mais frequente</p></div>
+
+<div id="pill-tom" class="pill-card theme-purple">
+  <div class="pill-header">
+    <div class="pill-icon-wrap">🎵</div>
+    <div class="pill-header-text">
+      <span class="pill-tag">Categoria · Tom</span>
+      <h3>O tom certo para cada momento</h3>
+      <p>Score AutoQA: <strong>100%</strong> · Porém com <strong>278 desvios registrados</strong> em dimensões de tom · Top: Fernanda Cristiny (70 desvios)</p>
+    </div>
+    <div class="pill-number">03</div>
+  </div>
+  <div class="pill-body">
+
+    <div class="problem-banner">
+      <div class="problem-icon">🔍</div>
+      <div class="problem-text">
+        <strong>O que são desvios de tom?</strong>
+        <p>Tom é a "voz" do atendimento. O AutoQA avalia se o agente mantém o tom adequado em dimensões como Profissionalismo, Simpatia (Cheerful), Suporte (Supportive) e Calma (Calm). Desvios ocorrem quando o agente é excessivamente informal, muito frio, usa sarcasmo, ou muda de postura durante a conversa.</p>
+      </div>
+    </div>
+
+    <div class="tips-title" style="margin-bottom:10px;">📊 Desvios por tipo de tom (Top 3 agentes)</div>
+    <div class="progress-wrap">
+      <div class="progress-row">
+        <span class="progress-label">🤝 Professional (formalidade)</span>
+        <div class="progress-track"><div class="progress-fill" style="width:90%;background:#ef4444;"></div></div>
+        <span class="progress-val" style="color:#ef4444;">+93</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">😊 Cheerful (simpatia)</span>
+        <div class="progress-track"><div class="progress-fill" style="width:70%;background:#8b5cf6;"></div></div>
+        <span class="progress-val" style="color:#8b5cf6;">+77</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">🫂 Supportive (suporte)</span>
+        <div class="progress-track"><div class="progress-fill" style="width:62%;background:#6366f1;"></div></div>
+        <span class="progress-val" style="color:#6366f1;">+65</span>
+      </div>
+      <div class="progress-row">
+        <span class="progress-label">😌 Calm (calma)</span>
+        <div class="progress-track"><div class="progress-fill" style="width:18%;background:#3b82f6;"></div></div>
+        <span class="progress-val" style="color:#3b82f6;">+17</span>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-box bad-box">
+        <div class="compare-box-title" style="color:#be123c;">❌ Tom inadequado</div>
+        <div class="compare-item">Tom frio: "Não posso fazer nada. É política da empresa."</div>
+        <div class="compare-item">Tom agressivo: "Como eu já disse anteriormente..."</div>
+        <div class="compare-item">Tom excessivamente informal: "Eai! Blz? O que tá rolando?"</div>
+        <div class="compare-item">Tom apressado: "Só isso? Alguma outra coisa?"</div>
+        <div class="compare-item">Tom dismissivo: "Já está resolvido. Encerrarei o chamado."</div>
+      </div>
+      <div class="compare-box good-box">
+        <div class="compare-box-title" style="color:#15803d;">✅ Tom ideal</div>
+        <div class="compare-item">Profissional: "Neste momento, as opções disponíveis são..."</div>
+        <div class="compare-item">Respeitoso: "Complementando o que combinamos anteriormente..."</div>
+        <div class="compare-item">Caloroso: "Olá! Tudo bem? Como posso ajudá-lo hoje?"</div>
+        <div class="compare-item">Atencioso: "Há mais alguma coisa em que eu possa ajudar?"</div>
+        <div class="compare-item">Colaborativo: "Posso encerrar por aqui ou prefere aguardar confirmação?"</div>
+      </div>
+    </div>
+
+    <div class="tips-title">🎯 As 4 dimensões do tom ideal no atendimento Zoop</div>
+    <div class="tips-grid">
+      <div class="tip-item">
+        <div class="tip-num">P</div>
+        <div class="tip-text"><strong>Professional</strong>Linguagem adequada, sem gírias. Representa a empresa com seriedade e competência.</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">C</div>
+        <div class="tip-text"><strong>Cheerful</strong>Simpatia genuína. Não precisa de "!!" — basta ser caloroso e acolhedor.</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">S</div>
+        <div class="tip-text"><strong>Supportive</strong>Deixe claro que está ao lado do cliente para resolver, não apenas para responder.</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num">Ca</div>
+        <div class="tip-text"><strong>Calm</strong>Mesmo em situações difíceis, mantenha a calma. Nunca demonstre frustração no texto.</div>
+      </div>
+    </div>
+
+    <div class="takeaway">
+      <div class="takeaway-icon">💡</div>
+      <div class="takeaway-text">
+        <strong>Regra de ouro do tom: imagine sua mensagem lida em voz alta.</strong>
+        <p>Se parece fria, mecânica ou apressada quando lida em voz alta — reescreva. O cliente sente o tom mesmo no texto escrito.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PÍLULA 4 – SOLUÇÃO EFETIVA
+════════════════════════════════════════════ -->
+<div class="section-label">Pílula nº 04</div>
+<div class="section-divider"><h2>💡 Resolução Efetiva</h2><p>3 agentes abaixo de 90% em Solução — o cliente precisa sair com uma resposta definitiva</p></div>
+
+<div id="pill-solucao" class="pill-card theme-green">
+  <div class="pill-header">
+    <div class="pill-icon-wrap">💡</div>
+    <div class="pill-header-text">
+      <span class="pill-tag">Categoria · Solução</span>
+      <h3>Resolver de verdade, não só responder</h3>
+      <p>Score geral: <strong>93,92%</strong> · Isabela Saldanha: <strong>81,82%</strong> · Marcela Franca: <strong>85,0%</strong></p>
+    </div>
+    <div class="pill-number">04</div>
+  </div>
+  <div class="pill-body">
+
+    <div class="problem-banner">
+      <div class="problem-icon">🔍</div>
+      <div class="problem-text">
+        <strong>O que o AutoQA avalia em Solução?</strong>
+        <p>O sistema verifica se o agente entregou uma resposta completa, clara e que de fato resolve o problema do cliente — não apenas reconhece ou encaminha. Uma resposta como "estou verificando" ou "vou encaminhar para a equipe" sem dar uma conclusão é penalizada.</p>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-box bad-box">
+        <div class="compare-box-title" style="color:#be123c;">❌ Solução incompleta</div>
+        <div class="compare-item">"Vou encaminhar para análise. Aguarde retorno."</div>
+        <div class="compare-item">"Isso depende de outros setores. Não tenho como confirmar."</div>
+        <div class="compare-item">"O prazo é de até 5 dias úteis." (sem explicar o motivo)</div>
+        <div class="compare-item">"Verifique em sua plataforma se o problema persiste."</div>
+      </div>
+      <div class="compare-box good-box">
+        <div class="compare-box-title" style="color:#15803d;">✅ Solução completa</div>
+        <div class="compare-item">"Encaminhei para análise com prioridade. Retorno em até 24h no e-mail cadastrado."</div>
+        <div class="compare-item">"A confirmação depende do banco, mas já registrei a solicitação. Protocolo: #XXXX."</div>
+        <div class="compare-item">"O prazo é de 5 dias úteis porque envolve conciliação bancária automática — ocorre toda semana."</div>
+        <div class="compare-item">"Corrigi a configuração. Já pode tentar novamente — caso persista, me avise aqui mesmo."</div>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li><div class="check-box">✅</div><span><strong>Dê sempre uma conclusão:</strong> mesmo que seja "não consigo resolver agora", informe o próximo passo concreto.</span></li>
+      <li><div class="check-box">✅</div><span><strong>Explique o "por quê":</strong> clientes aceitam melhor quando entendem a razão do prazo ou da limitação.</span></li>
+      <li><div class="check-box">✅</div><span><strong>Forneça protocolo ou referência:</strong> isso demonstra que a solicitação existe e será acompanhada.</span></li>
+      <li><div class="check-box">✅</div><span><strong>Deixe a porta aberta:</strong> "se precisar de mais alguma coisa, estou por aqui" encerra sem abandonar.</span></li>
+      <li><div class="check-box">✅</div><span><strong>Confirme se resolveu:</strong> pergunte antes de encerrar. "Isso resolve sua dúvida?" previne reabertura.</span></li>
+    </ul>
+
+    <div class="takeaway">
+      <div class="takeaway-icon">💡</div>
+      <div class="takeaway-text">
+        <strong>Teste da solução: o cliente precisa de mais uma mensagem após a sua?</strong>
+        <p>Se a resposta é "provavelmente sim", sua solução está incompleta. Uma boa resposta antecipa as dúvidas seguintes e as responde na mesma mensagem.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PÍLULA 5 – FECHAMENTO
+════════════════════════════════════════════ -->
+<div class="section-label">Pílula nº 05</div>
+<div class="section-divider"><h2>🔚 Fechamento de Chamados</h2><p>Score caiu para 90,32% na quinta — o jeito de fechar define a última impressão do cliente</p></div>
+
+<div id="pill-fechamento" class="pill-card theme-orange">
+  <div class="pill-header">
+    <div class="pill-icon-wrap">🔚</div>
+    <div class="pill-header-text">
+      <span class="pill-tag">Categoria · Fechamento</span>
+      <h3>A última mensagem é a mais lembrada</h3>
+      <p>Score semanal: <strong>98,08%</strong> · Queda em 23/04: <strong>90,32%</strong> · Score geral excelente, com risco em dias de alta demanda</p>
+    </div>
+    <div class="pill-number">05</div>
+  </div>
+  <div class="pill-body">
+
+    <div class="problem-banner">
+      <div class="problem-icon">🔍</div>
+      <div class="problem-text">
+        <strong>O que o AutoQA avalia em Fechamento?</strong>
+        <p>Verifica se o agente encerrou o chamado de forma completa: confirmou se o cliente ficou satisfeito, ofereceu suporte adicional, agradeceu o contato e encerrou de forma respeitosa — sem cortar o atendimento abruptamente.</p>
+      </div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-box bad-box">
+        <div class="compare-box-title" style="color:#be123c;">❌ Fechamentos ruins</div>
+        <div class="compare-item">"Ok, fecharei o chamado então."</div>
+        <div class="compare-item">"Se não houver mais nada, vou encerrar." (sem aguardar)</div>
+        <div class="compare-item">"Chamado encerrado. Tenha um bom dia."</div>
+        <div class="compare-item">(encerra sem perguntar se o problema foi resolvido)</div>
+      </div>
+      <div class="compare-box good-box">
+        <div class="compare-box-title" style="color:#15803d;">✅ Fechamentos ideais</div>
+        <div class="compare-item">"Isso resolveu sua dúvida, [nome]? Fico à disposição caso precise!"</div>
+        <div class="compare-item">"Antes de encerrar, há mais alguma coisa em que posso ajudar?"</div>
+        <div class="compare-item">"Obrigado pelo contato! Qualquer dúvida, estamos aqui. 😊"</div>
+        <div class="compare-item">"Foi um prazer atendê-lo! Até logo e bons negócios!"</div>
+      </div>
+    </div>
+
+    <div class="tips-title">📝 Estrutura de um fechamento perfeito</div>
+    <div class="frases-grid">
+      <div class="frase-card" style="border-color:#FF6B35;">
+        <div class="frase-label" style="color:#FF6B35;">Passo 1 · Confirmação</div>
+        "Isso resolve a sua dúvida, [nome]?" ou "O problema foi solucionado para você?"
+      </div>
+      <div class="frase-card" style="border-color:#ea580c;">
+        <div class="frase-label" style="color:#ea580c;">Passo 2 · Abertura para mais dúvidas</div>
+        "Caso precise de mais alguma coisa, estarei aqui para ajudar!"
+      </div>
+      <div class="frase-card" style="border-color:#c2410c;">
+        <div class="frase-label" style="color:#c2410c;">Passo 3 · Agradecimento</div>
+        "Obrigado por entrar em contato. Foi um prazer atendê-lo!"
+      </div>
+    </div>
+
+    <div class="takeaway">
+      <div class="takeaway-icon">💡</div>
+      <div class="takeaway-text">
+        <strong>A última mensagem vale tanto quanto a primeira.</strong>
+        <p>Pesquisas de UX mostram que clientes lembram com mais intensidade o início e o final do atendimento. Um fechamento bem feito salva um atendimento mediano — e um fechamento ruim arruína um atendimento ótimo.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PÍLULA 6 – CONSISTÊNCIA / QUINTA
+════════════════════════════════════════════ -->
+<div class="section-label">Pílula nº 06</div>
+<div class="section-divider"><h2>📉 Consistência e Dias de Alta Demanda</h2><p>O IQA caiu para 91,97% na quinta 23/04 — qualidade precisa ser mantida mesmo sob pressão</p></div>
+
+<div id="pill-quinta" class="pill-card theme-red">
+  <div class="pill-header">
+    <div class="pill-icon-wrap">📉</div>
+    <div class="pill-header-text">
+      <span class="pill-tag">Padrão · Consistência</span>
+      <h3>Qualidade não é opcional em dias difíceis</h3>
+      <p>Em 23/04 (quinta): IQA <strong>91,97%</strong> · Empatia <strong>81,25%</strong> · Solução <strong>87,5%</strong> · 44 conversas avaliadas</p>
+    </div>
+    <div class="pill-number">06</div>
+  </div>
+  <div class="pill-body">
+
+    <div class="stats-row">
+      <div class="stat-chip"><span class="val" style="color:#ef4444;">91,97%</span><span class="lbl">IQA na Quinta</span></div>
+      <div class="stat-chip"><span class="val" style="color:#10b981;">97,12%</span><span class="lbl">IQA na Quarta</span></div>
+      <div class="stat-chip"><span class="val" style="color:#ef4444;">-5,15pp</span><span class="lbl">Queda de qualidade</span></div>
+      <div class="stat-chip"><span class="val" style="color:#f59e0b;">44</span><span class="lbl">Conv. na Quinta</span></div>
+    </div>
+
+    <div class="problem-banner">
+      <div class="problem-icon">🔍</div>
+      <div class="problem-text">
+        <strong>O que acontece com a qualidade em dias de alta demanda?</strong>
+        <p>Quando o volume de chamados aumenta, é natural sentir pressão para responder mais rápido — mas isso frequentemente leva a mensagens menos empáticas, fechamentos apressados e soluções incompletas. Todas as categorias caíram no dia 23/04, o que indica uma queda <strong>comportamental generalizada</strong>, não um erro técnico isolado.</p>
+      </div>
+    </div>
+
+    <div class="tips-title">⚡ O que cai primeiro quando o volume aumenta?</div>
+    <div class="tips-grid">
+      <div class="tip-item">
+        <div class="tip-num" style="background:#ef4444;">1°</div>
+        <div class="tip-text"><strong>Empatia (81,25%)</strong>A primeira coisa cortada quando há pressa. "Entendo como isso é frustrante" vira "ok, verificando."</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num" style="background:#ef4444;">2°</div>
+        <div class="tip-text"><strong>Solução (87,5%)</strong>Respostas incompletas ou transferências sem conclusão aumentam sob pressão.</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num" style="background:#f59e0b;">3°</div>
+        <div class="tip-text"><strong>Fechamento (90,32%)</strong>Chamados encerrados sem confirmação do cliente — "Ok, encerrando" vira padrão.</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-num" style="background:#f59e0b;">4°</div>
+        <div class="tip-text"><strong>Gramática (89,2%)</strong>Mais erros de digitação, abreviações e frases incompletas sob pressão de velocidade.</div>
+      </div>
+    </div>
+
+    <ul class="checklist">
+      <li><div class="check-box">🎯</div><span><strong>Crie seus "atalhos de qualidade":</strong> salve frases padrão de empatia, abertura e fechamento para usar rapidamente sem precisar pensar.</span></li>
+      <li><div class="check-box">🎯</div><span><strong>2 segundos de revisão:</strong> mesmo no pior dia, 2 segundos para reler antes de enviar evitam erros de gramática.</span></li>
+      <li><div class="check-box">🎯</div><span><strong>Qualidade mínima vs. velocidade:</strong> é melhor atender 10 chamados com qualidade do que 15 sem. O cliente lembra da experiência, não da velocidade.</span></li>
+      <li><div class="check-box">🎯</div><span><strong>Comunique ao supervisor:</strong> se o volume está afetando qualidade, sinalize. A gestão precisa saber para redistribuir carga.</span></li>
+    </ul>
+
+    <div class="frases-grid">
+      <div class="frase-card" style="border-color:#ef4444;">
+        <div class="frase-label" style="color:#ef4444;">💬 Frase rápida de empatia (copie e salve!)</div>
+        "Entendo, [nome]! Já verifico isso para você agora."
+      </div>
+      <div class="frase-card" style="border-color:#f59e0b;">
+        <div class="frase-label" style="color:#f59e0b;">💬 Frase rápida de fechamento (copie e salve!)</div>
+        "Isso resolve o que você precisava? Fico à disposição para mais alguma dúvida. 😊"
+      </div>
+    </div>
+
+    <div class="takeaway">
+      <div class="takeaway-icon">💡</div>
+      <div class="takeaway-text">
+        <strong>Qualidade não é um luxo para dias tranquilos.</strong>
+        <p>Os clientes que entram em contato em dias de alta demanda muitas vezes já estão mais estressados. Esses são os dias em que a empatia e a qualidade mais fazem diferença — e mais impactam a percepção da marca.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-logo">⚡ Zoop | iFood Pago</div>
+  <p style="font-weight:700;color:#475569;margin-bottom:4px;">Pílulas de Conhecimento · AutoQA v10.0</p>
+  <p>Gerado em 24/04/2026 · Baseado em 200 conversas analisadas · Semana 20–24 Abr 2026</p>
+  <p style="margin-top:8px;font-size:11px;">Este material foi gerado automaticamente com base nos dados de qualidade reais do AutoQA. Compartilhe com os times de atendimento para ações de melhoria contínua.</p>
+</div>
+
+<script>
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(()=>{
+    alert('Link copiado!');
+  }).catch(()=>{
+    alert('Use Ctrl+C para copiar o link da barra de endereços.');
+  });
+}
+</script>
+</body>
+</html>
