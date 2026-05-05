@@ -2415,19 +2415,16 @@ console.log('🌐 Sistema de contadores compartilhados carregado!');
         }
     
         function openTraining(link) {
-    if (link) {
-        // Cria link e simula clique (evita bloqueio de popup)
-        const a = document.createElement('a');
-        a.href = link;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    } else {
-        alert('Link do treinamento não disponível');
-    }
-} else {
+            if (link) {
+                // Cria link e simula clique (evita bloqueio de popup)
+                const a = document.createElement('a');
+                a.href = link;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
                 alert('Link do treinamento não disponível');
             }
         }
