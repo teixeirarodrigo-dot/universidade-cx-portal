@@ -6,6 +6,13 @@
     <title>Universidade de CX - Zoop | iFood Pago</title>
     
     <style>
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         /* ========================================
            VARIÁVEIS CSS PARA TEMAS
         ======================================== */
@@ -53,6 +60,13 @@
             color: var(--text-primary);
             line-height: 1.6;
             transition: background 0.3s ease, color 0.3s ease;
+        }
+
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         /* ========================================
@@ -165,6 +179,13 @@
             border-left: 4px solid #E06020;
         }
 
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         /* ========================================
            HEADER
         ======================================== */
@@ -261,6 +282,13 @@
             background: rgba(255,255,255,0.3);
         }
 
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         /* ========================================
            MAIN CONTENT
         ======================================== */
@@ -328,6 +356,13 @@
 
         .clickable-card:hover .card-hint {
             opacity: 1;
+        }
+
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         /* ========================================
@@ -405,6 +440,13 @@
 
         .search-results.show {
             display: block;
+        }
+
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         /* ========================================
@@ -537,6 +579,13 @@
             transform: scale(1.02);
         }
 
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         /* ========================================
            LOGIN OVERLAY
         ======================================== */
@@ -624,6 +673,13 @@
         .login-btn:hover {
             background: #c55219;
             transform: translateY(-2px);
+        }
+
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
 
         /* ========================================
@@ -788,6 +844,13 @@
             margin-bottom: 1rem;
         }
 
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
         /* ========================================
            RESPONSIVE
         ======================================== */
@@ -882,14 +945,14 @@
             <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
                 <span class="theme-icon">🌙</span>
             </button>
-            <div class="user-info" id="userInfo" style="display: none;">
-                <div class="user-avatar">👤</div>
-                <div class="user-details">
-                    <div class="user-name" id="displayName">Usuário</div>
-                    <div class="user-email" id="displayEmail">email@ifood.com</div>
-                </div>
-                <button class="logout-btn" onclick="logout()">Sair</button>
+        </div>
+        <div class="user-info" id="userInfo" style="display: none;">
+            <div class="user-avatar">👤</div>
+            <div class="user-details">
+                <div class="user-name" id="displayName">Usuário</div>
+                <div class="user-email" id="displayEmail">email@ifood.com</div>
             </div>
+            <button class="logout-btn" onclick="logout()">Sair</button>
         </div>
     </div>
 
