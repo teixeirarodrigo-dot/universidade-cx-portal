@@ -697,6 +697,72 @@
             margin-bottom: 1rem;
         }
 
+    
+.search-box {
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 0.8rem 1.2rem;
+    margin-bottom: 1.5rem;
+    gap: 0.8rem;
+    transition: all 0.3s;
+}
+
+.search-box:focus-within {
+    border-color: #E06020;
+    box-shadow: 0 4px 15px rgba(224, 96, 32, 0.2);
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    color: var(--text);
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: var(--text-sec);
+    opacity: 0.6;
+}
+
+.clear-search-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-sec);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.clear-search-btn:hover {
+    background: #E06020;
+    color: white;
+}
+
+.clear-search-btn.show {
+    display: flex;
+}
+
+.search-results {
+    font-size: 0.9rem;
+    color: var(--text-sec);
+    margin-bottom: 1rem;
+    display: none;
+}
+
+.search-results.show {
+    display: block;
+}
+
     </style>
 </head>
 <body>
@@ -830,7 +896,15 @@
                 <button class="clear-filter" onclick="filterByCategory('all')">✕ Limpar Filtro</button>
             </div>
             
-<div class="trainings-grid" id="trainingsGrid">
+            <!-- Campo de Busca -->
+            <div class="search-box">
+                <span style="font-size: 1.3rem;">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="Buscar treinamento por nome, categoria ou descrição..." onkeyup="performSearch()" />
+                <button class="clear-search-btn" id="clearSearchBtn" onclick="clearSearchInput()">✕</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+
+            <div class="trainings-grid" id="trainingsGrid">
                 <!-- Os cards serão inseridos aqui via JavaScript -->
             </div>
         </div>
@@ -1064,6 +1138,9 @@
             trainings.forEach(training => {
                 const card = document.createElement('div');
                 card.className = 'training-card';
+                card.setAttribute('data-title', training.title.toLowerCase());
+                card.setAttribute('data-category', training.category.toLowerCase());
+                card.setAttribute('data-description', training.description.toLowerCase());
                 card.innerHTML = `
                     <div class="card-header">
                         <h3>${training.title}</h3>
@@ -1294,6 +1371,55 @@
     </div>
 
 <script>
+
+// ==========================================
+// BUSCA INTELIGENTE
+// ==========================================
+function performSearch() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const cards = document.querySelectorAll('.training-card');
+    const resultsDiv = document.getElementById('searchResults');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    
+    if (query.length > 0) {
+        clearBtn.classList.add('show');
+        let visibleCount = 0;
+        
+        cards.forEach(card => {
+            const title = card.getAttribute('data-title') || '';
+            const category = card.getAttribute('data-category') || '';
+            const description = card.getAttribute('data-description') || '';
+            
+            if (title.includes(query) || category.includes(query) || description.includes(query)) {
+                card.classList.remove('hidden');
+                visibleCount++;
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+        
+        resultsDiv.classList.add('show');
+        resultsDiv.textContent = `🔍 ${visibleCount} treinamento${visibleCount !== 1 ? 's' : ''} encontrado${visibleCount !== 1 ? 's' : ''}`;
+    } else {
+        clearSearchInput();
+    }
+}
+
+function clearSearchInput() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('clearSearchBtn').classList.remove('show');
+    document.getElementById('searchResults').classList.remove('show');
+    
+    // Mostrar todos os cards (ou respeitar filtro de categoria ativo)
+    const cards = document.querySelectorAll('.training-card');
+    if (currentFilter === 'all') {
+        cards.forEach(card => card.classList.remove('hidden'));
+    } else {
+        // Reaplicar filtro de categoria
+        filterByCategory(currentFilter);
+    }
+}
+
 // Modo Escuro
 function toggleTheme() {
     const html = document.documentElement;
