@@ -6,41 +6,33 @@
     <title>Universidade de CX - Zoop | iFood Pago</title>
     
     <style>
+        :root {
+    --bg: #FAFAFA;
+    --card-bg: white;
+    --text: #2C3E50;
+    --text-sec: #555;
+    --border: #f0f0f0;
+}
+
+[data-theme="dark"] {
+    --bg: #1a1a2e;
+    --card-bg: #16213e;
+    --text: #e0e0e0;
+    --text-sec: #b0b0b0;
+    --border: #2a2a3e;
+}
+
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-
-        /* Variáveis para Modo Escuro/Claro */
-        :root {
-            --bg-primary: #FAFAFA;
-            --bg-card: white;
-            --text-primary: #2C3E50;
-            --text-secondary: #555;
-            --text-muted: #777;
-            --border-color: #f0f0f0;
-            --shadow: rgba(0,0,0,0.1);
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #0f0f1e;
-            --bg-card: #16213e;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --text-muted: #888;
-            --border-color: #2a2a3e;
-            --shadow: rgba(0,0,0,0.5);
-        }
-
         body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background 0.3s, color 0.3s;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #FAFAFA;
-            color: #2C3E50;
+            background: var(--bg); transition: background 0.3s;
+            color: var(--text);
             line-height: 1.6;
         }
 
@@ -238,7 +230,7 @@
         }
 
         .stat-card {
-            background: var(--bg-card);
+            background: var(--card-bg);
             padding: 1.5rem;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -266,14 +258,14 @@
 
         .stat-card .stat-label {
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: #777;
         }
 
         /* ============================================
            TRAININGS GRID (Grid de treinamentos)
         ============================================ */
         .trainings-section {
-            background: var(--bg-card);
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -296,7 +288,7 @@
         }
 
         .training-card {
-            background: var(--bg-card);
+            background: var(--card-bg);
             border-radius: 12px;
             padding: 1.5rem;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
@@ -327,7 +319,7 @@
         }
 
         .card-description {
-            color: var(--text-secondary);
+            color: var(--text-sec);
             margin: 1rem 0;
             line-height: 1.6;
             font-size: 0.95rem;
@@ -337,7 +329,7 @@
             display: flex;
             gap: 1rem;
             margin: 1rem 0;
-            color: var(--text-muted);
+            color: #777;
             font-size: 0.85rem;
         }
 
@@ -379,7 +371,7 @@
         }
 
         .login-container {
-            background: var(--bg-card);
+            background: var(--card-bg);
             padding: 3rem;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
@@ -404,7 +396,7 @@
         }
 
         .login-subtitle {
-            color: var(--text-muted);
+            color: #777;
             margin-top: 0.5rem;
         }
 
@@ -554,7 +546,7 @@
         }
 
         .modal-content {
-            background: var(--bg-card);
+            background: white;
             border-radius: 20px;
             padding: 2rem;
             max-width: 600px;
@@ -658,14 +650,14 @@
         }
 
         .training-date {
-            color: var(--text-muted);
+            color: #777;
             font-size: 0.85rem;
         }
 
         .empty-state {
             text-align: center;
             padding: 2rem;
-            color: var(--text-muted);
+            color: #777;
         }
 
         .empty-icon {
@@ -785,11 +777,7 @@
     ============================================ -->
     <div class="header">
         <h1 class="header-title">🎓 Universidade de CX</h1>
-        <div style="display: flex; align-items: center; gap: 1rem;">
-            <button class="theme-toggle" onclick="toggleTheme()" style="background: rgba(255,255,255,0.2); border: none; color: white; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; transition: all 0.3s;">
-                <span id="themeIcon">🌙</span>
-            </button>
-            <div class="user-info" id="userInfo" style="display: none;">
+        <button onclick="toggleTheme()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:40px;height:40px;border-radius:50%;cursor:pointer;margin-right:1rem;font-size:1.2rem;" id="themeBtn">🌙</button><div class="user-info" id="userInfo" style="display: none;">
             <div class="user-avatar">👤</div>
             <div class="user-details">
                 <div class="user-name" id="displayName">Usuário</div>
@@ -1272,27 +1260,6 @@
             }
         });
 
-
-        // MODO ESCURO/CLARO
-        function toggleTheme() {
-            const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            const newTheme = current === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            document.getElementById('themeIcon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
-        }
-
-        function loadTheme() {
-            const saved = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', saved);
-            const icon = document.getElementById('themeIcon');
-            if (icon) icon.textContent = saved === 'dark' ? '☀️' : '🌙';
-        }
-
-        // Carregar tema ao iniciar
-        loadTheme();
-
     </script>
 
 
@@ -1326,5 +1293,25 @@
         </div>
     </div>
 
+<script>
+// Modo Escuro
+function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const newTheme = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.getElementById('themeBtn').textContent = newTheme === 'dark' ? '☀️' : '🌙';
+}
+
+(function() {
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+    setTimeout(() => {
+        const btn = document.getElementById('themeBtn');
+        if (btn) btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+    }, 100);
+})();
+</script>
 </body>
 </html>
