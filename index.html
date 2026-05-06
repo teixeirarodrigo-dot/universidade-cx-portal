@@ -763,6 +763,233 @@
     display: block;
 }
 
+    
+/* Badges */
+.badge-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 10px;
+    margin: 0.8rem 0;
+    border-left: 4px solid #E06020;
+    transition: all 0.3s;
+}
+
+.badge-item.locked {
+    opacity: 0.5;
+    border-left-color: #ccc;
+}
+
+.badge-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(224, 96, 32, 0.2);
+}
+
+.badge-icon {
+    font-size: 2.5rem;
+    filter: grayscale(100%);
+}
+
+.badge-item.unlocked .badge-icon {
+    filter: grayscale(0%);
+}
+
+.badge-info {
+    flex: 1;
+}
+
+.badge-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.badge-description {
+    font-size: 0.9rem;
+    color: var(--text-sec);
+    margin-top: 0.3rem;
+}
+
+.badge-date {
+    font-size: 0.8rem;
+    color: #E06020;
+    margin-top: 0.3rem;
+}
+
+.badge-progress {
+    margin-top: 0.5rem;
+}
+
+.badge-bar {
+    background: var(--border);
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.badge-fill {
+    background: linear-gradient(90deg, #E06020, #ff8c42);
+    height: 100%;
+    transition: width 0.5s;
+}
+
+.badge-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.badge-stat {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(224, 96, 32, 0.1);
+    border-radius: 10px;
+}
+
+.badge-stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #E06020;
+}
+
+.badge-stat-label {
+    font-size: 0.85rem;
+    color: var(--text-sec);
+    margin-top: 0.3rem;
+}
+
+/* Metas */
+.goal-item {
+    padding: 1rem;
+    background: var(--card-bg);
+    border-radius: 10px;
+    margin: 0.8rem 0;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+.goal-item:hover {
+    border-color: #E06020;
+}
+
+.goal-item.active {
+    border-color: #E06020;
+    background: rgba(224, 96, 32, 0.05);
+}
+
+.goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.goal-name {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.goal-badge {
+    font-size: 1.5rem;
+}
+
+.goal-desc {
+    font-size: 0.9rem;
+    color: var(--text-sec);
+    margin-bottom: 0.8rem;
+}
+
+.goal-progress-bar {
+    background: var(--border);
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.goal-progress-fill {
+    background: linear-gradient(90deg, #E06020, #ff8c42);
+    height: 100%;
+    transition: width 0.5s;
+}
+
+.goal-progress-text {
+    font-size: 0.85rem;
+    color: var(--text-sec);
+}
+
+.select-goal-btn {
+    background: #E06020;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    width: 100%;
+}
+
+.select-goal-btn:hover {
+    background: #c55219;
+}
+
+.active-goal-banner {
+    background: linear-gradient(135deg, #E06020, #ff8c42);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.active-goal-banner:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(224, 96, 32, 0.4);
+}
+
+.active-goal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.active-goal-title {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.active-goal-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.active-goal-progress {
+    background: rgba(255,255,255,0.3);
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.active-goal-fill {
+    background: white;
+    height: 100%;
+    transition: width 0.5s;
+}
+
+.active-goal-text {
+    font-size: 0.9rem;
+    opacity: 0.95;
+}
+
     </style>
 </head>
 <body>
@@ -881,6 +1108,11 @@
                     <div class="stat-icon">🔥</div>
                     <div class="stat-value" id="streakDays">1</div>
                     <div class="stat-label">Dias Consecutivos</div>
+                </div>                <div class="stat-card clickable-card" onclick="showBadgesModal()">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value" id="badgesCount">0</div>
+                    <div class="stat-label">Conquistas</div>
+                    <div class="card-hint">Clique para ver badges</div>
                 </div>
             </div>
         </div>
@@ -1372,6 +1604,358 @@
 
 <script>
 
+
+// ==========================================
+// SISTEMA DE BADGES E METAS
+// ==========================================
+
+// Definição de todas as badges
+const badges = [
+    { id: 'first_step', name: 'Primeiro Passo', icon: '🥉', description: 'Complete seu primeiro treinamento', requirement: 1, type: 'trainings' },
+    { id: 'studious', name: 'Estudioso', icon: '📚', description: 'Complete 3 treinamentos', requirement: 3, type: 'trainings' },
+    { id: 'expert', name: 'Expert', icon: '🎓', description: 'Complete 5 treinamentos', requirement: 5, type: 'trainings' },
+    { id: 'master', name: 'Mestre', icon: '🏆', description: 'Complete todos os 9 treinamentos', requirement: 9, type: 'trainings' },
+    { id: 'streak3', name: 'Streak Iniciante', icon: '🔥', description: '3 dias de acesso consecutivo', requirement: 3, type: 'streak' },
+    { id: 'streak7', name: 'Streak Master', icon: '⚡', description: '7 dias de acesso consecutivo', requirement: 7, type: 'streak' },
+    { id: 'explorer', name: 'Explorador', icon: '🌟', description: 'Complete treinamentos de 3 categorias diferentes', requirement: 3, type: 'categories' },
+    { id: 'completionist', name: 'Completista', icon: '💯', description: 'Desbloqueie todas as outras badges', requirement: 7, type: 'meta' }
+];
+
+// Definição de metas disponíveis
+const availableGoals = [
+    { id: 'week3', name: 'Meta Semanal', icon: '📅', description: 'Complete 3 treinamentos esta semana', target: 3, period: 'week' },
+    { id: 'month5', name: 'Meta Mensal', icon: '📆', description: 'Complete 5 treinamentos este mês', target: 5, period: 'month' },
+    { id: 'category', name: 'Especialista', icon: '🎯', description: 'Complete todos os treinamentos de uma categoria', target: 'category', period: 'ever' },
+    { id: 'streak5', name: 'Consistência', icon: '🔥', description: '5 dias de acesso consecutivo', target: 5, period: 'streak' }
+];
+
+// Inicializar badges do usuário
+if (!userStats.badges) {
+    userStats.badges = [];
+}
+
+if (!userStats.activeGoal) {
+    userStats.activeGoal = null;
+}
+
+// Verificar e desbloquear badges
+function checkAndUnlockBadges() {
+    let newUnlocks = [];
+    
+    badges.forEach(badge => {
+        // Se já tem, pula
+        if (userStats.badges.find(b => b.id === badge.id)) return;
+        
+        let unlock = false;
+        
+        switch(badge.type) {
+            case 'trainings':
+                unlock = userStats.trainingAccess.length >= badge.requirement;
+                break;
+            case 'streak':
+                unlock = userStats.streakDays >= badge.requirement;
+                break;
+            case 'categories':
+                const uniqueCategories = new Set();
+                userStats.trainingAccess.forEach(accessedItem => {
+                    const training = trainings.find(t => 
+                        t.title === (accessedItem.title || accessedItem)
+                    );
+                    if (training) uniqueCategories.add(training.category);
+                });
+                unlock = uniqueCategories.size >= badge.requirement;
+                break;
+            case 'meta':
+                unlock = userStats.badges.length >= badge.requirement;
+                break;
+        }
+        
+        if (unlock) {
+            userStats.badges.push({
+                id: badge.id,
+                unlockedAt: new Date().toISOString()
+            });
+            newUnlocks.push(badge);
+        }
+    });
+    
+    if (newUnlocks.length > 0) {
+        saveStats();
+        updateBadgesDisplay();
+        // Mostrar notificação de conquista
+        newUnlocks.forEach(badge => {
+            showBadgeNotification(badge);
+        });
+    }
+}
+
+// Mostrar notificação de badge desbloqueada
+function showBadgeNotification(badge) {
+    // Criar elemento de notificação
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #E06020, #ff8c42);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(224, 96, 32, 0.5);
+        z-index: 10001;
+        animation: slideIn 0.5s ease;
+        max-width: 300px;
+    `;
+    
+    notification.innerHTML = `
+        <div style="font-size: 3rem; text-align: center; margin-bottom: 0.5rem;">${badge.icon}</div>
+        <div style="font-weight: 700; font-size: 1.2rem; text-align: center; margin-bottom: 0.3rem;">
+            Conquista Desbloqueada!
+        </div>
+        <div style="text-align: center; font-size: 1.1rem; font-weight: 600;">${badge.name}</div>
+        <div style="text-align: center; font-size: 0.9rem; opacity: 0.9; margin-top: 0.3rem;">${badge.description}</div>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Remover após 5 segundos
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.5s ease';
+        setTimeout(() => notification.remove(), 500);
+    }, 5000);
+}
+
+// Adicionar animação CSS
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(400px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(400px); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
+
+// Atualizar display de badges
+function updateBadgesDisplay() {
+    const count = userStats.badges.length;
+    const countEl = document.getElementById('badgesCount');
+    if (countEl) countEl.textContent = count;
+}
+
+// Modal de Badges
+function showBadgesModal() {
+    const modal = document.getElementById('badgesModal');
+    const badgesList = document.getElementById('badgesList');
+    const unlockedCount = document.getElementById('unlockedCount');
+    
+    modal.classList.add('show');
+    badgesList.innerHTML = '';
+    unlockedCount.textContent = userStats.badges.length;
+    
+    badges.forEach(badge => {
+        const userBadge = userStats.badges.find(b => b.id === badge.id);
+        const isUnlocked = !!userBadge;
+        
+        const item = document.createElement('div');
+        item.className = `badge-item ${isUnlocked ? 'unlocked' : 'locked'}`;
+        
+        let progressHTML = '';
+        if (!isUnlocked) {
+            let current = 0;
+            let target = badge.requirement;
+            
+            switch(badge.type) {
+                case 'trainings':
+                    current = userStats.trainingAccess.length;
+                    break;
+                case 'streak':
+                    current = userStats.streakDays || 1;
+                    break;
+                case 'categories':
+                    const cats = new Set();
+                    userStats.trainingAccess.forEach(a => {
+                        const t = trainings.find(tr => tr.title === (a.title || a));
+                        if (t) cats.add(t.category);
+                    });
+                    current = cats.size;
+                    break;
+                case 'meta':
+                    current = userStats.badges.length;
+                    break;
+            }
+            
+            const percentage = Math.min(100, (current / target) * 100);
+            progressHTML = `
+                <div class="badge-progress">
+                    <div class="badge-bar">
+                        <div class="badge-fill" style="width: ${percentage}%"></div>
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-sec); margin-top: 0.3rem;">
+                        ${current} / ${target}
+                    </div>
+                </div>
+            `;
+        }
+        
+        const dateHTML = isUnlocked ? 
+            `<div class="badge-date">Desbloqueada em ${new Date(userBadge.unlockedAt).toLocaleDateString('pt-BR')}</div>` : 
+            '';
+        
+        item.innerHTML = `
+            <div class="badge-icon">${badge.icon}</div>
+            <div class="badge-info">
+                <div class="badge-name">${badge.name}</div>
+                <div class="badge-description">${badge.description}</div>
+                ${dateHTML}
+                ${progressHTML}
+            </div>
+        `;
+        
+        badgesList.appendChild(item);
+    });
+}
+
+function closeBadgesModal() {
+    document.getElementById('badgesModal').classList.remove('show');
+}
+
+// Sistema de Metas
+function showGoalsModal() {
+    const modal = document.getElementById('goalsModal');
+    const goalsList = document.getElementById('goalsList');
+    
+    modal.classList.add('show');
+    goalsList.innerHTML = '';
+    
+    availableGoals.forEach(goal => {
+        const isActive = userStats.activeGoal === goal.id;
+        
+        const item = document.createElement('div');
+        item.className = `goal-item ${isActive ? 'active' : ''}`;
+        
+        let current = 0;
+        let target = goal.target;
+        
+        if (goal.period === 'week' || goal.period === 'month') {
+            // Contar treinamentos no período
+            current = userStats.trainingAccess.length; // Simplificado
+            target = goal.target;
+        } else if (goal.period === 'streak') {
+            current = userStats.streakDays || 1;
+            target = goal.target;
+        } else if (goal.target === 'category') {
+            // Verificar categoria mais completa
+            const categoryCounts = {};
+            userStats.trainingAccess.forEach(a => {
+                const t = trainings.find(tr => tr.title === (a.title || a));
+                if (t) {
+                    categoryCounts[t.category] = (categoryCounts[t.category] || 0) + 1;
+                }
+            });
+            current = Math.max(...Object.values(categoryCounts), 0);
+            target = 2; // Exemplo: 2 treinamentos por categoria
+        }
+        
+        const percentage = Math.min(100, (current / target) * 100);
+        
+        item.innerHTML = `
+            <div class="goal-header">
+                <div class="goal-name">${goal.name}</div>
+                <div class="goal-badge">${goal.icon}</div>
+            </div>
+            <div class="goal-desc">${goal.description}</div>
+            <div class="goal-progress-bar">
+                <div class="goal-progress-fill" style="width: ${percentage}%"></div>
+            </div>
+            <div class="goal-progress-text">${current} / ${target}</div>
+            ${!isActive ? `<button class="select-goal-btn" onclick="setActiveGoal('${goal.id}')">Definir como Meta Ativa</button>` : '<div style="color: #E06020; font-weight: 600; margin-top: 0.5rem;">✓ Meta Ativa</div>'}
+        `;
+        
+        goalsList.appendChild(item);
+    });
+}
+
+function closeGoalsModal() {
+    document.getElementById('goalsModal').classList.remove('show');
+}
+
+function setActiveGoal(goalId) {
+    userStats.activeGoal = goalId;
+    saveStats();
+    updateActiveGoalBanner();
+    closeGoalsModal();
+}
+
+function updateActiveGoalBanner() {
+    const banner = document.getElementById('activeGoalBanner');
+    
+    if (!userStats.activeGoal) {
+        banner.style.display = 'none';
+        return;
+    }
+    
+    const goal = availableGoals.find(g => g.id === userStats.activeGoal);
+    if (!goal) return;
+    
+    banner.style.display = 'block';
+    document.getElementById('activeGoalBadge').textContent = goal.icon;
+    document.getElementById('activeGoalName').textContent = goal.name;
+    
+    let current = 0;
+    let target = goal.target;
+    
+    if (goal.period === 'week' || goal.period === 'month') {
+        current = userStats.trainingAccess.length;
+        target = goal.target;
+    } else if (goal.period === 'streak') {
+        current = userStats.streakDays || 1;
+        target = goal.target;
+    } else if (goal.target === 'category') {
+        const categoryCounts = {};
+        userStats.trainingAccess.forEach(a => {
+            const t = trainings.find(tr => tr.title === (a.title || a));
+            if (t) {
+                categoryCounts[t.category] = (categoryCounts[t.category] || 0) + 1;
+            }
+        });
+        current = Math.max(...Object.values(categoryCounts), 0);
+        target = 2;
+    }
+    
+    const percentage = Math.min(100, (current / target) * 100);
+    document.getElementById('activeGoalFill').style.width = percentage + '%';
+    document.getElementById('activeGoalText').textContent = `${current} / ${target} ${goal.period === 'streak' ? 'dias' : 'treinamentos'}`;
+}
+
+// Fechar modais ao clicar fora
+document.getElementById('badgesModal').addEventListener('click', function(e) {
+    if (e.target === this) closeBadgesModal();
+});
+
+document.getElementById('goalsModal').addEventListener('click', function(e) {
+    if (e.target === this) closeGoalsModal();
+});
+
+// Verificar badges ao carregar e ao acessar treinamento
+window.addEventListener('load', () => {
+    checkAndUnlockBadges();
+    updateBadgesDisplay();
+    updateActiveGoalBanner();
+});
+
+// Modificar trackTrainingAccess para verificar badges
+const originalTrackTrainingAccess = trackTrainingAccess;
+function trackTrainingAccess(title) {
+    originalTrackTrainingAccess(title);
+    checkAndUnlockBadges();
+    updateActiveGoalBanner();
+}
+
+
 // ==========================================
 // BUSCA INTELIGENTE
 // ==========================================
@@ -1439,5 +2023,45 @@ function toggleTheme() {
     }, 100);
 })();
 </script>
+
+    <!-- Modal de Badges -->
+    <div class="training-modal" id="badgesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🏆 Suas Conquistas</h2>
+                <button class="close-btn" onclick="closeBadgesModal()">✕</button>
+            </div>
+            
+            <div class="badge-stats">
+                <div class="badge-stat">
+                    <div class="badge-stat-value" id="unlockedCount">0</div>
+                    <div class="badge-stat-label">Desbloqueadas</div>
+                </div>
+                <div class="badge-stat">
+                    <div class="badge-stat-value" id="totalBadges">8</div>
+                    <div class="badge-stat-label">Total</div>
+                </div>
+            </div>
+            
+            <div id="badgesList"></div>
+        </div>
+    </div>
+
+    <!-- Modal de Metas -->
+    <div class="training-modal" id="goalsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">🎯 Metas Disponíveis</h2>
+                <button class="close-btn" onclick="closeGoalsModal()">✕</button>
+            </div>
+            
+            <p style="color: var(--text-sec); margin-bottom: 1.5rem;">
+                Escolha uma meta para focar seus estudos! Você pode ter apenas uma meta ativa por vez.
+            </p>
+            
+            <div id="goalsList"></div>
+        </div>
+    </div>
+
 </body>
 </html>
