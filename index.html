@@ -443,6 +443,48 @@
             }
         }
 
+    
+        .nav-item.active {
+            background: rgba(224, 96, 32, 0.4);
+            border-left: 4px solid #E06020;
+        }
+
+        .filter-info {
+            background: rgba(224, 96, 32, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-info.active {
+            display: flex;
+        }
+
+        .filter-text {
+            font-weight: 600;
+            color: #E06020;
+        }
+
+        .clear-filter {
+            background: #E06020;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .clear-filter:hover {
+            background: #c55219;
+        }
+
+        .training-card.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -508,12 +550,13 @@
 
         <div class="sidebar-section">
             <div class="section-title">📂 Categorias</div>
-            <div class="nav-item">📋 Processos</div>
-            <div class="nav-item">💼 Soft Skills</div>
-            <div class="nav-item">📦 Produto</div>
-            <div class="nav-item">⚙️ Técnico</div>
-            <div class="nav-item">✅ Compliance</div>
-            <div class="nav-item">📜 Regulatório</div>
+            <div class="nav-item" onclick="filterByCategory('all')">🔍 Ver Todos</div>
+            <div class="nav-item" onclick="filterByCategory('Processos')">📋 Processos</div>
+            <div class="nav-item" onclick="filterByCategory('Soft Skills')">💼 Soft Skills</div>
+            <div class="nav-item" onclick="filterByCategory('Produto')">📦 Produto</div>
+            <div class="nav-item" onclick="filterByCategory('Técnico')">⚙️ Técnico</div>
+            <div class="nav-item" onclick="filterByCategory('Compliance')">✅ Compliance</div>
+            <div class="nav-item" onclick="filterByCategory('Regulatório')">📜 Regulatório</div>
         </div>
     </div>
 
@@ -567,7 +610,14 @@
         <div class="trainings-section">
             <h2 class="section-header">📚 Treinamentos Disponíveis</h2>
             
-            <div class="trainings-grid" id="trainingsGrid">
+                        <div class="filter-info" id="filterInfo">
+                <span class="filter-text">
+                    <span id="filterMessage">Mostrando todos os treinamentos</span>
+                </span>
+                <button class="clear-filter" onclick="filterByCategory('all')">✕ Limpar Filtro</button>
+            </div>
+            
+<div class="trainings-grid" id="trainingsGrid">
                 <!-- Os cards serão inseridos aqui via JavaScript -->
             </div>
         </div>
@@ -822,6 +872,79 @@
                 updateDashboard();
             }
         }
+
+        // ==========================================
+        // SISTEMA DE FILTRO POR CATEGORIA
+        // ==========================================
+        let currentFilter = 'all';
+
+        function filterByCategory(category) {
+            currentFilter = category;
+            const cards = document.querySelectorAll('.training-card');
+            const filterInfo = document.getElementById('filterInfo');
+            const filterMessage = document.getElementById('filterMessage');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            // Remove active de todos os nav-items
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // Adiciona active no item clicado
+            if (category !== 'all') {
+                navItems.forEach(item => {
+                    if (item.textContent.includes(category)) {
+                        item.classList.add('active');
+                    }
+                });
+            } else {
+                // Marca "Ver Todos" como ativo
+                navItems.forEach(item => {
+                    if (item.textContent.includes('Ver Todos')) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+            
+            let visibleCount = 0;
+            
+            cards.forEach(card => {
+                const cardCategory = card.querySelector('.card-category').textContent;
+                
+                if (category === 'all') {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else if (cardCategory === category) {
+                    card.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+            
+            // Atualizar mensagem de filtro
+            if (category === 'all') {
+                filterInfo.classList.remove('active');
+                filterMessage.textContent = 'Mostrando todos os treinamentos';
+            } else {
+                filterInfo.classList.add('active');
+                filterMessage.textContent = `📂 Categoria: ${category} (${visibleCount} treinamento${visibleCount !== 1 ? 's' : ''})`;
+            }
+            
+            // Scroll suave para os treinamentos
+            document.querySelector('.trainings-section').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        // Inicializar com "Ver Todos" ativo
+        window.addEventListener('load', function() {
+            const verTodosItem = Array.from(document.querySelectorAll('.nav-item'))
+                .find(item => item.textContent.includes('Ver Todos'));
+            if (verTodosItem) {
+                verTodosItem.classList.add('active');
+            }
+        });
+
     </script>
 
 </body>
