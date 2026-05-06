@@ -1113,6 +1113,11 @@
                     <div class="stat-value" id="badgesCount">0</div>
                     <div class="stat-label">Conquistas</div>
                     <div class="card-hint">Clique para ver badges</div>
+                </div>                <div class="stat-card clickable-card" onclick="showGoalsModal()">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value" id="activeGoalIcon">➕</div>
+                    <div class="stat-label">Minha Meta</div>
+                    <div class="card-hint">Clique para definir</div>
                 </div>
             </div>
         </div>
@@ -1887,14 +1892,36 @@ function setActiveGoal(goalId) {
     userStats.activeGoal = goalId;
     saveStats();
     updateActiveGoalBanner();
+    updateGoalCard();
     closeGoalsModal();
+}
+
+
+// Atualizar card de meta
+function updateGoalCard() {
+    const iconEl = document.getElementById('activeGoalIcon');
+    if (!iconEl) return;
+    
+    if (userStats.activeGoal) {
+        const goal = availableGoals.find(g => g.id === userStats.activeGoal);
+        if (goal) {
+            iconEl.textContent = goal.icon;
+        }
+    } else {
+        iconEl.textContent = '➕';
+    }
 }
 
 function updateActiveGoalBanner() {
     const banner = document.getElementById('activeGoalBanner');
     
     if (!userStats.activeGoal) {
-        banner.style.display = 'none';
+        // Mostrar convite para definir meta
+        banner.style.display = 'block';
+        document.getElementById('activeGoalBadge').textContent = '🎯';
+        document.getElementById('activeGoalName').textContent = 'Nenhuma meta ativa';
+        document.getElementById('activeGoalFill').style.width = '0%';
+        document.getElementById('activeGoalText').textContent = 'Clique para definir uma meta!';
         return;
     }
     
@@ -1929,6 +1956,7 @@ function updateActiveGoalBanner() {
     const percentage = Math.min(100, (current / target) * 100);
     document.getElementById('activeGoalFill').style.width = percentage + '%';
     document.getElementById('activeGoalText').textContent = `${current} / ${target} ${goal.period === 'streak' ? 'dias' : 'treinamentos'}`;
+    updateGoalCard();
 }
 
 // Fechar modais ao clicar fora
@@ -1945,6 +1973,7 @@ window.addEventListener('load', () => {
     checkAndUnlockBadges();
     updateBadgesDisplay();
     updateActiveGoalBanner();
+    updateGoalCard();
 });
 
 // Modificar trackTrainingAccess para verificar badges
