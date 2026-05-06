@@ -582,6 +582,7 @@
             padding: 0;
         }
 
+
         .training-item {
             background: #f8f9fa;
             padding: 1rem;
@@ -589,12 +590,31 @@
             border-radius: 10px;
             border-left: 4px solid #E06020;
             transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
         }
 
         .training-item:hover {
             background: #fff;
             box-shadow: 0 4px 15px rgba(224, 96, 32, 0.2);
+            transform: translateX(5px);
         }
+
+        .training-item::after {
+            content: '▶';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #E06020;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .training-item:hover::after {
+            opacity: 1;
+        }
+
 
         .training-name {
             font-weight: 600;
@@ -1169,6 +1189,12 @@
                         const li = document.createElement('li');
                         li.className = 'training-item';
                         
+                        // Tornar clicável para abrir o treinamento
+                        li.onclick = function() {
+                            window.open(training.file, '_blank');
+                            closeTrainingModal();
+                        };
+                        
                         // Data de acesso
                         const accessDate = accessedTraining.date ? 
                             new Date(accessedTraining.date).toLocaleDateString('pt-BR', {
@@ -1182,7 +1208,7 @@
                         li.innerHTML = `
                             <div class="training-name">${training.title}</div>
                             <span class="training-category">${training.category}</span>
-                            <div class="training-date">Acessado em: ${accessDate}</div>
+                            <div class="training-date">📅 Acessado em: ${accessDate}</div>
                         `;
                         
                         trainingList.appendChild(li);
@@ -1243,6 +1269,9 @@
                     <div class="empty-text">Nenhum treinamento acessado ainda</div>
                     <div class="empty-hint">Clique nos cards dos treinamentos para começar!</div>
                 </div>
+            </div>            
+            <div style="text-align: center; margin-top: 1rem; color: #999; font-size: 0.85rem;">
+                💡 Clique em qualquer treinamento para abri-lo novamente
             </div>
         </div>
     </div>
