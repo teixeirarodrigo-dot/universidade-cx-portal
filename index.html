@@ -6,48 +6,6 @@
     <title>Universidade de CX - Zoop | iFood Pago</title>
     
     <style>
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* ========================================
-           VARIÁVEIS CSS PARA TEMAS
-        ======================================== */
-        :root {
-            --bg-primary: #FAFAFA;
-            --bg-secondary: white;
-            --text-primary: #2C3E50;
-            --text-secondary: #555;
-            --text-muted: #777;
-            --border-color: #f0f0f0;
-            --shadow: rgba(0,0,0,0.1);
-            --shadow-hover: rgba(224, 96, 32, 0.3);
-            --card-bg: white;
-            --sidebar-bg-start: #1a1a2e;
-            --sidebar-bg-end: #16213e;
-            --input-bg: white;
-            --input-border: #ddd;
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #0f0f1e;
-            --bg-secondary: #1a1a2e;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --text-muted: #888;
-            --border-color: #2a2a3e;
-            --shadow: rgba(0,0,0,0.5);
-            --shadow-hover: rgba(224, 96, 32, 0.5);
-            --card-bg: #16213e;
-            --sidebar-bg-start: #0a0a14;
-            --sidebar-bg-end: #0f0f1e;
-            --input-bg: #1a1a2e;
-            --input-border: #2a2a3e;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -56,35 +14,27 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            background: #FAFAFA;
+            color: #2C3E50;
             line-height: 1.6;
-            transition: background 0.3s ease, color 0.3s ease;
         }
 
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* ========================================
-           SIDEBAR
-        ======================================== */
+        /* ============================================
+           SIDEBAR (Barra Lateral)
+        ============================================ */
         .sidebar {
             position: fixed;
             left: 0;
             top: 0;
             width: 280px;
             height: 100vh;
-            background: linear-gradient(180deg, var(--sidebar-bg-start), var(--sidebar-bg-end));
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
             color: white;
             padding: 2rem 1.5rem;
             overflow-y: auto;
             transition: all 0.3s ease;
             z-index: 1000;
-            box-shadow: 4px 0 20px var(--shadow);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.2);
         }
 
         .sidebar-header {
@@ -174,21 +124,9 @@
             background: rgba(224, 96, 32, 0.2);
         }
 
-        .nav-item.active {
-            background: rgba(224, 96, 32, 0.4);
-            border-left: 4px solid #E06020;
-        }
-
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* ========================================
-           HEADER
-        ======================================== */
+        /* ============================================
+           HEADER (Cabeçalho com info do usuário)
+        ============================================ */
         .header {
             margin-left: 280px;
             background: linear-gradient(135deg, #E06020, #73002d);
@@ -197,39 +135,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 20px var(--shadow);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         .header-title {
             font-size: 2rem;
             font-weight: 800;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* TOGGLE DE TEMA */
-        .theme-toggle {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(180deg);
         }
 
         .user-info {
@@ -282,16 +193,9 @@
             background: rgba(255,255,255,0.3);
         }
 
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* ========================================
-           MAIN CONTENT
-        ======================================== */
+        /* ============================================
+           DASHBOARD (Cards de estatísticas)
+        ============================================ */
         .main-content {
             margin-left: 280px;
             padding: 2rem;
@@ -309,10 +213,10 @@
         }
 
         .stat-card {
-            background: var(--card-bg);
+            background: white;
             padding: 1.5rem;
             border-radius: 15px;
-            box-shadow: 0 4px 15px var(--shadow);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
             border: 2px solid #E06020;
             transition: all 0.3s ease;
@@ -320,7 +224,7 @@
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px var(--shadow-hover);
+            box-shadow: 0 8px 25px rgba(224, 96, 32, 0.3);
         }
 
         .stat-card .stat-icon {
@@ -337,126 +241,17 @@
 
         .stat-card .stat-label {
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: #777;
         }
 
-        .clickable-card {
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-hint {
-            font-size: 0.75rem;
-            color: #999;
-            margin-top: 0.5rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .clickable-card:hover .card-hint {
-            opacity: 1;
-        }
-
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* ========================================
-           BUSCA
-        ======================================== */
-        .search-container {
-            margin-bottom: 2rem;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--card-bg);
-            border: 2px solid var(--input-border);
-            border-radius: 12px;
-            padding: 0.8rem 1.2rem;
-            gap: 0.8rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 10px var(--shadow);
-        }
-
-        .search-box:focus-within {
-            border-color: #E06020;
-            box-shadow: 0 4px 20px var(--shadow-hover);
-        }
-
-        .search-icon {
-            font-size: 1.3rem;
-            color: var(--text-muted);
-        }
-
-        .search-input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            font-size: 1rem;
-            color: var(--text-primary);
-            outline: none;
-        }
-
-        .search-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .clear-search {
-            background: var(--input-bg);
-            border: none;
-            color: var(--text-muted);
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1rem;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .clear-search:hover {
-            background: #E06020;
-            color: white;
-        }
-
-        .clear-search.show {
-            display: flex;
-        }
-
-        .search-results {
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            display: none;
-        }
-
-        .search-results.show {
-            display: block;
-        }
-
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* ========================================
-           TRAININGS SECTION
-        ======================================== */
+        /* ============================================
+           TRAININGS GRID (Grid de treinamentos)
+        ============================================ */
         .trainings-section {
-            background: var(--card-bg);
+            background: white;
             padding: 2rem;
             border-radius: 15px;
-            box-shadow: 0 4px 15px var(--shadow);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .section-header {
@@ -469,39 +264,6 @@
             gap: 0.5rem;
         }
 
-        .filter-info {
-            background: rgba(224, 96, 32, 0.1);
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .filter-info.active {
-            display: flex;
-        }
-
-        .filter-text {
-            font-weight: 600;
-            color: #E06020;
-        }
-
-        .clear-filter {
-            background: #E06020;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .clear-filter:hover {
-            background: #c55219;
-        }
-
         .trainings-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -509,22 +271,18 @@
         }
 
         .training-card {
-            background: var(--card-bg);
+            background: white;
             border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 3px 10px var(--shadow);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
-            border: 2px solid var(--border-color);
+            border: 2px solid #f0f0f0;
         }
 
         .training-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px var(--shadow-hover);
+            box-shadow: 0 8px 20px rgba(224, 96, 32, 0.2);
             border-color: #E06020;
-        }
-
-        .training-card.hidden {
-            display: none;
         }
 
         .card-header h3 {
@@ -544,7 +302,7 @@
         }
 
         .card-description {
-            color: var(--text-secondary);
+            color: #555;
             margin: 1rem 0;
             line-height: 1.6;
             font-size: 0.95rem;
@@ -554,7 +312,7 @@
             display: flex;
             gap: 1rem;
             margin: 1rem 0;
-            color: var(--text-muted);
+            color: #777;
             font-size: 0.85rem;
         }
 
@@ -579,16 +337,9 @@
             transform: scale(1.02);
         }
 
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* ========================================
+        /* ============================================
            LOGIN OVERLAY
-        ======================================== */
+        ============================================ */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -675,16 +426,90 @@
             transform: translateY(-2px);
         }
 
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            .header, .main-content {
+                margin-left: 0;
+            }
+
+            .trainings-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        /* ========================================
-           MODAL DE TREINAMENTOS
-        ======================================== */
+    
+        .nav-item.active {
+            background: rgba(224, 96, 32, 0.4);
+            border-left: 4px solid #E06020;
+        }
+
+        .filter-info {
+            background: rgba(224, 96, 32, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-info.active {
+            display: flex;
+        }
+
+        .filter-text {
+            font-weight: 600;
+            color: #E06020;
+        }
+
+        .clear-filter {
+            background: #E06020;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .clear-filter:hover {
+            background: #c55219;
+        }
+
+        .training-card.hidden {
+            display: none;
+        }
+    
+        .clickable-card {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .clickable-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(224, 96, 32, 0.4);
+        }
+
+        .card-hint {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .clickable-card:hover .card-hint {
+            opacity: 1;
+        }
+
+        /* Modal de detalhes dos treinamentos */
         .training-modal {
             position: fixed;
             top: 0;
@@ -704,7 +529,7 @@
         }
 
         .modal-content {
-            background: var(--card-bg);
+            background: white;
             border-radius: 20px;
             padding: 2rem;
             max-width: 600px;
@@ -721,7 +546,7 @@
             align-items: center;
             margin-bottom: 1.5rem;
             padding-bottom: 1rem;
-            border-bottom: 2px solid var(--border-color);
+            border-bottom: 2px solid #f0f0f0;
         }
 
         .modal-title {
@@ -734,7 +559,7 @@
         }
 
         .close-btn {
-            background: var(--border-color);
+            background: #f0f0f0;
             border: none;
             border-radius: 50%;
             width: 40px;
@@ -745,7 +570,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-primary);
         }
 
         .close-btn:hover {
@@ -759,52 +583,44 @@
         }
 
         .training-item {
-            background: var(--input-bg);
+            background: #f8f9fa;
             padding: 1rem;
             margin: 0.8rem 0;
             border-radius: 10px;
             border-left: 4px solid #E06020;
             transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
         }
 
         .training-item:hover {
-            background: var(--card-bg);
-            box-shadow: 0 4px 15px var(--shadow-hover);
-            transform: translateX(5px);
-        }
-
-        .training-item::after {
-            content: '▶';
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #E06020;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .training-item:hover::after {
-            opacity: 1;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(224, 96, 32, 0.2);
         }
 
         .training-name {
             font-weight: 600;
-            color: var(--text-primary);
+            color: #333;
             margin-bottom: 0.3rem;
         }
 
+        .training-category {
+            display: inline-block;
+            background: #E06020;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+        }
+
         .training-date {
-            color: var(--text-muted);
+            color: #777;
             font-size: 0.85rem;
         }
 
         .empty-state {
             text-align: center;
             padding: 2rem;
-            color: var(--text-muted);
+            color: #777;
         }
 
         .empty-icon {
@@ -823,7 +639,7 @@
         }
 
         .progress-bar {
-            background: var(--border-color);
+            background: #f0f0f0;
             border-radius: 10px;
             height: 8px;
             margin: 1rem 0;
@@ -840,38 +656,17 @@
         .progress-text {
             text-align: center;
             font-size: 0.9rem;
-            color: var(--text-secondary);
+            color: #666;
             margin-bottom: 1rem;
         }
 
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        /* ========================================
-           RESPONSIVE
-        ======================================== */
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .header, .main-content {
-                margin-left: 0;
-            }
-
-            .trainings-grid {
-                grid-template-columns: 1fr;
-            }
-        }
     </style>
 </head>
 <body>
 
-    <!-- LOGIN OVERLAY -->
+    <!-- ============================================
+         LOGIN OVERLAY
+    ============================================ -->
     <div id="loginOverlay" class="login-overlay">
         <div class="login-container">
             <div class="login-header">
@@ -893,7 +688,9 @@
         </div>
     </div>
 
-    <!-- SIDEBAR -->
+    <!-- ============================================
+         SIDEBAR (Barra Lateral)
+    ============================================ -->
     <div class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">🎓</div>
@@ -938,14 +735,11 @@
         </div>
     </div>
 
-    <!-- HEADER -->
+    <!-- ============================================
+         HEADER (com info do usuário)
+    ============================================ -->
     <div class="header">
         <h1 class="header-title">🎓 Universidade de CX</h1>
-        <div class="header-actions">
-            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
-                <span class="theme-icon">🌙</span>
-            </button>
-        </div>
         <div class="user-info" id="userInfo" style="display: none;">
             <div class="user-avatar">👤</div>
             <div class="user-details">
@@ -956,10 +750,12 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT -->
+    <!-- ============================================
+         MAIN CONTENT
+    ============================================ -->
     <div class="main-content">
         
-        <!-- Dashboard -->
+        <!-- Dashboard com cards de estatísticas -->
         <div class="dashboard">
             <div class="stats-grid">
                 <div class="stat-card">
@@ -986,89 +782,129 @@
             </div>
         </div>
 
-        <!-- Seção de Treinamentos -->
+        <!-- Seção de treinamentos -->
         <div class="trainings-section">
             <h2 class="section-header">📚 Treinamentos Disponíveis</h2>
             
-            <!-- CAMPO DE BUSCA -->
-            <div class="search-container">
-                <div class="search-box">
-                    <span class="search-icon">🔍</span>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Buscar treinamento por nome, categoria ou descrição..." />
-                    <button class="clear-search" id="clearSearch" onclick="clearSearch()">✕</button>
-                </div>
-                <div class="search-results" id="searchResults"></div>
-            </div>
-
-            <div class="filter-info" id="filterInfo">
+                        <div class="filter-info" id="filterInfo">
                 <span class="filter-text">
                     <span id="filterMessage">Mostrando todos os treinamentos</span>
                 </span>
                 <button class="clear-filter" onclick="filterByCategory('all')">✕ Limpar Filtro</button>
             </div>
             
-            <div class="trainings-grid" id="trainingsGrid">
-                <!-- Cards serão inseridos aqui -->
+<div class="trainings-grid" id="trainingsGrid">
+                <!-- Os cards serão inseridos aqui via JavaScript -->
             </div>
         </div>
     </div>
 
-    <!-- MODAL DE DETALHES -->
-    <div class="training-modal" id="trainingModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">📚 Seus Treinamentos</h2>
-                <button class="close-btn" onclick="closeTrainingModal()">✕</button>
-            </div>
-            
-            <div class="progress-text" id="progressText">Progresso: 0 de 9 treinamentos</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-            </div>
-            
-            <div id="trainingListContainer">
-                <ul class="training-list" id="trainingList"></ul>
-                <div class="empty-state" id="emptyState">
-                    <div class="empty-icon">📖</div>
-                    <div class="empty-text">Nenhum treinamento acessado ainda</div>
-                    <div class="empty-hint">Clique nos cards dos treinamentos para começar!</div>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 1rem; color: #999; font-size: 0.85rem;">
-                💡 Clique em qualquer treinamento para abri-lo novamente
-            </div>
-        </div>
-    </div>
-
+    <!-- ============================================
+         JAVASCRIPT
+    ============================================ -->
     <script>
+        // ==========================================
         // DADOS DOS TREINAMENTOS
+        // ==========================================
         const trainings = [
-            { title: '12 Regras Essenciais', category: 'Processos', description: 'Domine as 12 regras fundamentais que todo profissional de CX precisa conhecer.', duration: '45 min', level: 'Intermediário', file: 'treinamento_12_regras_completo_final (2).html' },
-            { title: 'Os 4 Pilares do Customer Experience', category: 'Soft Skills', description: 'Entenda os pilares fundamentais para criar experiências incríveis.', duration: '60 min', level: 'Iniciante', file: 'Os 4 Pilares do Customer Experience.html' },
-            { title: 'Onboarding Cred', category: 'Produto', description: 'Aprenda o processo completo de onboarding do produto Cred.', duration: '40 min', level: 'Intermediário', file: 'treinamento_onboarding_Cred_final_real (1).html' },
-            { title: 'PIX por Aproximação Zoop', category: 'Técnico', description: 'Entenda a tecnologia por trás do PIX por aproximação na plataforma Zoop.', duration: '35 min', level: 'Avançado', file: 'treinamento_pix_aproximacao_zoop_light (2).html' },
-            { title: 'Treinamento Pricing', category: 'Produto', description: 'Domine as estratégias de precificação e suas aplicações.', duration: '50 min', level: 'Intermediário', file: 'Treinamento Pricing.html' },
-            { title: 'Registro de Recebíveis CERC Zoop', category: 'Compliance', description: 'Aprenda sobre registro de recebíveis e compliance na CERC.', duration: '55 min', level: 'Avançado', file: 'treinamento_registro_recebiveis_cerc_zoop_light.html' },
-            { title: 'Repasse Financeiro Zoop', category: 'Processos', description: 'Entenda o fluxo de repasse financeiro na plataforma Zoop.', duration: '45 min', level: 'Intermediário', file: 'treinamento_repasse_financeiro_zoop (2).html' },
-            { title: 'Normativa 514', category: 'Regulatório', description: 'A Resolução BCB nº 514 foca no Registro de Recebíveis, dando mais agilidade e controle ao lojista sobre suas vendas no cartão.', duration: '1h 15min', level: 'Técnico', file: 'acelera_comercial_normativa_514_claro_otimizado.html' },
-            { title: 'Pílulas de Conhecimento AutoQA', category: 'Soft Skills', description: 'Pílulas de conhecimento sobre AutoQA para desenvolvimento de competências essenciais.', duration: '1h', level: 'Intermediário', file: 'pilulas_conhecimento_autoqa (1).html' }
+            {
+                title: '12 Regras Essenciais',
+                category: 'Processos',
+                description: 'Domine as 12 regras fundamentais que todo profissional de CX precisa conhecer.',
+                duration: '45 min',
+                level: 'Intermediário',
+                file: 'treinamento_12_regras_completo_final (2).html'
+            },
+            {
+                title: 'Os 4 Pilares do Customer Experience',
+                category: 'Soft Skills',
+                description: 'Entenda os pilares fundamentais para criar experiências incríveis.',
+                duration: '60 min',
+                level: 'Iniciante',
+                file: 'Os 4 Pilares do Customer Experience.html'
+            },
+            {
+                title: 'Onboarding Cred',
+                category: 'Produto',
+                description: 'Aprenda o processo completo de onboarding do produto Cred.',
+                duration: '40 min',
+                level: 'Intermediário',
+                file: 'treinamento_onboarding_Cred_final_real (1).html'
+            },
+            {
+                title: 'PIX por Aproximação Zoop',
+                category: 'Técnico',
+                description: 'Entenda a tecnologia por trás do PIX por aproximação na plataforma Zoop.',
+                duration: '35 min',
+                level: 'Avançado',
+                file: 'treinamento_pix_aproximacao_zoop_light (2).html'
+            },
+            {
+                title: 'Treinamento Pricing',
+                category: 'Produto',
+                description: 'Domine as estratégias de precificação e suas aplicações.',
+                duration: '50 min',
+                level: 'Intermediário',
+                file: 'Treinamento Pricing.html'
+            },
+            {
+                title: 'Registro de Recebíveis CERC Zoop',
+                category: 'Compliance',
+                description: 'Aprenda sobre registro de recebíveis e compliance na CERC.',
+                duration: '55 min',
+                level: 'Avançado',
+                file: 'treinamento_registro_recebiveis_cerc_zoop_light.html'
+            },
+            {
+                title: 'Repasse Financeiro Zoop',
+                category: 'Processos',
+                description: 'Entenda o fluxo de repasse financeiro na plataforma Zoop.',
+                duration: '45 min',
+                level: 'Intermediário',
+                file: 'treinamento_repasse_financeiro_zoop (2).html'
+            },
+            {
+                title: 'Normativa 514',
+                category: 'Regulatório',
+                description: 'A Resolução BCB nº 514 foca no Registro de Recebíveis, dando mais agilidade e controle ao lojista sobre suas vendas no cartão.',
+                duration: '1h 15min',
+                level: 'Técnico',
+                file: 'acelera_comercial_normativa_514_claro_otimizado.html'
+            },
+            {
+                title: 'Pílulas de Conhecimento AutoQA',
+                category: 'Soft Skills',
+                description: 'Pílulas de conhecimento sobre AutoQA para desenvolvimento de competências essenciais.',
+                duration: '1h',
+                level: 'Intermediário',
+                file: 'pilulas_conhecimento_autoqa (1).html'
+            }
         ];
 
+        // ==========================================
+        // ESTADO GLOBAL
+        // ==========================================
         let currentUser = null;
-        let userStats = { totalAccess: 0, trainingAccess: [], lastVisit: new Date().toISOString(), streakDays: 1, loginTime: null };
-        let currentFilter = 'all';
+        let userStats = {
+            totalAccess: 0,
+            trainingAccess: [],
+            lastVisit: new Date().toISOString(),
+            streakDays: 1,
+            loginTime: null
+        };
 
+        // ==========================================
         // INICIALIZAÇÃO
+        // ==========================================
         window.onload = function() {
             checkExistingUser();
             renderTrainings();
             startTimer();
-            loadTheme();
-            initSearch();
         };
 
-        // LOGIN
+        // ==========================================
+        // SISTEMA DE LOGIN
+        // ==========================================
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             handleLogin();
@@ -1077,19 +913,27 @@
         function handleLogin() {
             const name = document.getElementById('userName').value.trim();
             const email = document.getElementById('userEmail').value.trim();
+
             if (name && email) {
                 currentUser = { name, email, joinDate: new Date().toISOString() };
-                const savedStats = localStorage.getItem(\`zoop_stats_\${email}\`);
+
+                // Carrega estatísticas existentes ou cria novas
+                const savedStats = localStorage.getItem(`zoop_stats_${email}`);
                 if (savedStats) {
                     userStats = JSON.parse(savedStats);
                     userStats.totalAccess++;
                 } else {
                     userStats.totalAccess = 1;
                 }
+
                 userStats.lastVisit = new Date().toISOString();
                 userStats.loginTime = new Date();
+
+                // Salva dados
                 localStorage.setItem('zoop_user', JSON.stringify(currentUser));
                 saveStats();
+
+                // Mostra interface
                 showLoggedIn();
             }
         }
@@ -1098,7 +942,7 @@
             const saved = localStorage.getItem('zoop_user');
             if (saved) {
                 currentUser = JSON.parse(saved);
-                const savedStats = localStorage.getItem(\`zoop_stats_\${currentUser.email}\`);
+                const savedStats = localStorage.getItem(`zoop_stats_${currentUser.email}`);
                 if (savedStats) {
                     userStats = JSON.parse(savedStats);
                     userStats.totalAccess++;
@@ -1125,26 +969,44 @@
             }
         }
 
+        // ==========================================
+        // DASHBOARD / ESTATÍSTICAS
+        // ==========================================
         function updateDashboard() {
             document.getElementById('totalAccess').textContent = userStats.totalAccess;
+            
+            // Contar corretamente considerando formato antigo e novo
             let trainingAccessCount = 0;
             userStats.trainingAccess.forEach(item => {
-                if (typeof item === 'string' || typeof item === 'object') trainingAccessCount++;
+                if (typeof item === 'string' || typeof item === 'object') {
+                    trainingAccessCount++;
+                }
             });
+            
             document.getElementById('trainingCount').textContent = trainingAccessCount;
             document.getElementById('sidebarUserAccess').textContent = userStats.totalAccess;
+            
+            // Último acesso
             const lastDate = new Date(userStats.lastVisit);
             const today = new Date();
             const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
-            if (diffDays === 0) document.getElementById('lastVisit').textContent = 'Hoje';
-            else if (diffDays === 1) document.getElementById('lastVisit').textContent = 'Ontem';
-            else document.getElementById('lastVisit').textContent = diffDays + ' dias atrás';
+            
+            if (diffDays === 0) {
+                document.getElementById('lastVisit').textContent = 'Hoje';
+            } else if (diffDays === 1) {
+                document.getElementById('lastVisit').textContent = 'Ontem';
+            } else {
+                document.getElementById('lastVisit').textContent = diffDays + ' dias atrás';
+            }
         }
 
         function saveStats() {
-            if (currentUser) localStorage.setItem(\`zoop_stats_\${currentUser.email}\`, JSON.stringify(userStats));
+            if (currentUser) {
+                localStorage.setItem(`zoop_stats_${currentUser.email}`, JSON.stringify(userStats));
+            }
         }
 
+        // Timer de tempo online
         function startTimer() {
             setInterval(() => {
                 if (currentUser && userStats.loginTime) {
@@ -1152,71 +1014,94 @@
                     const diff = Math.floor((now - new Date(userStats.loginTime)) / (1000 * 60));
                     document.getElementById('sidebarTimeOnline').textContent = diff + 'min';
                 }
-            }, 60000);
+            }, 60000); // Atualiza a cada minuto
         }
 
+        // ==========================================
         // RENDERIZAR TREINAMENTOS
+        // ==========================================
         function renderTrainings() {
             const grid = document.getElementById('trainingsGrid');
             grid.innerHTML = '';
+
             trainings.forEach(training => {
                 const card = document.createElement('div');
                 card.className = 'training-card';
-                card.setAttribute('data-title', training.title.toLowerCase());
-                card.setAttribute('data-category', training.category.toLowerCase());
-                card.setAttribute('data-description', training.description.toLowerCase());
-                card.innerHTML = \`
+                card.innerHTML = `
                     <div class="card-header">
-                        <h3>\${training.title}</h3>
-                        <span class="card-category">\${training.category}</span>
+                        <h3>${training.title}</h3>
+                        <span class="card-category">${training.category}</span>
                     </div>
                     <div class="card-body">
-                        <p class="card-description">\${training.description}</p>
+                        <p class="card-description">${training.description}</p>
                         <div class="card-meta">
-                            <span>⏱️ \${training.duration}</span>
-                            <span>📊 \${training.level}</span>
+                            <span>⏱️ ${training.duration}</span>
+                            <span>📊 ${training.level}</span>
                         </div>
-                        <a href="\${training.file}" target="_blank" onclick="trackTrainingAccess('\${training.title}')">
+                        <a href="${training.file}" target="_blank" onclick="trackTrainingAccess('${training.title}')">
                             <button class="btn-primary">📖 Acessar Treinamento</button>
                         </a>
                     </div>
-                \`;
+                `;
                 grid.appendChild(card);
             });
         }
 
+        // ==========================================
+        // RASTREAR ACESSO A TREINAMENTOS (ATUALIZADO)
+        // ==========================================
         function trackTrainingAccess(title) {
             const existingAccess = userStats.trainingAccess.find(item => 
                 (typeof item === 'string' && item === title) || 
                 (typeof item === 'object' && item.title === title)
             );
+            
             if (!existingAccess) {
-                userStats.trainingAccess.push({ title: title, date: new Date().toISOString() });
+                userStats.trainingAccess.push({
+                    title: title,
+                    date: new Date().toISOString()
+                });
                 saveStats();
                 updateDashboard();
             }
         }
 
-        // FILTRO POR CATEGORIA
+        // ==========================================
+        // SISTEMA DE FILTRO POR CATEGORIA
+        // ==========================================
+        let currentFilter = 'all';
+
         function filterByCategory(category) {
             currentFilter = category;
             const cards = document.querySelectorAll('.training-card');
             const filterInfo = document.getElementById('filterInfo');
             const filterMessage = document.getElementById('filterMessage');
             const navItems = document.querySelectorAll('.nav-item');
+            
+            // Remove active de todos os nav-items
             navItems.forEach(item => item.classList.remove('active'));
+            
+            // Adiciona active no item clicado
             if (category !== 'all') {
                 navItems.forEach(item => {
-                    if (item.textContent.includes(category)) item.classList.add('active');
+                    if (item.textContent.includes(category)) {
+                        item.classList.add('active');
+                    }
                 });
             } else {
+                // Marca "Ver Todos" como ativo
                 navItems.forEach(item => {
-                    if (item.textContent.includes('Ver Todos')) item.classList.add('active');
+                    if (item.textContent.includes('Ver Todos')) {
+                        item.classList.add('active');
+                    }
                 });
             }
+            
             let visibleCount = 0;
+            
             cards.forEach(card => {
                 const cardCategory = card.querySelector('.card-category').textContent;
+                
                 if (category === 'all') {
                     card.classList.remove('hidden');
                     visibleCount++;
@@ -1227,114 +1112,90 @@
                     card.classList.add('hidden');
                 }
             });
+            
+            // Atualizar mensagem de filtro
             if (category === 'all') {
                 filterInfo.classList.remove('active');
+                filterMessage.textContent = 'Mostrando todos os treinamentos';
             } else {
                 filterInfo.classList.add('active');
-                filterMessage.textContent = \`📂 Categoria: \${category} (\${visibleCount} treinamento\${visibleCount !== 1 ? 's' : ''})\`;
+                filterMessage.textContent = `📂 Categoria: ${category} (${visibleCount} treinamento${visibleCount !== 1 ? 's' : ''})`;
             }
-            document.querySelector('.trainings-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // MODO ESCURO/CLARO
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            document.querySelector('.theme-icon').textContent = newTheme === 'dark' ? '☀️' : '🌙';
-        }
-
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.querySelector('.theme-icon').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
-        }
-
-        // BUSCA
-        function initSearch() {
-            const searchInput = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearSearch');
-            searchInput.addEventListener('input', performSearch);
-        }
-
-        function performSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const cards = document.querySelectorAll('.training-card');
-            const searchResults = document.getElementById('searchResults');
-            const clearBtn = document.getElementById('clearSearch');
             
-            if (query.length > 0) {
-                clearBtn.classList.add('show');
-                let visibleCount = 0;
-                cards.forEach(card => {
-                    const title = card.getAttribute('data-title');
-                    const category = card.getAttribute('data-category');
-                    const description = card.getAttribute('data-description');
-                    if (title.includes(query) || category.includes(query) || description.includes(query)) {
-                        card.classList.remove('hidden');
-                        visibleCount++;
-                    } else {
-                        card.classList.add('hidden');
-                    }
-                });
-                searchResults.classList.add('show');
-                searchResults.textContent = \`🔍 \${visibleCount} treinamento\${visibleCount !== 1 ? 's' : ''} encontrado\${visibleCount !== 1 ? 's' : ''}\`;
-            } else {
-                clearBtn.classList.remove('show');
-                searchResults.classList.remove('show');
-                cards.forEach(card => card.classList.remove('hidden'));
+            // Scroll suave para os treinamentos
+            document.querySelector('.trainings-section').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }
+
+        // Inicializar com "Ver Todos" ativo
+        window.addEventListener('load', function() {
+            const verTodosItem = Array.from(document.querySelectorAll('.nav-item'))
+                .find(item => item.textContent.includes('Ver Todos'));
+            if (verTodosItem) {
+                verTodosItem.classList.add('active');
             }
-        }
+        });
 
-        function clearSearch() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('clearSearch').classList.remove('show');
-            document.getElementById('searchResults').classList.remove('show');
-            document.querySelectorAll('.training-card').forEach(card => card.classList.remove('hidden'));
-        }
 
-        // MODAL DE TREINAMENTOS
+        // ==========================================
+        // MODAL DE DETALHES DOS TREINAMENTOS
+        // ==========================================
         function showTrainingDetails() {
             const modal = document.getElementById('trainingModal');
             const trainingList = document.getElementById('trainingList');
             const emptyState = document.getElementById('emptyState');
             const progressText = document.getElementById('progressText');
             const progressFill = document.getElementById('progressFill');
+            
             modal.classList.add('show');
+            
+            // Limpar lista
             trainingList.innerHTML = '';
+            
             if (userStats.trainingAccess.length === 0) {
                 emptyState.style.display = 'block';
                 trainingList.style.display = 'none';
             } else {
                 emptyState.style.display = 'none';
                 trainingList.style.display = 'block';
+                
+                // Buscar detalhes dos treinamentos acessados
                 userStats.trainingAccess.forEach(accessedTraining => {
                     const training = trainings.find(t => t.title === accessedTraining.title || t.title === accessedTraining);
+                    
                     if (training) {
                         const li = document.createElement('li');
                         li.className = 'training-item';
-                        li.onclick = function() {
-                            window.open(training.file, '_blank');
-                            closeTrainingModal();
-                        };
+                        
+                        // Data de acesso
                         const accessDate = accessedTraining.date ? 
-                            new Date(accessedTraining.date).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : 
-                            'Data não disponível';
-                        li.innerHTML = \`
-                            <div class="training-name">\${training.title}</div>
-                            <span class="card-category">\${training.category}</span>
-                            <div class="training-date">📅 Acessado em: \${accessDate}</div>
-                        \`;
+                            new Date(accessedTraining.date).toLocaleDateString('pt-BR', {
+                                day: '2-digit',
+                                month: '2-digit', 
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            }) : 'Data não disponível';
+                        
+                        li.innerHTML = `
+                            <div class="training-name">${training.title}</div>
+                            <span class="training-category">${training.category}</span>
+                            <div class="training-date">Acessado em: ${accessDate}</div>
+                        `;
+                        
                         trainingList.appendChild(li);
                     }
                 });
             }
+            
+            // Atualizar barra de progresso
             const totalTrainings = trainings.length;
             const accessedCount = userStats.trainingAccess.length;
             const percentage = Math.round((accessedCount / totalTrainings) * 100);
-            progressText.textContent = \`Progresso: \${accessedCount} de \${totalTrainings} treinamentos (\${percentage}%)\`;
+            
+            progressText.textContent = `Progresso: ${accessedCount} de ${totalTrainings} treinamentos (${percentage}%)`;
             progressFill.style.width = percentage + '%';
         }
 
@@ -1342,20 +1203,49 @@
             document.getElementById('trainingModal').classList.remove('show');
         }
 
+        // Fechar modal ao clicar fora
         document.getElementById('trainingModal').addEventListener('click', function(e) {
-            if (e.target === this) closeTrainingModal();
+            if (e.target === this) {
+                closeTrainingModal();
+            }
         });
 
+        // Fechar modal com ESC
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeTrainingModal();
+            if (e.key === 'Escape') {
+                closeTrainingModal();
+            }
         });
 
-        // Inicializar categoria ativa
-        window.addEventListener('load', function() {
-            const verTodosItem = Array.from(document.querySelectorAll('.nav-item')).find(item => item.textContent.includes('Ver Todos'));
-            if (verTodosItem) verTodosItem.classList.add('active');
-        });
     </script>
+
+
+    <!-- Modal de Detalhes dos Treinamentos -->
+    <div class="training-modal" id="trainingModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📚 Seus Treinamentos</h2>
+                <button class="close-btn" onclick="closeTrainingModal()">✕</button>
+            </div>
+            
+            <div class="progress-text" id="progressText">Progresso: 0 de 9 treinamentos</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            
+            <div id="trainingListContainer">
+                <ul class="training-list" id="trainingList">
+                    <!-- Lista será preenchida dinamicamente -->
+                </ul>
+                
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">📖</div>
+                    <div class="empty-text">Nenhum treinamento acessado ainda</div>
+                    <div class="empty-hint">Clique nos cards dos treinamentos para começar!</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
