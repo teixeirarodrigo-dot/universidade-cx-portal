@@ -19,61 +19,275 @@
             line-height: 1.6;
         }
 
-        .header {
-            background: linear-gradient(135deg, #E06020, #73002d);
-            padding: 2rem 0;
+        /* ============================================
+           SIDEBAR (Barra Lateral)
+        ============================================ */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
             color: white;
+            padding: 2rem 1.5rem;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+        }
+
+        .sidebar-header {
             text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(224, 96, 32, 0.3);
+        }
+
+        .sidebar-logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #E06020;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 0.3rem;
+        }
+
+        .sidebar-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: rgba(224, 96, 32, 0.2);
+            transform: translateX(5px);
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #E06020;
+        }
+
+        .nav-item {
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(224, 96, 32, 0.2);
+        }
+
+        /* ============================================
+           HEADER (Cabeçalho com info do usuário)
+        ============================================ */
+        .header {
+            margin-left: 280px;
+            background: linear-gradient(135deg, #E06020, #73002d);
+            padding: 1.5rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        .logo {
-            font-size: 1.8rem;
+        .header-title {
+            font-size: 2rem;
             font-weight: 800;
-            margin-bottom: 1rem;
         }
 
-        .main-title {
-            font-size: 3.2rem;
-            font-weight: 800;
-            margin: 1rem 0;
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
         }
 
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #E06020;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+        .user-details {
+            display: flex;
+            flex-direction: column;
         }
 
-        .trainings-grid {
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .user-email {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* ============================================
+           DASHBOARD (Cards de estatísticas)
+        ============================================ */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .dashboard {
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .training-card {
+        .stat-card {
             background: white;
-            border-radius: 15px;
             padding: 1.5rem;
+            border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            text-align: center;
             border: 2px solid #E06020;
+            transition: all 0.3s ease;
         }
 
-        .training-card:hover {
+        .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(224, 96, 32, 0.3);
         }
 
+        .stat-card .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #E06020;
+            margin: 0.5rem 0;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* ============================================
+           TRAININGS GRID (Grid de treinamentos)
+        ============================================ */
+        .trainings-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #E06020;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .trainings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .training-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 2px solid #f0f0f0;
+        }
+
+        .training-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(224, 96, 32, 0.2);
+            border-color: #E06020;
+        }
+
         .card-header h3 {
             color: #E06020;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
         }
 
@@ -82,7 +296,7 @@
             color: white;
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             display: inline-block;
             margin-bottom: 1rem;
         }
@@ -91,6 +305,7 @@
             color: #555;
             margin: 1rem 0;
             line-height: 1.6;
+            font-size: 0.95rem;
         }
 
         .card-meta {
@@ -98,7 +313,7 @@
             gap: 1rem;
             margin: 1rem 0;
             color: #777;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .btn-primary {
@@ -112,193 +327,502 @@
             width: 100%;
             font-size: 1rem;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
         }
 
         .btn-primary:hover {
             background: #c55219;
             transform: scale(1.02);
         }
+
+        /* ============================================
+           LOGIN OVERLAY
+        ============================================ */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #E06020, #73002d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #E06020;
+        }
+
+        .login-subtitle {
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #E06020;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: #E06020;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #c55219;
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .header, .main-content {
+                margin-left: 0;
+            }
+
+            .trainings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
     </style>
 </head>
 <body>
 
+    <!-- ============================================
+         LOGIN OVERLAY
+    ============================================ -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="login-logo">🎓</div>
+                <div class="login-title">Universidade de CX</div>
+                <div class="login-subtitle">Entre para continuar</div>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label class="form-label" for="userName">Nome</label>
+                    <input id="userName" class="form-input" type="text" placeholder="Seu nome completo" required />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="userEmail">E-mail</label>
+                    <input id="userEmail" class="form-input" type="email" placeholder="seu.email@ifood.com.br" required />
+                </div>
+                <button type="submit" class="login-btn">🔐 Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============================================
+         SIDEBAR (Barra Lateral)
+    ============================================ -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">🎓</div>
+            <div class="sidebar-title">Universidade CX</div>
+            <div class="sidebar-subtitle">Zoop | iFood Pago</div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="section-title">📊 Estatísticas</div>
+            <div class="stat-item">
+                <div class="stat-icon">📚</div>
+                <div class="stat-info">
+                    <div class="stat-label">Treinamentos</div>
+                    <div class="stat-value" id="sidebarTrainingCount">9</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">👤</div>
+                <div class="stat-info">
+                    <div class="stat-label">Seus Acessos</div>
+                    <div class="stat-value" id="sidebarUserAccess">0</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-info">
+                    <div class="stat-label">Tempo Online</div>
+                    <div class="stat-value" id="sidebarTimeOnline">0min</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="section-title">📂 Categorias</div>
+            <div class="nav-item">📋 Processos</div>
+            <div class="nav-item">💼 Soft Skills</div>
+            <div class="nav-item">📦 Produto</div>
+            <div class="nav-item">⚙️ Técnico</div>
+            <div class="nav-item">✅ Compliance</div>
+            <div class="nav-item">📜 Regulatório</div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         HEADER (com info do usuário)
+    ============================================ -->
     <div class="header">
-        <div class="logo">
-            <span class="zoop-logo">Zoop</span>
-            <span class="divider">|</span>
-            <span class="ifood-logo">iFood Pago</span>
+        <h1 class="header-title">🎓 Universidade de CX</h1>
+        <div class="user-info" id="userInfo" style="display: none;">
+            <div class="user-avatar">👤</div>
+            <div class="user-details">
+                <div class="user-name" id="displayName">Usuário</div>
+                <div class="user-email" id="displayEmail">email@ifood.com</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Sair</button>
         </div>
-        <h1 class="main-title">🎓 Universidade de CX</h1>
-        <p class="subtitle">Central de Treinamentos e Capacitação</p>
     </div>
 
-    <div class="container">
-        <div class="trainings-grid">
+    <!-- ============================================
+         MAIN CONTENT
+    ============================================ -->
+    <div class="main-content">
+        
+        <!-- Dashboard com cards de estatísticas -->
+        <div class="dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value" id="totalAccess">0</div>
+                    <div class="stat-label">Seus Acessos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-value" id="trainingCount">0</div>
+                    <div class="stat-label">Treinamentos Acessados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⏰</div>
+                    <div class="stat-value" id="lastVisit">Hoje</div>
+                    <div class="stat-label">Último Acesso</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-value" id="streakDays">1</div>
+                    <div class="stat-label">Dias Consecutivos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de treinamentos -->
+        <div class="trainings-section">
+            <h2 class="section-header">📚 Treinamentos Disponíveis</h2>
             
-            <!-- Card 1: 12 Regras -->
-            <div class="training-card">
-                <div class="card-header">
-                    <h3>12 Regras Essenciais</h3>
-                    <span class="card-category">Processos</span>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">Domine as 12 regras fundamentais que todo profissional de CX precisa conhecer.</p>
-                    <div class="card-meta">
-                        <span>⏱️ 45 min</span>
-                        <span>📊 Intermediário</span>
-                    </div>
-                    <a href="treinamento_12_regras_completo_final (2).html" target="_blank">
-                        <button class="btn-primary">📖 Acessar Treinamento</button>
-                    </a>
-                </div>
+            <div class="trainings-grid" id="trainingsGrid">
+                <!-- Os cards serão inseridos aqui via JavaScript -->
             </div>
-
-            <!-- Card 2: 4 Pilares -->
-            <div class="training-card">
-                <div class="card-header">
-                    <h3>Os 4 Pilares do Customer Experience</h3>
-                    <span class="card-category">Soft Skills</span>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">Entenda os pilares fundamentais para criar experiências incríveis.</p>
-                    <div class="card-meta">
-                        <span>⏱️ 60 min</span>
-                        <span>📊 Iniciante</span>
-                    </div>
-                    <a href="Os 4 Pilares do Customer Experience.html" target="_blank">
-                        <button class="btn-primary">📖 Acessar Treinamento</button>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Card 3: Onboarding Cred -->
-            <div class="training-card">
-                <div class="card-header">
-                    <h3>Onboarding Cred</h3>
-                    <span class="card-category">Produto</span>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">Aprenda o processo completo de onboarding do produto Cred.</p>
-                    <div class="card-meta">
-                        <span>⏱️ 40 min</span>
-                        <span>📊 Intermediário</span>
-                    </div>
-                    <a href="treinamento_onboarding_Cred_final_real (1).html" target="_blank">
-                        <button class="btn-primary">📖 Acessar Treinamento</button>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Card 4: PIX Aproximação -->
-            <div class="training-card">
-                <div class="card-header">
-                    <h3>PIX por Aproximação Zoop</h3>
-                    <span class="card-category">Técnico</span>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">Entenda a tecnologia por trás do PIX por aproximação na plataforma Zoop.</p>
-                    <div class="card-meta">
-                        <span>⏱️ 35 min</span>
-                        <span>📊 Avançado</span>
-                    </div>
-                    <a href="treinamento_pix_aproximacao_zoop_light (2).html" target="_blank">
-                        <button class="btn-primary">📖 Acessar Treinamento</button>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Card 5: Pricing -->
-            <div class="training-card">
-                <div class="card-header">
-                    <h3>Treinamento Pricing</h3>
-                    <span class="card-category">Produto</span>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">Domine as estratégias de precificação e suas aplicações.</p>
-                    <div class="card-meta">
-                        <span>⏱️ 50 min</span>
-                        <span>📊 Intermediário</span>
-                    </div>
-                    <a href="Treinamento Pricing.html" target="_blank">
-                        <button class="btn-primary">📖 Acessar Treinamento</button>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Card 6: Registro de Recebíveis -->
-            <div class="training-card">
-                <div class="card-header">
-                    <h3>Registro de Recebíveis CERC Zoop</h3>
-                    <span class="card-category">Compliance</span>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">Aprenda sobre registro de recebíveis e compliance na CERC.</p>
-                    <div class="card-meta">
-                        <span>⏱️ 55 min</span>
-                        <span>📊 Avançado</span>
-                    </div>
-                    <a href="treinamento_registro_recebiveis_cerc_zoop_light.html" target="_blank">
-                        <button class="btn-primary">📖 Acessar Treinamento</button>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Card 7: Repasse Financeiro -->
-            <div class="training-card">
-                <div class="card-header">
-                    <h3>Repasse Financeiro Zoop</h3>
-                    <span class="card-category">Processos</span>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">Entenda o fluxo de repasse financeiro na plataforma Zoop.</p>
-                    <div class="card-meta">
-                        <span>⏱️ 45 min</span>
-                        <span>📊 Intermediário</span>
-                    </div>
-                    <a href="treinamento_repasse_financeiro_zoop (2).html" target="_blank">
-                        <button class="btn-primary">📖 Acessar Treinamento</button>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Card 8: Normativa 514 -->
-            <div class="training-card">
-                <div class="card-header">
-                    <h3>Normativa 514</h3>
-                    <span class="card-category">Regulatório</span>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">A Resolução BCB nº 514 foca no Registro de Recebíveis, dando mais agilidade e controle ao lojista sobre suas vendas no cartão.</p>
-                    <div class="card-meta">
-                        <span>⏱️ 1h 15min</span>
-                        <span>📊 Técnico</span>
-                    </div>
-                    <a href="acelera_comercial_normativa_514_claro_otimizado.html" target="_blank">
-                        <button class="btn-primary">📖 Acessar Treinamento</button>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Card 9: Pílulas de Conhecimento AutoQA -->
-            <div class="training-card">
-                <div class="card-header">
-                    <h3>Pílulas de Conhecimento AutoQA</h3>
-                    <span class="card-category">Soft Skills</span>
-                </div>
-                <div class="card-body">
-                    <p class="card-description">Pílulas de conhecimento sobre AutoQA para desenvolvimento de competências essenciais.</p>
-                    <div class="card-meta">
-                        <span>⏱️ 1h</span>
-                        <span>📊 Intermediário</span>
-                    </div>
-                    <a href="pilulas_conhecimento_autoqa (1).html" target="_blank">
-                        <button class="btn-primary">📖 Acessar Treinamento</button>
-                    </a>
-                </div>
-            </div>
-
         </div>
     </div>
+
+    <!-- ============================================
+         JAVASCRIPT
+    ============================================ -->
+    <script>
+        // ==========================================
+        // DADOS DOS TREINAMENTOS
+        // ==========================================
+        const trainings = [
+            {
+                title: '12 Regras Essenciais',
+                category: 'Processos',
+                description: 'Domine as 12 regras fundamentais que todo profissional de CX precisa conhecer.',
+                duration: '45 min',
+                level: 'Intermediário',
+                file: 'treinamento_12_regras_completo_final (2).html'
+            },
+            {
+                title: 'Os 4 Pilares do Customer Experience',
+                category: 'Soft Skills',
+                description: 'Entenda os pilares fundamentais para criar experiências incríveis.',
+                duration: '60 min',
+                level: 'Iniciante',
+                file: 'Os 4 Pilares do Customer Experience.html'
+            },
+            {
+                title: 'Onboarding Cred',
+                category: 'Produto',
+                description: 'Aprenda o processo completo de onboarding do produto Cred.',
+                duration: '40 min',
+                level: 'Intermediário',
+                file: 'treinamento_onboarding_Cred_final_real (1).html'
+            },
+            {
+                title: 'PIX por Aproximação Zoop',
+                category: 'Técnico',
+                description: 'Entenda a tecnologia por trás do PIX por aproximação na plataforma Zoop.',
+                duration: '35 min',
+                level: 'Avançado',
+                file: 'treinamento_pix_aproximacao_zoop_light (2).html'
+            },
+            {
+                title: 'Treinamento Pricing',
+                category: 'Produto',
+                description: 'Domine as estratégias de precificação e suas aplicações.',
+                duration: '50 min',
+                level: 'Intermediário',
+                file: 'Treinamento Pricing.html'
+            },
+            {
+                title: 'Registro de Recebíveis CERC Zoop',
+                category: 'Compliance',
+                description: 'Aprenda sobre registro de recebíveis e compliance na CERC.',
+                duration: '55 min',
+                level: 'Avançado',
+                file: 'treinamento_registro_recebiveis_cerc_zoop_light.html'
+            },
+            {
+                title: 'Repasse Financeiro Zoop',
+                category: 'Processos',
+                description: 'Entenda o fluxo de repasse financeiro na plataforma Zoop.',
+                duration: '45 min',
+                level: 'Intermediário',
+                file: 'treinamento_repasse_financeiro_zoop (2).html'
+            },
+            {
+                title: 'Normativa 514',
+                category: 'Regulatório',
+                description: 'A Resolução BCB nº 514 foca no Registro de Recebíveis, dando mais agilidade e controle ao lojista sobre suas vendas no cartão.',
+                duration: '1h 15min',
+                level: 'Técnico',
+                file: 'acelera_comercial_normativa_514_claro_otimizado.html'
+            },
+            {
+                title: 'Pílulas de Conhecimento AutoQA',
+                category: 'Soft Skills',
+                description: 'Pílulas de conhecimento sobre AutoQA para desenvolvimento de competências essenciais.',
+                duration: '1h',
+                level: 'Intermediário',
+                file: 'pilulas_conhecimento_autoqa (1).html'
+            }
+        ];
+
+        // ==========================================
+        // ESTADO GLOBAL
+        // ==========================================
+        let currentUser = null;
+        let userStats = {
+            totalAccess: 0,
+            trainingAccess: [],
+            lastVisit: new Date().toISOString(),
+            streakDays: 1,
+            loginTime: null
+        };
+
+        // ==========================================
+        // INICIALIZAÇÃO
+        // ==========================================
+        window.onload = function() {
+            checkExistingUser();
+            renderTrainings();
+            startTimer();
+        };
+
+        // ==========================================
+        // SISTEMA DE LOGIN
+        // ==========================================
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
+        });
+
+        function handleLogin() {
+            const name = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+
+            if (name && email) {
+                currentUser = { name, email, joinDate: new Date().toISOString() };
+
+                // Carrega estatísticas existentes ou cria novas
+                const savedStats = localStorage.getItem(`zoop_stats_${email}`);
+                if (savedStats) {
+                    userStats = JSON.parse(savedStats);
+                    userStats.totalAccess++;
+                } else {
+                    userStats.totalAccess = 1;
+                }
+
+                userStats.lastVisit = new Date().toISOString();
+                userStats.loginTime = new Date();
+
+                // Salva dados
+                localStorage.setItem('zoop_user', JSON.stringify(currentUser));
+                saveStats();
+
+                // Mostra interface
+                showLoggedIn();
+            }
+        }
+
+        function checkExistingUser() {
+            const saved = localStorage.getItem('zoop_user');
+            if (saved) {
+                currentUser = JSON.parse(saved);
+                const savedStats = localStorage.getItem(`zoop_stats_${currentUser.email}`);
+                if (savedStats) {
+                    userStats = JSON.parse(savedStats);
+                    userStats.totalAccess++;
+                    userStats.lastVisit = new Date().toISOString();
+                    userStats.loginTime = new Date();
+                    saveStats();
+                }
+                showLoggedIn();
+            }
+        }
+
+        function showLoggedIn() {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'flex';
+            document.getElementById('displayName').textContent = currentUser.name.split(' ')[0];
+            document.getElementById('displayEmail').textContent = currentUser.email;
+            updateDashboard();
+        }
+
+        function logout() {
+            if (confirm('Deseja realmente sair?')) {
+                localStorage.removeItem('zoop_user');
+                location.reload();
+            }
+        }
+
+        // ==========================================
+        // DASHBOARD / ESTATÍSTICAS
+        // ==========================================
+        function updateDashboard() {
+            document.getElementById('totalAccess').textContent = userStats.totalAccess;
+            document.getElementById('trainingCount').textContent = userStats.trainingAccess.length;
+            document.getElementById('sidebarUserAccess').textContent = userStats.totalAccess;
+            
+            // Último acesso
+            const lastDate = new Date(userStats.lastVisit);
+            const today = new Date();
+            const diffDays = Math.floor((today - lastDate) / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) {
+                document.getElementById('lastVisit').textContent = 'Hoje';
+            } else if (diffDays === 1) {
+                document.getElementById('lastVisit').textContent = 'Ontem';
+            } else {
+                document.getElementById('lastVisit').textContent = diffDays + ' dias atrás';
+            }
+        }
+
+        function saveStats() {
+            if (currentUser) {
+                localStorage.setItem(`zoop_stats_${currentUser.email}`, JSON.stringify(userStats));
+            }
+        }
+
+        // Timer de tempo online
+        function startTimer() {
+            setInterval(() => {
+                if (currentUser && userStats.loginTime) {
+                    const now = new Date();
+                    const diff = Math.floor((now - new Date(userStats.loginTime)) / (1000 * 60));
+                    document.getElementById('sidebarTimeOnline').textContent = diff + 'min';
+                }
+            }, 60000); // Atualiza a cada minuto
+        }
+
+        // ==========================================
+        // RENDERIZAR TREINAMENTOS
+        // ==========================================
+        function renderTrainings() {
+            const grid = document.getElementById('trainingsGrid');
+            grid.innerHTML = '';
+
+            trainings.forEach(training => {
+                const card = document.createElement('div');
+                card.className = 'training-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <h3>${training.title}</h3>
+                        <span class="card-category">${training.category}</span>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-description">${training.description}</p>
+                        <div class="card-meta">
+                            <span>⏱️ ${training.duration}</span>
+                            <span>📊 ${training.level}</span>
+                        </div>
+                        <a href="${training.file}" target="_blank" onclick="trackTrainingAccess('${training.title}')">
+                            <button class="btn-primary">📖 Acessar Treinamento</button>
+                        </a>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // RASTREAR ACESSO A TREINAMENTOS
+        // ==========================================
+        function trackTrainingAccess(title) {
+            if (!userStats.trainingAccess.includes(title)) {
+                userStats.trainingAccess.push(title);
+                saveStats();
+                updateDashboard();
+            }
+        }
+    </script>
 
 </body>
 </html>
