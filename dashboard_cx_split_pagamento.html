@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CX Training | Split de Pagamento — Zoop</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF6B35;
+    --red:    #EA1D2C;
+    --dark:   #1A1A2E;
+    --darker: #16213E;
+    --card:   #0F3460;
+    --accent: #E94560;
+    --text:   #E0E0E0;
+    --muted:  #A0AEC0;
+    --green:  #48BB78;
+    --yellow: #ECC94B;
+    --blue:   #4299E1;
+    --purple: #9F7AEA;
+    --teal:   #38B2AC;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #FF6B35 0%, #EA1D2C 100%);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(234,29,44,0.4);
+  }
+  .header-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo-badge {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 12px;
+    padding: 8px 16px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  .header-title h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .header-title p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.8);
+    margin-top: 2px;
+  }
+  .header-badge {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  /* ── PROGRESS NAV ── */
+  .progress-nav {
+    background: var(--darker);
+    border-bottom: 1px solid rgba(255,107,53,0.2);
+    overflow-x: auto;
+  }
+  .progress-nav-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+  }
+  .nav-tab {
+    padding: 14px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-tab:hover { color: var(--orange); border-bottom-color: rgba(255,107,53,0.4); }
+  .nav-tab.active { color: var(--orange); border-bottom-color: var(--orange); font-weight: 600; }
+
+  /* ── MAIN ── */
+  main { max-width: 1300px; margin: 0 auto; padding: 32px; }
+
+  /* ── SECTIONS ── */
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .section-icon {
+    width: 52px; height: 52px;
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .section-header h2 { font-size: 24px; font-weight: 700; color: #fff; }
+  .section-header p { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+  /* ── CARD GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  @media(max-width: 900px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    main { padding: 20px 16px; }
+    .header-inner { padding: 14px 20px; }
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card h3 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+
+  /* ── HERO CARD ── */
+  .hero-card {
+    background: linear-gradient(135deg, rgba(255,107,53,0.15) 0%, rgba(234,29,44,0.1) 100%);
+    border: 1px solid rgba(255,107,53,0.3);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-icon { font-size: 64px; }
+  .hero-text h2 { font-size: 28px; font-weight: 800; color: #fff; }
+  .hero-text p { font-size: 15px; color: var(--muted); margin-top: 8px; line-height: 1.6; max-width: 700px; }
+  .hero-stat-row { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; }
+  .hero-stat {
+    background: rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 12px 20px;
+    text-align: center;
+  }
+  .hero-stat .num { font-size: 22px; font-weight: 800; color: var(--orange); }
+  .hero-stat .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ── TAG / BADGE ── */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .tag-orange { background: rgba(255,107,53,0.15); color: var(--orange); border: 1px solid rgba(255,107,53,0.3); }
+  .tag-green  { background: rgba(72,187,120,0.15);  color: var(--green);  border: 1px solid rgba(72,187,120,0.3); }
+  .tag-yellow { background: rgba(236,201,75,0.15);  color: var(--yellow); border: 1px solid rgba(236,201,75,0.3); }
+  .tag-blue   { background: rgba(66,153,225,0.15);  color: var(--blue);   border: 1px solid rgba(66,153,225,0.3); }
+  .tag-purple { background: rgba(159,122,234,0.15); color: var(--purple); border: 1px solid rgba(159,122,234,0.3); }
+  .tag-red    { background: rgba(234,29,44,0.15);   color: #F87171;       border: 1px solid rgba(234,29,44,0.3); }
+  .tag-teal   { background: rgba(56,178,172,0.15);  color: var(--teal);   border: 1px solid rgba(56,178,172,0.3); }
+
+  /* ── STEP LIST ── */
+  .step-list { display: flex; flex-direction: column; gap: 16px; }
+  .step-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 16px;
+    border-left: 4px solid var(--orange);
+  }
+  .step-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF6B35, #EA1D2C);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800; color: #fff;
+    flex-shrink: 0;
+  }
+  .step-content h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .step-content p  { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── INFO LIST ── */
+  .info-list { display: flex; flex-direction: column; gap: 12px; }
+  .info-item {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+  }
+  .info-item .ico { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .info-item p    { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .info-item strong { color: var(--text); }
+
+  /* ── COMPARE TABLE ── */
+  .compare-table { width: 100%; border-collapse: collapse; }
+  .compare-table th {
+    background: rgba(255,107,53,0.15);
+    color: var(--orange);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 2px solid rgba(255,107,53,0.3);
+  }
+  .compare-table td {
+    padding: 11px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    vertical-align: top;
+  }
+  .compare-table td:first-child { color: #fff; font-weight: 500; }
+  .compare-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: #0D1117;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 12px;
+  }
+  .code-label {
+    display: inline-block;
+    background: rgba(255,107,53,0.2);
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+  }
+  .c-key     { color: #79C0FF; }
+  .c-str     { color: #A5D6FF; }
+  .c-val     { color: #FFA657; }
+  .c-bool    { color: #FF7B72; }
+  .c-comment { color: #8B949E; font-style: italic; }
+  .c-url     { color: #7EE787; }
+
+  /* ── ALERT BOX ── */
+  .alert {
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  .alert-warning { background: rgba(236,201,75,0.1); border: 1px solid rgba(236,201,75,0.3); }
+  .alert-info    { background: rgba(66,153,225,0.1);  border: 1px solid rgba(66,153,225,0.3); }
+  .alert-danger  { background: rgba(234,29,44,0.1);   border: 1px solid rgba(234,29,44,0.3); }
+  .alert-success { background: rgba(72,187,120,0.1);  border: 1px solid rgba(72,187,120,0.3); }
+  .alert .ico    { font-size: 20px; flex-shrink: 0; }
+  .alert p       { font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .alert strong  { color: #fff; }
+
+  /* ── USE CASE CARD ── */
+  .usecase-card {
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.2s;
+  }
+  .usecase-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .usecase-icon { font-size: 40px; margin-bottom: 14px; }
+  .usecase-card h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+  .usecase-card p  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .usecase-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+
+  /* ── FIELD TABLE ── */
+  .field-table { width: 100%; border-collapse: collapse; }
+  .field-table th {
+    background: rgba(66,153,225,0.15);
+    color: var(--blue);
+    font-size: 12px; font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid rgba(66,153,225,0.3);
+  }
+  .field-table td {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--muted);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    vertical-align: top;
+  }
+  .field-table td:first-child {
+    font-family: 'Courier New', monospace;
+    color: var(--blue);
+    font-size: 12px;
+  }
+  .field-table td:nth-child(2) { color: var(--yellow); font-size: 12px; font-family: 'Courier New', monospace; }
+  .field-table td:last-child { color: #fff; }
+
+  /* ── LIMIT GRID ── */
+  .limit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .limit-card {
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .limit-num { font-size: 36px; font-weight: 800; margin-bottom: 6px; }
+  .limit-lbl { font-size: 13px; color: var(--muted); }
+
+  /* ── QUIZ ── */
+  .quiz-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .quiz-question { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 16px; }
+  .quiz-number {
+    display: inline-block;
+    background: linear-gradient(135deg, #FF6B35, #EA1D2C);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.03);
+    transition: all 0.2s;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .quiz-opt:hover { border-color: rgba(255,107,53,0.4); background: rgba(255,107,53,0.06); color: #fff; }
+  .quiz-opt.correct { background: rgba(72,187,120,0.1); border-color: var(--green); color: var(--green); }
+  .quiz-opt.wrong   { background: rgba(234,29,44,0.1);  border-color: #F87171; color: #F87171; }
+  .quiz-opt.disabled { pointer-events: none; }
+  .quiz-opt-letter {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .quiz-feedback {
+    margin-top: 14px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    display: none;
+    line-height: 1.5;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct-fb { background: rgba(72,187,120,0.1); border: 1px solid rgba(72,187,120,0.3); color: var(--green); }
+  .quiz-feedback.wrong-fb   { background: rgba(234,29,44,0.1);  border: 1px solid rgba(234,29,44,0.3);  color: #F87171; }
+  .quiz-score-bar {
+    background: var(--darker);
+    border-radius: 20px;
+    padding: 20px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 28px;
+    border: 1px solid rgba(255,107,53,0.2);
+  }
+  .score-label { font-size: 14px; color: var(--muted); }
+  .score-value { font-size: 32px; font-weight: 800; color: var(--orange); }
+  .score-detail { font-size: 13px; color: var(--muted); }
+
+  /* ── NPP TIMELINE ── */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--orange), rgba(255,107,53,0.1));
+  }
+  .timeline-item { position: relative; margin-bottom: 24px; }
+  .timeline-dot {
+    position: absolute;
+    left: -24px; top: 4px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--orange);
+    background: var(--dark);
+  }
+  .timeline-item.done .timeline-dot { background: var(--orange); }
+  .timeline-item h4 { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .timeline-item p  { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--darker);
+    border-top: 1px solid rgba(255,107,53,0.2);
+    padding: 20px 32px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 48px;
+  }
+
+  /* ── SEPARATOR ── */
+  .sep { margin: 28px 0; border: none; border-top: 1px solid rgba(255,255,255,0.06); }
+
+  /* ── SCROLL ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--darker); }
+  ::-webkit-scrollbar-thumb { background: rgba(255,107,53,0.4); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="logo-badge">ZOOP</div>
+      <div class="header-title">
+        <h1>CX Training — Split de Pagamento</h1>
+        <p>Material de Treinamento Interno · Versão Julho 2026</p>
+      </div>
+    </div>
+    <div class="header-badge">📚 Módulo CX</div>
+  </div>
+</header>
+
+<!-- NAV -->
+<div class="progress-nav">
+  <div class="progress-nav-inner">
+    <div class="nav-tab active" onclick="showSection('overview')">🏠 Visão Geral</div>
+    <div class="nav-tab" onclick="showSection('conceitos')">📖 Conceitos</div>
+    <div class="nav-tab" onclick="showSection('tipos')">🔀 Tipos de Split</div>
+    <div class="nav-tab" onclick="showSection('pratica')">⚙️ Na Prática</div>
+    <div class="nav-tab" onclick="showSection('usecases')">🛒 Casos de Uso</div>
+    <div class="nav-tab" onclick="showSection('limites')">🚧 Limites & Regras</div>
+    <div class="nav-tab" onclick="showSection('npp')">🚀 NPP & Futuro</div>
+    <div class="nav-tab" onclick="showSection('quiz')">🧠 Quiz</div>
+  </div>
+</div>
+
+<main>
+
+<!-- ─────────────────────────────────────────────
+     SEÇÃO 1: VISÃO GERAL
+───────────────────────────────────────────── -->
+<div class="section active" id="section-overview">
+
+  <div class="hero-card">
+    <div class="hero-icon">💳</div>
+    <div class="hero-text">
+      <h2>Split de Pagamento</h2>
+      <p>Tecnologia que divide automaticamente um único pagamento entre múltiplos recebedores. Essencial para marketplaces, apps de delivery, e-commerce multi-seller e agências de viagens.</p>
+      <div class="hero-stat-row">
+        <div class="hero-stat"><div class="num">20</div><div class="lbl">Movimentações Máximas</div></div>
+        <div class="hero-stat"><div class="num">2</div><div class="lbl">Tipos de Split</div></div>
+        <div class="hero-stat"><div class="num">D-1</div><div class="lbl">Prazo para Alteração</div></div>
+        <div class="hero-stat"><div class="num">100%</div><div class="lbl">Via API</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-title">✅ Benefícios</div>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">🔧</div><p><strong>Flexibilidade</strong> nas regras e formatos de cobrança</p></div>
+        <div class="info-item"><div class="ico">💸</div><p><strong>Divisão de valores</strong> entre múltiplos recebedores</p></div>
+        <div class="info-item"><div class="ico">⚖️</div><p><strong>Conformidade regulatória</strong> — evita sub-recebimento</p></div>
+        <div class="info-item"><div class="ico">🧾</div><p><strong>Evita bi-tributação</strong> nas operações</p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚠️ Requisitos</div>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">💻</div><p><strong>Capacidade de desenvolvimento via API</strong> — obrigatório</p></div>
+        <div class="info-item"><div class="ico">🏗️</div><p><strong>Regras de negócio do split</strong> devem ser construídas pelo cliente</p></div>
+        <div class="info-item"><div class="ico">🔍</div><p><strong>Validação regulatória</strong> — casos não usuais precisam passar por Jurídico, PLD e Compliance</p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🗺️ Onde se Aplica</div>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">🌐</div><p><strong>Transações Online:</strong> Split a priori e a posteriori</p></div>
+        <div class="info-item"><div class="ico">🏪</div><p><strong>Mundo Físico:</strong> Apenas split a posteriori</p></div>
+        <div class="info-item"><div class="ico">📄</div><p><strong>Boleto com Pix:</strong> Apenas split a posteriori (exceção)</p></div>
+        <div class="info-item"><div class="ico">📱</div><p><strong>Tap to Pay:</strong> Split a priori + a posteriori de comissionamento</p></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(255,107,53,0.15);">🎯</div>
+    <div>
+      <h2>Quem usa Split?</h2>
+      <p>Principais perfis de clientes que utilizam essa funcionalidade</p>
+    </div>
+  </div>
+
+  <div class="grid-4">
+    <div class="usecase-card" style="background:rgba(255,107,53,0.08); border-color:rgba(255,107,53,0.2);">
+      <div class="usecase-icon">🛍️</div>
+      <h3>Marketplaces</h3>
+      <p>Plataformas multi-seller que precisam distribuir pagamentos entre lojistas e cobrar comissão.</p>
+    </div>
+    <div class="usecase-card" style="background:rgba(66,153,225,0.08); border-color:rgba(66,153,225,0.2);">
+      <div class="usecase-icon">🍔</div>
+      <h3>Apps de Delivery</h3>
+      <p>Pedidos com itens de diferentes restaurantes ou entregadores precisam de divisão automática.</p>
+    </div>
+    <div class="usecase-card" style="background:rgba(72,187,120,0.08); border-color:rgba(72,187,120,0.2);">
+      <div class="usecase-icon">✈️</div>
+      <h3>Agências de Viagem</h3>
+      <p>Pacotes com hotéis, passagens e serviços de parceiros distintos em uma única compra.</p>
+    </div>
+    <div class="usecase-card" style="background:rgba(159,122,234,0.08); border-color:rgba(159,122,234,0.2);">
+      <div class="usecase-icon">🏦</div>
+      <h3>Marketplaces Financeiros</h3>
+      <p>Plataformas de crédito, seguros e produtos financeiros com múltiplos agentes envolvidos.</p>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ─────────────────────────────────────────────
+     SEÇÃO 2: CONCEITOS
+───────────────────────────────────────────── -->
+<div class="section" id="section-conceitos">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(66,153,225,0.15);">📖</div>
+    <div>
+      <h2>Conceitos Fundamentais</h2>
+      <p>Entenda os termos e definições essenciais do Split de Pagamento Zoop</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🔑 Definição Central</div>
+      <p style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:16px;">
+        <strong style="color:#fff;">Split de Pagamento</strong> é a tecnologia que automatiza a divisão de um único pagamento entre múltiplos recebedores, com base em regras configuradas pelo marketplace.
+      </p>
+      <div class="alert alert-info">
+        <span class="ico">💡</span>
+        <p>A Zoop processa a transação e distribui os valores automaticamente, eliminando a necessidade de transferências manuais entre contas.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🧩 Terminologia Chave</div>
+      <table class="field-table">
+        <tr><th>Termo</th><th>Tipo</th><th>Descrição</th></tr>
+        <tr><td>on_behalf_of</td><td>string</td><td>Seller dono da venda</td></tr>
+        <tr><td>split_rules</td><td>array</td><td>Lista de regras de divisão</td></tr>
+        <tr><td>recipient</td><td>string</td><td>ID do recebedor</td></tr>
+        <tr><td>liable</td><td>boolean</td><td>Quem responde pelas cobranças</td></tr>
+        <tr><td>charge_processing_fee</td><td>boolean</td><td>Se cobra taxa de processamento</td></tr>
+        <tr><td>amount</td><td>integer</td><td>Valor em centavos a repassar</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(72,187,120,0.15);">🔁</div>
+    <div>
+      <h2>Como Funciona o Fluxo</h2>
+      <p>Passo a passo desde a transação até a liquidação</p>
+    </div>
+  </div>
+
+  <div class="step-list">
+    <div class="step-item">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Cliente realiza o pagamento</h4>
+        <p>O comprador efetua a transação no marketplace (cartão, Pix, boleto, etc.).</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Zoop processa a transação</h4>
+        <p>A transação é aprovada e o valor total fica retido na plataforma Zoop.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Regras de split são aplicadas</h4>
+        <p><strong>A priori:</strong> já enviadas junto com a transação. <strong>A posteriori:</strong> enviadas após a aprovação, até D-1.</p>
+      </div>
+    </div>
+    <div class="step-item">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Liquidação e distribuição</h4>
+        <p>Na data de liquidação, os valores são distribuídos automaticamente para cada recebedor conforme as regras configuradas.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <div class="alert alert-warning">
+    <span class="ico">⚠️</span>
+    <p><strong>Atenção Regulatória:</strong> Alguns usos do split podem caracterizar desvio de função. Sempre valide com as áreas de Jurídico, PLD e Compliance antes de implementar casos fora dos padrões listados.</p>
+  </div>
+
+</div>
+
+
+<!-- ─────────────────────────────────────────────
+     SEÇÃO 3: TIPOS DE SPLIT
+───────────────────────────────────────────── -->
+<div class="section" id="section-tipos">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(159,122,234,0.15);">🔀</div>
+    <div>
+      <h2>Tipos de Split</h2>
+      <p>Entenda a diferença entre split a priori e split a posteriori</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <!-- A PRIORI -->
+    <div class="card" style="border-top: 3px solid var(--blue);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <div class="card-title">🔵 Split A Priori</div>
+          <h3>"Antes" da transação</h3>
+        </div>
+        <span class="tag tag-blue">Online</span>
+      </div>
+      <p style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:16px;">
+        As regras de divisão são enviadas <strong style="color:#fff;">junto com a requisição da transação</strong>, no mesmo request. Ideal quando o marketplace já conhece todos os participantes no momento da venda.
+      </p>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">✅</div><p><strong>Quando usar:</strong> marketplace já sabe os participantes no momento da compra</p></div>
+        <div class="info-item"><div class="ico">🌐</div><p><strong>Ambiente:</strong> principalmente transações online</p></div>
+        <div class="info-item"><div class="ico">🔄</div><p><strong>Alteração:</strong> pode ser modificado antes da liquidação via split a posteriori</p></div>
+        <div class="info-item"><div class="ico">🚫</div><p><strong>Exceção:</strong> Boleto com Pix não suporta split a priori</p></div>
+      </div>
+    </div>
+
+    <!-- A POSTERIORI -->
+    <div class="card" style="border-top: 3px solid var(--orange);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+        <div>
+          <div class="card-title">🟠 Split A Posteriori</div>
+          <h3>"Depois" da transação</h3>
+        </div>
+        <span class="tag tag-orange">Online + Físico</span>
+      </div>
+      <p style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:16px;">
+        As regras são enviadas <strong style="color:#fff;">após a aprovação da transação</strong>, em endpoint separado. Único formato para mundo físico. Regras podem ser alteradas até D-1 da liquidação.
+      </p>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">✅</div><p><strong>Quando usar:</strong> mundo físico, Tap to Pay, ou para alterar split inicial</p></div>
+        <div class="info-item"><div class="ico">🏪</div><p><strong>Ambiente:</strong> online e físico (único disponível no físico)</p></div>
+        <div class="info-item"><div class="ico">📅</div><p><strong>Prazo:</strong> regras enviadas/alteradas até <strong>D-1 da liquidação</strong></p></div>
+        <div class="info-item"><div class="ico">👥</div><p><strong>NPP:</strong> na nova plataforma, comissionamento aceita apenas 2 participantes</p></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(56,178,172,0.15);">📊</div>
+    <div>
+      <h2>Comparativo Detalhado</h2>
+      <p>Diferenças lado a lado para facilitar a escolha</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Critério</th>
+          <th>🔵 A Priori</th>
+          <th>🟠 A Posteriori</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Momento do envio</td><td>Junto com a transação</td><td>Após aprovação, endpoint separado</td></tr>
+        <tr><td>Ambiente físico</td><td>❌ Não disponível</td><td>✅ Disponível</td></tr>
+        <tr><td>Ambiente online</td><td>✅ Disponível</td><td>✅ Disponível</td></tr>
+        <tr><td>Boleto com Pix</td><td>❌ Não suportado</td><td>✅ Único formato</td></tr>
+        <tr><td>Tap to Pay</td><td>✅ Novo formato desenvolvido</td><td>✅ Comissionamento (2 participantes)</td></tr>
+        <tr><td>Alteração após envio</td><td>Via a posteriori (antes D-1)</td><td>Até D-1 da liquidação</td></tr>
+        <tr><td>Risco regulatório</td><td>Menor</td><td>Maior (está em revisão)</td></tr>
+        <tr><td>Uso na NPP</td><td>Mantido com adaptações</td><td>Adaptado — inicialmente 2 participantes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <div class="alert alert-warning">
+    <span class="ico">🔔</span>
+    <p><strong>Atenção NPP:</strong> As regras e prazos do split a posteriori estão em revisão por questões regulatórias. Na Nova Plataforma Única (NPP), a tendência é adaptar o formato, inicialmente limitando o split a posteriori de comissionamento a apenas 2 participantes (marketplace + seller).</p>
+  </div>
+
+</div>
+
+
+<!-- ─────────────────────────────────────────────
+     SEÇÃO 4: NA PRÁTICA (API)
+───────────────────────────────────────────── -->
+<div class="section" id="section-pratica">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(72,187,120,0.15);">⚙️</div>
+    <div>
+      <h2>Na Prática — API</h2>
+      <p>Exemplos reais de chamadas e campos utilizados na integração</p>
+    </div>
+  </div>
+
+  <!-- SPLIT A PRIORI -->
+  <div class="card" style="margin-bottom:24px;">
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+      <span class="tag tag-blue">🔵 Split A Priori</span>
+      <span style="color:var(--muted); font-size:13px;">POST na transação com split_rules incluso</span>
+    </div>
+    <h3 style="color:#fff; margin-bottom:8px;">Estrutura do Payload</h3>
+    <p style="color:var(--muted); font-size:13px; margin-bottom:16px;">Envie as split_rules dentro do body do POST de criação da transação:</p>
+
+    <div class="code-label">JSON PAYLOAD — Split A Priori</div>
+    <div class="code-block">
+<span class="c-comment">// POST /v1/marketplaces/{marketplace_id}/transactions</span>
+{
+  <span class="c-key">"on_behalf_of"</span>: <span class="c-str">"seller_123abc"</span>,        <span class="c-comment">// ID do seller (dono da venda)</span>
+  <span class="c-key">"description"</span>: <span class="c-str">"Pedido #4567"</span>,
+  <span class="c-key">"currency"</span>: <span class="c-str">"BRL"</span>,
+  <span class="c-key">"amount"</span>: <span class="c-val">10000</span>,                            <span class="c-comment">// R$ 100,00 em centavos</span>
+  <span class="c-key">"payment_type"</span>: <span class="c-str">"credit"</span>,
+  <span class="c-key">"split_rules"</span>: [
+    {
+      <span class="c-key">"recipient"</span>: <span class="c-str">"marketplace_456def"</span>,      <span class="c-comment">// recebedor (marketplace)</span>
+      <span class="c-key">"liable"</span>: <span class="c-bool">false</span>,                       <span class="c-comment">// quem responde pelas cobranças</span>
+      <span class="c-key">"charge_processing_fee"</span>: <span class="c-bool">true</span>,        <span class="c-comment">// cobra taxa de processamento</span>
+      <span class="c-key">"amount"</span>: <span class="c-val">1000</span>                           <span class="c-comment">// R$ 10,00 de comissão</span>
+    }
+  ]
+}
+    </div>
+  </div>
+
+  <!-- SPLIT A POSTERIORI -->
+  <div class="card" style="margin-bottom:24px;">
+    <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+      <span class="tag tag-orange">🟠 Split A Posteriori</span>
+      <span style="color:var(--muted); font-size:13px;">POST separado após aprovação da transação</span>
+    </div>
+    <h3 style="color:#fff; margin-bottom:8px;">Endpoint e Payload</h3>
+    <p style="color:var(--muted); font-size:13px; margin-bottom:16px;">Após a transação ser aprovada, envie as regras de split em endpoint dedicado:</p>
+
+    <div class="code-label">URL — Split A Posteriori</div>
+    <div class="code-block">
+<span class="c-comment">// POST em endpoint separado:</span>
+<span class="c-url">POST /v1/marketplaces/{marketplace_id}/transactions/{transaction_id}/split_rules</span>
+    </div>
+
+    <div class="code-label" style="margin-top:16px;">JSON PAYLOAD — Split A Posteriori</div>
+    <div class="code-block">
+{
+  <span class="c-key">"recipient"</span>: <span class="c-str">"marketplace_456def"</span>,        <span class="c-comment">// recebedor da comissão</span>
+  <span class="c-key">"liable"</span>: <span class="c-bool">false</span>,
+  <span class="c-key">"charge_processing_fee"</span>: <span class="c-bool">true</span>,
+  <span class="c-key">"amount"</span>: <span class="c-val">1500</span>                              <span class="c-comment">// R$ 15,00</span>
+}
+    </div>
+  </div>
+
+  <!-- CAMPOS DETALHADOS -->
+  <div class="card">
+    <div class="card-title">📋 Descrição dos Campos split_rules</div>
+    <table class="field-table">
+      <thead>
+        <tr><th>Campo</th><th>Tipo</th><th>Obrigatório</th><th>Descrição</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>recipient</td><td>string</td>
+          <td><span class="tag tag-red">Sim</span></td>
+          <td>ID do recebedor (marketplace ou seller)</td>
+        </tr>
+        <tr>
+          <td>liable</td><td>boolean</td>
+          <td><span class="tag tag-red">Sim</span></td>
+          <td>Define quem é responsável por estornos e chargebacks. Geralmente o seller.</td>
+        </tr>
+        <tr>
+          <td>charge_processing_fee</td><td>boolean</td>
+          <td><span class="tag tag-red">Sim</span></td>
+          <td>Define se esse participante paga a taxa de processamento da transação.</td>
+        </tr>
+        <tr>
+          <td>amount</td><td>integer</td>
+          <td><span class="tag tag-red">Sim</span></td>
+          <td>Valor em centavos a ser repassado para o recipient.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-info" style="margin-top:16px;">
+      <span class="ico">ℹ️</span>
+      <p><strong>Prazo de alteração:</strong> As regras de split a posteriori podem ser enviadas e modificadas até <strong>D-1 da data de liquidação</strong> da transação. Após essa data, não é possível alterar.</p>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ─────────────────────────────────────────────
+     SEÇÃO 5: CASOS DE USO
+───────────────────────────────────────────── -->
+<div class="section" id="section-usecases">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(236,201,75,0.15);">🛒</div>
+    <div>
+      <h2>Casos de Uso Oficiais</h2>
+      <p>Modelos aprovados e validados para uso do Split Zoop</p>
+    </div>
+  </div>
+
+  <div class="alert alert-success" style="margin-bottom:24px;">
+    <span class="ico">✅</span>
+    <p><strong>Casos listados = uso seguro.</strong> Para casos fora desta lista, envolva obrigatoriamente as áreas de Jurídico, PLD e Compliance antes de prosseguir.</p>
+  </div>
+
+  <!-- SPLIT COMISSIONAMENTO -->
+  <div class="card" style="margin-bottom:20px; border-left: 4px solid var(--blue);">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+      <div>
+        <div class="card-title">💼 Caso 1</div>
+        <h3>Split de Comissionamento</h3>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="tag tag-blue">Mais Comum</span>
+        <span class="tag tag-green">Aprovado</span>
+      </div>
+    </div>
+    <p style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:16px;">
+      O marketplace recebe uma <strong style="color:#fff;">comissão pela intermediação</strong> da venda. O seller é o dono da venda (<code style="color:var(--blue);">on_behalf_of</code>) e o marketplace aparece nas <code style="color:var(--blue);">split_rules</code> como recipient do valor da comissão.
+    </p>
+    <div class="grid-2">
+      <div class="info-list">
+        <div class="info-item"><div class="ico">👤</div><p><strong>on_behalf_of:</strong> Seller (dono da venda)</p></div>
+        <div class="info-item"><div class="ico">🏦</div><p><strong>Recipient:</strong> Marketplace (recebe a comissão)</p></div>
+        <div class="info-item"><div class="ico">🔢</div><p><strong>Participantes:</strong> 2 (marketplace + seller)</p></div>
+      </div>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">🌐</div><p><strong>Ambiente:</strong> Online e Físico</p></div>
+        <div class="info-item"><div class="ico">🔀</div><p><strong>Tipo:</strong> A priori ou A posteriori</p></div>
+        <div class="info-item"><div class="ico">📱</div><p><strong>Tap to Pay:</strong> Formato específico desenvolvido</p></div>
+      </div>
+    </div>
+    <div class="usecase-tags">
+      <span class="tag tag-blue">iFood</span>
+      <span class="tag tag-orange">E-commerce</span>
+      <span class="tag tag-purple">Delivery</span>
+    </div>
+  </div>
+
+  <!-- SPLIT CARRINHO -->
+  <div class="card" style="margin-bottom:20px; border-left: 4px solid var(--purple);">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+      <div>
+        <div class="card-title">🛍️ Caso 2</div>
+        <h3>Split de Carrinho</h3>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <span class="tag tag-purple">Multi-Seller</span>
+        <span class="tag tag-green">Aprovado</span>
+      </div>
+    </div>
+    <p style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:16px;">
+      Uma única compra com <strong style="color:#fff;">itens de diferentes vendedores</strong>. O pagamento é dividido automaticamente entre cada lojista conforme o valor dos seus produtos no pedido.
+    </p>
+    <div class="grid-2">
+      <div class="info-list">
+        <div class="info-item"><div class="ico">🏪</div><p><strong>Uso:</strong> Marketplace estilo Amazon, delivery, agência de viagens</p></div>
+        <div class="info-item"><div class="ico">🔢</div><p><strong>Participantes:</strong> Múltiplos sellers + marketplace</p></div>
+        <div class="info-item"><div class="ico">📊</div><p><strong>Limite:</strong> Até 20 movimentações por transação</p></div>
+      </div>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">🌐</div><p><strong>Ambiente:</strong> Principalmente online</p></div>
+        <div class="info-item"><div class="ico">🔀</div><p><strong>Tipo:</strong> A priori (mais comum)</p></div>
+        <div class="info-item"><div class="ico">⚖️</div><p><strong>Liable:</strong> Cada seller responde pelos seus itens</p></div>
+      </div>
+    </div>
+    <div class="usecase-tags">
+      <span class="tag tag-yellow">Amazon-like</span>
+      <span class="tag tag-teal">Delivery</span>
+      <span class="tag tag-blue">Turismo</span>
+    </div>
+  </div>
+
+  <!-- CASO NÃO LISTADO -->
+  <div class="card" style="border-left: 4px solid #F87171;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+      <div>
+        <div class="card-title">⚠️ Outros Casos</div>
+        <h3>Casos Não Listados (ex: Split de Cessão)</h3>
+      </div>
+      <span class="tag tag-red">Validar</span>
+    </div>
+    <p style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:16px;">
+      Alguns usos são <strong style="color:#fff;">tecnicamente possíveis</strong> mas podem ser questionados do ponto de vista regulatório. Exemplo: split de cessão de crédito.
+    </p>
+    <div class="alert alert-danger">
+      <span class="ico">🚨</span>
+      <p><strong>Antes de implementar qualquer caso fora dos listados acima:</strong><br>
+      1. Analisar as particularidades do cliente<br>
+      2. Envolver o time de Produtos<br>
+      3. Validar com Jurídico, PLD e Compliance<br>
+      4. Aguardar definição e aprovação formal</p>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ─────────────────────────────────────────────
+     SEÇÃO 6: LIMITES E REGRAS
+───────────────────────────────────────────── -->
+<div class="section" id="section-limites">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(234,29,44,0.15);">🚧</div>
+    <div>
+      <h2>Limites Operacionais & Regras</h2>
+      <p>Restrições técnicas e regulatórias que você precisa conhecer</p>
+    </div>
+  </div>
+
+  <div class="limit-grid" style="margin-bottom:28px;">
+    <div class="limit-card">
+      <div class="limit-num" style="color:var(--orange);">20</div>
+      <div class="limit-lbl">Movimentações máximas por transação até liquidação</div>
+    </div>
+    <div class="limit-card">
+      <div class="limit-num" style="color:var(--blue);">D-1</div>
+      <div class="limit-lbl">Prazo limite para enviar ou alterar regras de split a posteriori</div>
+    </div>
+    <div class="limit-card">
+      <div class="limit-num" style="color:var(--purple);">2</div>
+      <div class="limit-lbl">Participantes máximos no split a posteriori de comissionamento na NPP</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📋 Regras Técnicas</div>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">🔢</div><p>Máximo de <strong>20 movimentações</strong> de split por transação até a liquidação</p></div>
+        <div class="info-item"><div class="ico">📅</div><p>Split a posteriori deve ser enviado <strong>até D-1 da liquidação</strong></p></div>
+        <div class="info-item"><div class="ico">🔄</div><p>Regras do split a posteriori <strong>podem ser alteradas</strong> até o prazo limite</p></div>
+        <div class="info-item"><div class="ico">💻</div><p>Toda implementação deve ser feita <strong>via API</strong> — sem interface visual</p></div>
+        <div class="info-item"><div class="ico">🏗️</div><p>Regras de negócio do split são <strong>responsabilidade do cliente</strong></p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⚠️ Restrições por Canal</div>
+      <table class="compare-table">
+        <tr><th>Canal / Produto</th><th>A Priori</th><th>A Posteriori</th></tr>
+        <tr><td>Transação Online</td><td>✅</td><td>✅</td></tr>
+        <tr><td>Mundo Físico (POS)</td><td>❌</td><td>✅</td></tr>
+        <tr><td>Tap to Pay</td><td>✅ novo</td><td>✅ comissão</td></tr>
+        <tr><td>Boleto com Pix</td><td>❌</td><td>✅</td></tr>
+        <tr><td>NPP — Comissionamento</td><td>Em análise</td><td>✅ (2 participantes)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(236,201,75,0.15);">⚖️</div>
+    <div>
+      <h2>Aspectos Regulatórios</h2>
+      <p>O que o time de CX precisa saber sobre compliance</p>
+    </div>
+  </div>
+
+  <div class="step-list">
+    <div class="step-item" style="border-left-color: var(--yellow);">
+      <div class="step-num" style="background: linear-gradient(135deg, #ECC94B, #D69E2E);">!</div>
+      <div class="step-content">
+        <h4>Desvio de Função</h4>
+        <p>Alguns usos do split podem caracterizar desvio de função financeira. Sempre valide casos atípicos antes de orientar o cliente.</p>
+      </div>
+    </div>
+    <div class="step-item" style="border-left-color: var(--yellow);">
+      <div class="step-num" style="background: linear-gradient(135deg, #ECC94B, #D69E2E);">!</div>
+      <div class="step-content">
+        <h4>Sub-recebimento</h4>
+        <p>O split da Zoop foi desenvolvido para evitar o sub-recebimento irregular. Qualquer configuração que possa caracterizar isso deve ser validada com Compliance.</p>
+      </div>
+    </div>
+    <div class="step-item" style="border-left-color: var(--yellow);">
+      <div class="step-num" style="background: linear-gradient(135deg, #ECC94B, #D69E2E);">!</div>
+      <div class="step-content">
+        <h4>Áreas a Envolver</h4>
+        <p>Para casos fora do padrão: <strong>Jurídico + PLD + Compliance</strong>. Não oriente o cliente antes desta validação interna.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ─────────────────────────────────────────────
+     SEÇÃO 7: NPP & FUTURO
+───────────────────────────────────────────── -->
+<div class="section" id="section-npp">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(56,178,172,0.15);">🚀</div>
+    <div>
+      <h2>NPP — Nova Plataforma Única</h2>
+      <p>O futuro do Split de Pagamento na Zoop</p>
+    </div>
+  </div>
+
+  <div class="alert alert-warning" style="margin-bottom:24px;">
+    <span class="ico">⚠️</span>
+    <p><strong>Status Atual:</strong> As diretrizes da NPP para split ainda estão sendo definidas. Não há um direcional definitivo. Analise caso a caso e envolva o time de Produtos quando necessário.</p>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:28px;">
+    <div class="card">
+      <div class="card-title">📌 O que é a NPP</div>
+      <p style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:16px;">
+        A <strong style="color:#fff;">Nova Plataforma Única (NPP)</strong> é a nova infraestrutura da Zoop que unificará todos os produtos de pagamento. Os produtos Online estão sendo migrados para NPP, e novos formatos de split serão desenvolvidos.
+      </p>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">🏗️</div><p>Migração dos produtos <strong>Online para NPP</strong></p></div>
+        <div class="info-item"><div class="ico">🔀</div><p>Novos formatos de split a posteriori em desenvolvimento</p></div>
+        <div class="info-item"><div class="ico">👥</div><p>Inicialmente: split de comissionamento com <strong>apenas 2 participantes</strong></p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📱 Tap to Pay (Nubank)</div>
+      <p style="color:var(--muted); font-size:14px; line-height:1.7; margin-bottom:16px;">
+        Desenvolvido especialmente por demanda do <strong style="color:#fff;">Nubank</strong>, o Tap to Pay ganhou formatos específicos de split:
+      </p>
+      <div class="info-list">
+        <div class="info-item"><div class="ico">🔵</div><p><strong>Novo split a priori</strong> — desenvolvido especificamente para Tap to Pay</p></div>
+        <div class="info-item"><div class="ico">🟠</div><p><strong>Split a posteriori de comissionamento</strong> — apenas 2 participantes (marketplace + seller)</p></div>
+        <div class="info-item"><div class="ico">💡</div><p>Modelo que tende a se tornar padrão na NPP</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(72,187,120,0.15);">📅</div>
+    <div>
+      <h2>Linha do Tempo NPP</h2>
+      <p>Evolução do Split na nova plataforma</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="timeline">
+      <div class="timeline-item done">
+        <div class="timeline-dot"></div>
+        <h4>Split Legado — Plataforma Atual</h4>
+        <p>Split a priori e a posteriori disponíveis para transações online. Split a posteriori exclusivo para mundo físico. Até 20 movimentações por transação.</p>
+      </div>
+      <div class="timeline-item done">
+        <div class="timeline-dot"></div>
+        <h4>Tap to Pay (Nubank) — Novo Formato</h4>
+        <p>Desenvolvimento de split a priori exclusivo e split a posteriori de comissionamento com 2 participantes (demanda Nubank). Modelo que serve de referência para NPP.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <h4>NPP — Migração dos Produtos Online</h4>
+        <p>Transação dos produtos online para a Nova Plataforma Única. Adaptação dos formatos de split existentes. Regras e prazos em revisão por questões regulatórias.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <h4>NPP — Split a Posteriori Adaptado</h4>
+        <p>Tendência: split a posteriori de comissionamento limitado a 2 participantes inicialmente. Possível expansão futura conforme definição regulatória e de produto.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <h4>Direcional Definitivo NPP</h4>
+        <p>Definição final das regras, formatos e prazos do split na NPP. Envolver time de Produtos para casos não convencionais até essa definição.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <div class="alert alert-info">
+    <span class="ico">📌</span>
+    <p><strong>Orientação para o time de CX:</strong> Enquanto o direcional definitivo da NPP não é publicado, analise cada caso individualmente. Para situações que fogem do padrão (comissionamento simples), envolva o time de Produtos internamente antes de orientar o cliente.</p>
+  </div>
+
+</div>
+
+
+<!-- ─────────────────────────────────────────────
+     SEÇÃO 8: QUIZ
+───────────────────────────────────────────── -->
+<div class="section" id="section-quiz">
+
+  <div class="section-header">
+    <div class="section-icon" style="background:rgba(159,122,234,0.15);">🧠</div>
+    <div>
+      <h2>Quiz de Fixação</h2>
+      <p>Teste seus conhecimentos sobre Split de Pagamento Zoop</p>
+    </div>
+  </div>
+
+  <div class="quiz-score-bar">
+    <div>
+      <div class="score-label">Sua Pontuação</div>
+      <div class="score-value" id="score-display">0/7</div>
+    </div>
+    <div class="score-detail" id="score-pct">Responda as questões para ver seu resultado</div>
+    <button onclick="resetQuiz()" style="background:linear-gradient(135deg,#FF6B35,#EA1D2C); color:#fff; border:none; border-radius:10px; padding:10px 20px; font-size:13px; font-weight:600; cursor:pointer;">🔄 Reiniciar Quiz</button>
+  </div>
+
+  <!-- Q1 -->
+  <div class="quiz-card" id="q1">
+    <div class="quiz-number">Questão 1 de 7</div>
+    <div class="quiz-question">O que é o Split de Pagamento da Zoop?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="answer(this,'q1',false)"><div class="quiz-opt-letter">A</div>Um gateway de pagamento para transações únicas entre dois participantes.</div>
+      <div class="quiz-opt" onclick="answer(this,'q1',true)"><div class="quiz-opt-letter">B</div>Tecnologia que automatiza a divisão de um único pagamento entre múltiplos recebedores.</div>
+      <div class="quiz-opt" onclick="answer(this,'q1',false)"><div class="quiz-opt-letter">C</div>Um sistema de parcelamento de compras para o consumidor final.</div>
+      <div class="quiz-opt" onclick="answer(this,'q1',false)"><div class="quiz-opt-letter">D</div>Uma funcionalidade de relatório financeiro para marketplaces.</div>
+    </div>
+    <div class="quiz-feedback" id="fb-q1"></div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-card" id="q2">
+    <div class="quiz-number">Questão 2 de 7</div>
+    <div class="quiz-question">Qual é a diferença fundamental entre Split A Priori e A Posteriori?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="answer(this,'q2',false)"><div class="quiz-opt-letter">A</div>A priori é para físico e a posteriori é para online.</div>
+      <div class="quiz-opt" onclick="answer(this,'q2',false)"><div class="quiz-opt-letter">B</div>A priori é mais seguro regulatoriamente que o a posteriori.</div>
+      <div class="quiz-opt" onclick="answer(this,'q2',true)"><div class="quiz-opt-letter">C</div>A priori envia as regras junto com a transação; a posteriori envia as regras após a aprovação da transação, em endpoint separado.</div>
+      <div class="quiz-opt" onclick="answer(this,'q2',false)"><div class="quiz-opt-letter">D</div>A priori aceita mais participantes que o a posteriori.</div>
+    </div>
+    <div class="quiz-feedback" id="fb-q2"></div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-card" id="q3">
+    <div class="quiz-number">Questão 3 de 7</div>
+    <div class="quiz-question">Um cliente opera com maquininhas físicas e precisa de split. Qual tipo deve usar?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="answer(this,'q3',false)"><div class="quiz-opt-letter">A</div>Split a priori, pois é mais simples de implementar.</div>
+      <div class="quiz-opt" onclick="answer(this,'q3',true)"><div class="quiz-opt-letter">B</div>Split a posteriori, pois é o único disponível para o mundo físico.</div>
+      <div class="quiz-opt" onclick="answer(this,'q3',false)"><div class="quiz-opt-letter">C</div>Ambos estão disponíveis para o mundo físico.</div>
+      <div class="quiz-opt" onclick="answer(this,'q3',false)"><div class="quiz-opt-letter">D</div>Nenhum, pois split não está disponível para o mundo físico.</div>
+    </div>
+    <div class="quiz-feedback" id="fb-q3"></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-card" id="q4">
+    <div class="quiz-number">Questão 4 de 7</div>
+    <div class="quiz-question">Qual é o número máximo de movimentações de split por transação?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="answer(this,'q4',false)"><div class="quiz-opt-letter">A</div>10 movimentações.</div>
+      <div class="quiz-opt" onclick="answer(this,'q4',false)"><div class="quiz-opt-letter">B</div>5 movimentações.</div>
+      <div class="quiz-opt" onclick="answer(this,'q4',true)"><div class="quiz-opt-letter">C</div>20 movimentações.</div>
+      <div class="quiz-opt" onclick="answer(this,'q4',false)"><div class="quiz-opt-letter">D</div>Ilimitado, desde que aprovado pelo Compliance.</div>
+    </div>
+    <div class="quiz-feedback" id="fb-q4"></div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-card" id="q5">
+    <div class="quiz-number">Questão 5 de 7</div>
+    <div class="quiz-question">No split de comissionamento, qual é o papel do campo "on_behalf_of"?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="answer(this,'q5',false)"><div class="quiz-opt-letter">A</div>Indica o marketplace que recebe a comissão.</div>
+      <div class="quiz-opt" onclick="answer(this,'q5',false)"><div class="quiz-opt-letter">B</div>Define quem paga a taxa de processamento.</div>
+      <div class="quiz-opt" onclick="answer(this,'q5',true)"><div class="quiz-opt-letter">C</div>Indica o seller que é dono da venda.</div>
+      <div class="quiz-opt" onclick="answer(this,'q5',false)"><div class="quiz-opt-letter">D</div>Define o valor total da transação em centavos.</div>
+    </div>
+    <div class="quiz-feedback" id="fb-q5"></div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="quiz-card" id="q6">
+    <div class="quiz-number">Questão 6 de 7</div>
+    <div class="quiz-question">Um cliente quer implementar split de cessão de crédito. O que você deve fazer?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="answer(this,'q6',false)"><div class="quiz-opt-letter">A</div>Orientar o cliente a implementar imediatamente, pois é tecnicamente possível.</div>
+      <div class="quiz-opt" onclick="answer(this,'q6',false)"><div class="quiz-opt-letter">B</div>Negar o uso, pois split de cessão é proibido pela Zoop.</div>
+      <div class="quiz-opt" onclick="answer(this,'q6',true)"><div class="quiz-opt-letter">C</div>Analisar as particularidades, envolver o time de Produtos e validar com Jurídico, PLD e Compliance antes de qualquer orientação.</div>
+      <div class="quiz-opt" onclick="answer(this,'q6',false)"><div class="quiz-opt-letter">D</div>Encaminhar direto para o time técnico sem validação.</div>
+    </div>
+    <div class="quiz-feedback" id="fb-q6"></div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-card" id="q7">
+    <div class="quiz-number">Questão 7 de 7</div>
+    <div class="quiz-question">Na NPP (Nova Plataforma Única), qual é a tendência para o split a posteriori de comissionamento?</div>
+    <div class="quiz-options">
+      <div class="quiz-opt" onclick="answer(this,'q7',false)"><div class="quiz-opt-letter">A</div>Será descontinuado e substituído apenas pelo split a priori.</div>
+      <div class="quiz-opt" onclick="answer(this,'q7',false)"><div class="quiz-opt-letter">B</div>Permitirá até 50 participantes para maior flexibilidade.</div>
+      <div class="quiz-opt" onclick="answer(this,'q7',true)"><div class="quiz-opt-letter">C</div>Inicialmente limitado a 2 participantes (marketplace + seller), com formato adaptado às exigências regulatórias.</div>
+      <div class="quiz-opt" onclick="answer(this,'q7',false)"><div class="quiz-opt-letter">D</div>Será substituído por um processo manual de transferência entre contas.</div>
+    </div>
+    <div class="quiz-feedback" id="fb-q7"></div>
+  </div>
+
+</div>
+<!-- END SECTIONS -->
+
+</main>
+
+<footer>
+  <strong>Zoop | iFood Pago</strong> — Material de Treinamento Interno · Split de Pagamento · Versão Julho 2026<br>
+  Dashboard de Treinamento CX · Uso exclusivamente interno
+</footer>
+
+<script>
+// ── NAVIGATION
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── QUIZ
+const answers = {
+  q1: 'Tecnologia que automatiza a divisão de um único pagamento entre múltiplos recebedores.',
+  q2: 'A priori envia as regras junto com a transação; a posteriori envia as regras após a aprovação da transação, em endpoint separado.',
+  q3: 'Split a posteriori, pois é o único disponível para o mundo físico.',
+  q4: '20 movimentações.',
+  q5: 'Indica o seller que é dono da venda.',
+  q6: 'Analisar as particularidades, envolver o time de Produtos e validar com Jurídico, PLD e Compliance antes de qualquer orientação.',
+  q7: 'Inicialmente limitado a 2 participantes (marketplace + seller), com formato adaptado às exigências regulatórias.'
+};
+
+const feedbacks = {
+  q1: { c: '✅ Correto! O split automatiza a divisão do pagamento entre múltiplos recebedores, sendo essencial para marketplaces.', w: '❌ Incorreto. O split não é apenas para dois participantes e vai muito além de um gateway simples.' },
+  q2: { c: '✅ Correto! Essa é a diferença fundamental: o momento do envio das regras.', w: '❌ Incorreto. A diferença principal é o momento do envio das regras, não o ambiente de uso.' },
+  q3: { c: '✅ Correto! No mundo físico, apenas o split a posteriori está disponível.', w: '❌ Incorreto. O split a priori não funciona para transações físicas. Apenas o a posteriori está disponível.' },
+  q4: { c: '✅ Correto! O limite é de 20 movimentações por transação até a liquidação.', w: '❌ Incorreto. O limite é de 20 movimentações por transação, conforme especificação técnica.' },
+  q5: { c: '✅ Correto! O on_behalf_of identifica o seller proprietário da venda.', w: '❌ Incorreto. O on_behalf_of identifica o seller (dono da venda), não o marketplace ou valores.' },
+  q6: { c: '✅ Correto! Casos fora do padrão SEMPRE devem passar por validação interna antes de qualquer orientação ao cliente.', w: '❌ Incorreto. Mesmo sendo tecnicamente possível, é preciso validar com Jurídico, PLD e Compliance.' },
+  q7: { c: '✅ Correto! Na NPP, a tendência é o split a posteriori de comissionamento com apenas 2 participantes.', w: '❌ Incorreto. A tendência é manter o split a posteriori, mas adaptado com limite de 2 participantes inicialmente.' }
+};
+
+let score = 0;
+let answered = {};
+
+function answer(el, qid, isCorrect) {
+  if (answered[qid]) return;
+  answered[qid] = true;
+  const opts = el.closest('.quiz-options').querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.classList.add('disabled'));
+
+  const fb = document.getElementById('fb-' + qid);
+  if (isCorrect) {
+    el.classList.add('correct');
+    score++;
+    fb.textContent = feedbacks[qid].c;
+    fb.className = 'quiz-feedback show correct-fb';
+  } else {
+    el.classList.add('wrong');
+    fb.textContent = feedbacks[qid].w;
+    fb.className = 'quiz-feedback show wrong-fb';
+    opts.forEach(o => {
+      if (o.textContent.includes(answers[qid].substring(0,20))) o.classList.add('correct');
+    });
+  }
+  updateScore();
+}
+
+function updateScore() {
+  const total = Object.keys(answers).length;
+  const done = Object.keys(answered).length;
+  document.getElementById('score-display').textContent = score + '/' + done;
+  const pct = Math.round(score / total * 100);
+  if (done === total) {
+    let msg = pct >= 85 ? '🏆 Excelente! Você domina o conteúdo!' : pct >= 70 ? '👍 Bom resultado! Revise os pontos errados.' : '📚 Revise o material e tente novamente.';
+    document.getElementById('score-pct').textContent = pct + '% de aproveitamento — ' + msg;
+  } else {
+    document.getElementById('score-pct').textContent = done + ' de ' + total + ' questões respondidas';
+  }
+}
+
+function resetQuiz() {
+  score = 0; answered = {};
+  document.querySelectorAll('.quiz-opt').forEach(o => { o.className = 'quiz-opt'; o.onclick = o.onclick; });
+  document.querySelectorAll('.quiz-feedback').forEach(f => { f.className = 'quiz-feedback'; f.textContent = ''; });
+  document.getElementById('score-display').textContent = '0/7';
+  document.getElementById('score-pct').textContent = 'Responda as questões para ver seu resultado';
+  document.querySelectorAll('.quiz-opt').forEach(o => {
+    const oldClick = o.getAttribute('onclick');
+    if (oldClick) { o.onclick = function() { eval(oldClick); } }
+  });
+}
+</script>
+</body>
+</html>
